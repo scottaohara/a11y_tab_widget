@@ -15,8 +15,8 @@
       this.$tabMenu    = this.$el.find('.tab-menu');
       this.$tabMenuLi  = this.$el.find('.tab-menu li');
       this.$tabs       = this.$el.find('.js-tab-item');
+      this.$tabDefault = this.$el.find('.js-tab-default');
       this.$panels     = this.$el.find('.js-tab-panel');
-
       this.startTab    = this.$tabs.first();
       this.startPanel  = this.$panels.first();
       this.totalPanels = this.$panels.length;
@@ -33,6 +33,7 @@
 
           // set the UL to have a role of tablist
           self.$tabMenu.attr('role', 'tablist');
+
           // and show it as long as JS is enabled
           self.$tabMenu.show();
 
@@ -44,11 +45,13 @@
           self.$tabs.attr('aria-selected', false);
           self.$tabs.attr('tabindex', '-1');
 
-          self.$tabs.each(function(i){
-            parseInt(i, 10);
-            $(this).attr('aria-controls', 'panel' + (i + 1) );
-          });
+          // tabs' hrefs should point to the panel they control
+          // this will be used to populate the aria-controls attribute
+          self.$tabs.each( function () {
+            var $this = $(this);
 
+            $this.attr('aria-controls', $this.attr('href').substring(1));
+          });
 
           // set up all panels to have the appropriate default aria attributes
           self.$panels.attr('aria-hidden', true);
@@ -59,17 +62,36 @@
           });
 
 
-         // set the first child of each panel to have a tabindex -1
-         // so it can be focusable on tab change, but not focused
-         // on normal tabbing through the DOM
-         self.$panels.children().attr('tabindex', '-1');
+          // setup default opened tab
+          if ( self.$tabs.hasClass('js-tab-default') ) {
+            var defaultPanel = self.$tabDefault.attr('aria-controls');
 
-         // Reset the default tab to aria-selected='true'
-         // and default panel to aria-hidden='false'
-         self.startTab.attr('aria-selected', true);
-         self.startTab.attr('tabindex', 0);
-         self.startPanel.attr('aria-hidden', false);
+            self.$tabDefault.attr({
+              'tabindex': 0,
+              'aria-hidden': 'false',
+              'aria-selected': 'true'
+            });
+
+            $('#'+defaultPanel).attr({
+              'tabindex': '-1',
+              'aria-hidden': 'false'
+          });
+
+          }
+          else {
+            // set the first child of each panel to have a tabindex -1
+           // so it can be focusable on tab change, but not focused
+           // on normal tabbing through the DOM
+           self.$panels.children(':first-child').attr('tabindex', '-1');
+
+           // Reset the default tab to aria-selected='true'
+           // and default panel to aria-hidden='false'
+           self.startTab.attr('aria-selected', true);
+           self.startTab.attr('tabindex', 0);
+           self.startPanel.attr('aria-hidden', false);
+          }
         }
+
         setup();
 
        // Set up click events
@@ -86,23 +108,23 @@
        // Update / Activate Tabs & Panels
        function updateTab(activeTab) {
          self.$tabs.attr('aria-selected', false);
-         self.$tabs.attr('tabindex', '-1');
          self.$tabs.removeAttr('aria-live');
+         self.$tabs.attr('tabindex', '-1');
          self.$panels.attr('aria-hidden', true);
 
-         // set selected tab to aria-selected true
-         activeTab = $(activeTab);
-         activeTab.attr({
+          // set selected tab to aria-selected true
+          activeTab = $(activeTab);
+          activeTab.attr({
             'aria-selected' : true,
             'tabindex' : 0,
             'aria-live' : 'polite'
           });
 
+
          // Then take the href, convert to ID and make the corresponding
          // panel set to aria-hidden false, while the others/previous become true
          var current_id = activeTab.attr('href').substring(1);
          var current_panel = self.$el.find('.tab-panel-container #' + current_id);
-         //console.log(current_panel);
          current_panel.attr('aria-hidden', false);
          current_panel.children().focus();
         }
@@ -167,4 +189,3 @@
 
 
 $('.tab-container').Tabs();
-
