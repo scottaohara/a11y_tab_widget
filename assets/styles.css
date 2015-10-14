@@ -38,6 +38,10 @@ h1, h2, h3, h4 ,h5 ,h6, p {
   padding: 0;
 }
 
+.tab-menu[aria-hidden="false"] {
+  display: block;
+}
+
 .tab-menu li {
   float: left;
 }

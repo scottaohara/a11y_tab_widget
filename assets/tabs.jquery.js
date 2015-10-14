@@ -1,191 +1,246 @@
-(function($) {
+;(function ( $, w, doc ) {
+
   'use strict';
 
-  $.tabs = function(el, options) {
+  var a11yTabs = {};
 
-  // Author(s):
-  //     Scott O'Hara - github.com/scottaohara
-  //     Matt Casserly - github.com/mattcass
-  // License:
-  //     https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md
+  a11yTabs.NS = "a11yTabs";
+  a11yTabs.AUTHOR = "Scott O'Hara";
+  a11yTabs.VERION = "1.0.1";
+  a11yTabs.LICENSE = "https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md";
 
+  // define the plug-in
+  $.fn.extend({
 
-      var self         = this;
-      this.$el         = $(el);
-      this.$tabMenu    = this.$el.find('.tab-menu');
-      this.$tabMenuLi  = this.$el.find('.tab-menu li');
-      this.$tabs       = this.$el.find('.js-tab-item');
-      this.$tabDefault = this.$el.find('.js-tab-default');
-      this.$panels     = this.$el.find('.js-tab-panel');
-      this.startTab    = this.$tabs.first();
-      this.startPanel  = this.$panels.first();
-      this.totalPanels = this.$panels.length;
+    a11yTabs: function ( e ) {
 
-      self.init = function () {
+      // setup global class variables
+      var tabMenu     = '.js-a11y-tabs',
+          tabBtn      = '.js-tab-item',
+          tabPanel    = '.js-tab-panel',
+          tabDefault  = '.js-tab-item--default';
 
-      // If JavaScript is enabled, run this function
-      // on page load to apply all aria attributes
-      // and CSS states to tab/panel nodes.
-      function setup () {
+      return this.each( function () {
 
-          // Add in all ARIA attributes on page load,
-          // since we don't want these here if JS is off.
-
-          // set the UL to have a role of tablist
-          self.$tabMenu.attr('role', 'tablist');
-
-          // and show it as long as JS is enabled
-          self.$tabMenu.show();
-
-          // Set the list items to a presentation role
-          self.$tabMenuLi.attr('role', 'presentation');
-
-          // setup all panels to have the appropriate default aria attributes
-          self.$tabs.attr('role', 'tab');
-          self.$tabs.attr('aria-selected', false);
-          self.$tabs.attr('tabindex', '-1');
-
-          // tabs' hrefs should point to the panel they control
-          // this will be used to populate the aria-controls attribute
-          self.$tabs.each( function () {
-            var $this = $(this);
-
-            $this.attr('aria-controls', $this.attr('href').substring(1));
-          });
-
-          // set up all panels to have the appropriate default aria attributes
-          self.$panels.attr('aria-hidden', true);
-          self.$panels.attr('role', 'tabpanel');
-
-          self.$panels.each(function(i) {
-            $(this).attr('aria-labbeledby', "tab" + i);
-          });
+        // set up variables specific to the each instance
+        var id = this.id,
+            $this = $(this),
+            $self = $('#' + id),
 
 
-          // setup default opened tab
-          if ( self.$tabs.hasClass('js-tab-default') ) {
-            var defaultPanel = self.$tabDefault.attr('aria-controls');
+        tabsSetup = function () {
+          var $tabItems = $(tabMenu + ' li'),
+              $tabBtns = $self.find($(tabBtn));
 
-            self.$tabDefault.attr({
-              'tabindex': 0,
-              'aria-hidden': 'false',
+
+          // the tab menu should be set to display none by
+          // default, in the instance of there being no JS,
+          // this menu wouldn't function, so don't show it.
+          $this.attr({
+            'role': 'tablist',
+            'aria-hidden': 'false'
+          })
+           // set the <li>s within the tab menu to have a role
+          // of presentation, to cut down on the verbose
+          // audio declarations of list elements when using
+          // voice over
+          .find($tabItems).attr('role', 'presentation');
+
+          // for each tab button within this tab menu,
+          // take the href and use it to apply the appropriate
+          // aria-attributes
+          $tabBtns.each( function () {
+            var $this = $(this),
+                $getID = $this.attr('href').substring(1);
+
+            $this.attr({
+              'aria-controls': $getID,
+              'id': $getID + '_tab',
+              'aria-selected': 'false',
+              'tabindex': '-1',
+              'role': 'tab'
+            });
+
+            // look to see if the default tab has  been set
+            if ( !$this.hasClass('js-tab-item--default') ) {
+              // if not, set it to the first tab item
+              $this.closest( $self ).find('li').first().children().addClass('js-tab-item--default');
+            }
+            else {
+              // if it has been set, reset the first tab back to the default
+              // settings
+              $this.closest( $self ).find('li').first().children().removeClass('js-tab-item--default').attr({
+                'tabindex': '-1',
+                'aria-selected': 'false'
+              });
+            }
+
+            // update the default tab with the appropriate attribute values
+            $(tabDefault).attr({
+              'tabindex': '0',
               'aria-selected': 'true'
             });
 
-            $('#'+defaultPanel).attr({
-              'tabindex': '-1',
-              'aria-hidden': 'false'
           });
+        },
 
-          }
-          else {
-            // set the first child of each panel to have a tabindex -1
-           // so it can be focusable on tab change, but not focused
-           // on normal tabbing through the DOM
-           self.$panels.children(':first-child').attr('tabindex', '-1');
+        panelsSetup = function () {
+          // find all the panels
+          $(tabPanel).each( function () {
+            var $this = $(this);
 
-           // Reset the default tab to aria-selected='true'
-           // and default panel to aria-hidden='false'
-           self.startTab.attr('aria-selected', true);
-           self.startTab.attr('tabindex', 0);
-           self.startPanel.attr('aria-hidden', false);
-          }
-        }
+            // set their attributes
+            $this.attr({
+              'aria-labelledby': $this.attr('id')+'_tab',
+              'aria-hidden': 'true',
+              'role': 'tabpanel'
+            });
 
-        setup();
-
-       // Set up click events
-       function assignClicks() {
-         self.$tabs.on('click', function(e){
-           e.preventDefault();
-           updateTab(this);
-           return false;
-         });
-       }
-       assignClicks();
-
-
-       // Update / Activate Tabs & Panels
-       function updateTab(activeTab) {
-         self.$tabs.attr('aria-selected', false);
-         self.$tabs.removeAttr('aria-live');
-         self.$tabs.attr('tabindex', '-1');
-         self.$panels.attr('aria-hidden', true);
-
-          // set selected tab to aria-selected true
-          activeTab = $(activeTab);
-          activeTab.attr({
-            'aria-selected' : true,
-            'tabindex' : 0,
-            'aria-live' : 'polite'
-          });
-
-
-         // Then take the href, convert to ID and make the corresponding
-         // panel set to aria-hidden false, while the others/previous become true
-         var current_id = activeTab.attr('href').substring(1);
-         var current_panel = self.$el.find('.tab-panel-container #' + current_id);
-         current_panel.attr('aria-hidden', false);
-         current_panel.children().focus();
-        }
-
-        function keytrols() {
-
-          self.$tabs.on('keydown', function( e ) {
-
-            // define the current tab, previous tab and next tabs,
-            // make the previous / next tabs loop around if the end
-            // has been reached
-            var tabThis = this.parentNode,
-
-                tabPrev = tabThis.previousElementSibling ?
-                          tabThis.previousElementSibling.children[0] :
-                          tabThis.parentNode.children[ tabThis.parentNode.children.length - 1 ].children[0],
-
-                tabNext = tabThis.nextElementSibling ?
-                          tabThis.nextElementSibling.children[0] :
-                          tabThis.parentNode.children[0].children[0];
-
-            // on pressing the following keys,
-            // either focus on the next / previous tabs
-            // or fire the updateTab function if the space
-            // key is pressed
-            switch ( e.keyCode ) {
-              case 39: // right
-              case 40: // down
-                tabNext.focus();
-                break;
-
-              case 37: // left
-              case 38: // up
-                tabPrev.focus();
-                break;
-
-              case 32:
-                e.preventDefault();
-                updateTab( e.target );
-                break;
-
-              default:
-                break;
+            // check to make sure the correct panel is shown by default,
+            // which is determined by the tab with the js-tab-item--default class
+            if ( $( '#'+ $this.attr('id')+'_tab' ).hasClass('js-tab-item--default') ) {
+              $this.attr('aria-hidden', 'false');
             }
 
           });
+        },
 
-        }
-        keytrols();
+        tabsShow = function ( e ) {
+          var $targetTab = $self.find( e.target ),
+              $targetPanel = $('#' + $targetTab.attr('aria-controls') );
 
-      };
-      self.init();
-    };
+          // hide the tabs again
+          $self.find($(tabBtn)).attr({
+            'aria-selected': 'false',
+            'tabindex': '-1'
+          }).removeAttr('aria-live');
 
-    $.fn.Tabs = function(options) {
-      return this.each(function() {
-        (new $.tabs(this, options));
-      });
-    };
+          // activate the selected
+          $targetTab.attr({
+            'aria-selected': 'true',
+            'tabindex': '0',
+            'aria-live': 'polite'
+          });
 
-})(jQuery);
+          // reset panels to hidden
+          $targetPanel.parent().children().attr('aria-hidden', 'true');
+          $targetPanel.attr('aria-hidden', 'false');
+          $targetPanel.children().focus();
+
+          e.preventDefault();
+        },
+
+        // make sure tabs function as expected by keyboard users
+        tabsKeytrols = function ( e ) {
+
+          var $currentTabItem = $self.find( $(tabBtn).parent() );
+
+          var $tabPrev = $currentTabItem.prev() ?
+                         $currentTabItem.prev().children().eq(0) :
+                         $currentTabItem.last().children().eq(0),
+
+              $tabNext =  $currentTabItem.next() ?
+                          $currentTabItem.next().children().eq(0) :
+                          $currentTabItem.first().children().eq(0);
 
 
-$('.tab-container').Tabs();
+          switch ( e.keyCode ) {
+            case 39: // right
+            case 40: // down
+              $tabNext.focus();
+              break;
+
+            case 37: // left
+            case 38: // up
+              $tabPrev.focus();
+              break;
+
+            case 32:
+              e.preventDefault();
+              tabsShow.bind(this);
+              break;
+
+            default:
+              break;
+          }
+
+        };
+
+        // run setups on load
+        tabsSetup();
+        panelsSetup();
+
+        // Events
+        $self.find($(tabBtn)).on('click', tabsShow.bind(this) );
+        $self.find($(tabBtn)).on('keydown', tabsKeytrols.bind(this) );
+
+      }); // end: return this.each()
+
+    } // end a11yTabs function
+
+  }); // end $.fn.extend
+
+  // call it bro
+  $('.js-a11y-tabs').a11yTabs();
+
+})( jQuery, this, this.document );
+
+
+
+/*
+
+  Expected Mark-up
+
+<!--
+  .tab-container is here for styling purposes / to group the
+  tab components together.  It is actually not required by the JS.
+-->
+<section class="tab-container">
+
+  <!--
+
+    the main tab list MUST have:
+      [id]
+      [aria-hidden="true"]
+      [class="js-a11y-tabs"]
+
+    Each link within the tab list must have a unique href,
+    setup as '#uniqueNameHere' which can not match any other IDs
+    on the page. The links must also have a class of "js-tab-item"
+  -->
+  <ul class="tab-menu js-a11y-tabs clearfix" aria-hidden="true" id="uniqueID">
+    <li>
+      <a href="#panelA"
+         class="tab-menu__item js-tab-item">
+         Common Filters
+      </a>
+    </li>
+    <li>
+      <a href="#panelB"
+         class="tab-menu__item js-tab-item js-tab-item--default">
+         Search for Concepts
+      </a>
+    </li>
+  </ul>
+
+
+  <!--
+
+  -->
+  <div class="tab-panel-container">
+    <section id="panelA"
+             class="tab-panel js-tab-panel">
+      main content section 1
+    </section>
+    <section id="panelB"
+             class="tab-panel js-tab-panel">
+      two
+    </section>
+  </div>
+
+</section> <!-- end .tab-container -->
+
+
+
+
+*/
