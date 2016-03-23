@@ -173,10 +173,11 @@
 
         tabPanelKeytrolls = function ( e ) {
 
-          var $self = $(this),
-              $currentTab = $self.find('.js-tab-item[aria-selected="true"]'),
-              $firstTab = $self.find('li').first().find(tabBtn),
-              $lastTab = $self.find('li').last().find(tabBtn),
+          var $currentTab = $(e.target).closest('.tab-panel-container').parent().find('.js-a11y-tabs').find('.js-tab-item[aria-selected="true"]'),
+
+              // $currentTab = $self.find('.js-tab-item[aria-selected="true"]'),
+              $firstTab = $currentTab.closest('.js-a11y-tabs').find('li').first().find(tabBtn),
+              $lastTab = $currentTab.closest('.js-a11y-tabs').find('li').last().find(tabBtn),
               $prevTab,
               $nextTab;
 

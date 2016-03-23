@@ -25,7 +25,7 @@
 
       -->
 
-      <ul class="tab-menu clearfix" id="tab_menu">
+      <ul class="tab-menu js-a11y-tabs clearfix" aria-hidden="true" id="unique_id_1">
         <li>
           <a href="#panel1" class="tab-menu__item js-tab-item" id="tab0">
              Tab 1
@@ -51,40 +51,193 @@
       -->
 
       <div class="tab-panel-container">
-        <section id="panel1" class="tab-panel tab-panel--1 js-tab-panel">
+        <section id="panel1" class="tab-panel js-tab-panel">
           <h2>Heading of Panel 1</h2>
           <p>
             Paragraph text goes here and fills up the panel
             with super useful information that you'll
             absolutely love to read.
+            <a href="#">this is here to test in panel keyboard controls</a>
           </p>
         </section>
-        <section id="panel2" class="tab-panel tab-panel--2 js-tab-panel">
+        <section id="panel2" class="tab-panel js-tab-panel">
           <h2>Heading of Panel 2</h2>
           <p>
             Paragraph text goes here and fills up the panel
             with super useful information that you'll
             absolutely love to read.
+            <a href="#">this is here to test in panel keyboard controls</a>
           </p>
         </section>
-        <section id="panel3" class="tab-panel tab-panel--3 js-tab-panel">
+        <section id="panel3" class="tab-panel js-tab-panel">
           <h2>Heading of Panel 3</h2>
           <p>
             Paragraph text goes here and fills up the panel
             with super useful information that you'll
             absolutely love to read.
+            <a href="#">this is here to test in panel keyboard controls</a>
           </p>
         </section>
       </div>
 
-      <!--
-        Link back to the tabs is important here, because for a person using
-        their keyboard to navigate a page, why make them have to reverse tab back to move onto the next tab?
-      -->
-      <a href="#tab0" id="goto_tabs" class="link-to-tabs">back to tabs</a>
     </div>
 
-    <script src="assets/tabs.js"></script>
+    <div style="margin-bottom: 10%;"></div>
+
+    <section class="tab-container">
+
+      <ul class="tab-menu js-a11y-tabs clearfix" aria-hidden="true" id="tab_in_tabs">
+        <li>
+          <a href="#panel1a"
+             class="tab-menu__item js-tab-item">
+             Panel 1 Tab
+          </a>
+        </li>
+        <li>
+          <a href="#panel2a"
+             class="tab-menu__item js-tab-item js-tab-item-default">
+             Panel 2 Tab
+          </a>
+        </li>
+        <li>
+          <a href="#panel3a"
+             class="tab-menu__item js-tab-item js-tab-item-default">
+             Panel 3 Tab
+          </a>
+        </li>
+      </ul>
+
+      <div class="tab-panel-container">
+        <section id="panel1a"
+                 class="tab-panel js-tab-panel">
+          <h2>Heading</h2>
+          <p>content panel 1</p>
+          <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
+        </section>
+        <section id="panel2a" class="tab-panel js-tab-panel">
+          <h2>Heading</h2>
+          <p>content panel 2</p>
+          <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
+
+
+
+          <section class="tab-container">
+
+            <ul class="tab-menu js-a11y-tabs clearfix" aria-hidden="true" id="tab_in_tabsbb">
+              <li>
+                <a href="#panel1abb"
+                   class="tab-menu__item js-tab-item">
+                   Panel 1 Tab
+                </a>
+              </li>
+              <li>
+                <a href="#panel2abb"
+                   class="tab-menu__item js-tab-item js-tab-item-default">
+                   Panel 2 Tab
+                </a>
+              </li>
+              <li>
+                <a href="#panel3abb"
+                   class="tab-menu__item js-tab-item js-tab-item-default">
+                   Panel 3 Tab
+                </a>
+              </li>
+            </ul>
+
+            <div class="tab-panel-container">
+              <section id="panel1abb"
+                       class="tab-panel js-tab-panel">
+                <h2>Heading</h2>
+                <p>content panel 1</p>
+                <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
+              </section>
+              <section id="panel2abb" class="tab-panel js-tab-panel">
+                <h2>Heading</h2>
+                <p>content panel 2</p>
+                <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
+
+
+
+              </section>
+              <section id="panel3abb"
+                       class="tab-panel js-tab-panel">
+                <h2>Heading</h2>
+                <p>content panel 3</p>
+                <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
+
+
+
+                <section class="tab-container">
+
+                  <ul class="tab-menu js-a11y-tabs clearfix" aria-hidden="true" id="tab_in_tabsbbccc">
+                    <li>
+                      <a href="#panel1abbccc"
+                         class="tab-menu__item js-tab-item">
+                         Panel 1 Tab
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#panel2abbccc"
+                         class="tab-menu__item js-tab-item js-tab-item-default">
+                         Panel 2 Tab
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#panel3abbccc"
+                         class="tab-menu__item js-tab-item js-tab-item-default">
+                         Panel 3 Tab
+                      </a>
+                    </li>
+                  </ul>
+
+                  <div class="tab-panel-container">
+                    <section id="panel1abbccc"
+                             class="tab-panel js-tab-panel">
+                      <h2>Heading</h2>
+                      <p>content panel 1</p>
+                      <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
+                    </section>
+                    <section id="panel2abbccc" class="tab-panel js-tab-panel">
+                      <h2>Heading</h2>
+                      <p>content panel 2</p>
+                      <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
+
+
+
+                    </section>
+                    <section id="panel3abbccc"
+                             class="tab-panel js-tab-panel">
+                      <h2>Heading</h2>
+                      <p>content panel 3</p>
+                      <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
+                    </section>
+                  </div>
+
+                </section>
+
+
+
+              </section>
+            </div>
+
+          </section>
+
+
+
+
+        </section>
+        <section id="panel3a"
+                 class="tab-panel js-tab-panel">
+          <h2>Heading</h2>
+          <p>content panel 3</p>
+          <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
+        </section>
+      </div>
+
+    </section>
+
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="assets/tabs.jquery.js"></script>
 
   </body>
 </html>
