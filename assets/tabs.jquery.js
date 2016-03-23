@@ -30,7 +30,7 @@
 
         tabsSetup = function () {
           var $tabItems = $(tabMenu + ' li'),
-              $tabBtns = $self.find($(tabBtn));
+              $tabBtns = $self.find(tabBtn);
 
 
           // the tab menu should be set to display none by
@@ -110,7 +110,7 @@
               $targetPanel = $('#' + $targetTab.attr('aria-controls') );
 
           // hide the tabs again
-          $self.find($(tabBtn)).attr({
+          $self.find(tabBtn).attr({
             'aria-selected': 'false',
             'tabindex': '-1'
           }).removeAttr('aria-live');
@@ -131,11 +131,17 @@
         },
 
         // make sure tabs function as expected by keyboard users
-        tabsKeytrols = function ( e ) {
+        // this makes sure that navigating through tabs is set to act
+        // like navigating through radio buttons with a keyboard,
+        // as a keyboard user should not have to keyboard tab through
+        // undesired navigation tabs to get to content
+        tabBtnKeytrolls = function ( e ) {
 
-          var $currentTabItem = $self.find( $(tabBtn).parent() );
+          var $currentTabItem = $(e.target).parent(),
 
-          var $tabPrev = $currentTabItem.prev() ?
+          // next and previous tabs dynamically set and accessible
+          // by right/down, left/up keys
+              $tabPrev = $currentTabItem.prev() ?
                          $currentTabItem.prev().children().eq(0) :
                          $currentTabItem.last().children().eq(0),
 
@@ -144,26 +150,75 @@
                           $currentTabItem.first().children().eq(0);
 
 
-          switch ( e.keyCode ) {
-            case 39: // right
-            case 40: // down
-              $tabNext.focus();
-              break;
+            switch ( e.keyCode ) {
+              case 39: // right
+              case 40: // down
+                $tabNext.focus();
+                break;
 
-            case 37: // left
-            case 38: // up
-              $tabPrev.focus();
-              break;
+              case 37: // left
+              case 38: // up
+                $tabPrev.focus();
+                break;
 
-            case 32:
-              e.preventDefault();
-              tabsShow.bind(this);
-              break;
+              case 32: // space bar
+                e.preventDefault();
+                tabsShow.bind(this);
+                break;
 
-            default:
-              break;
+              default:
+                break;
+            }
+        },
+
+        tabPanelKeytrolls = function ( e ) {
+
+          var $self = $(this),
+              $currentTab = $self.find('.js-tab-item[aria-selected="true"]'),
+              $firstTab = $self.find('li').first().find(tabBtn),
+              $lastTab = $self.find('li').last().find(tabBtn),
+              $prevTab,
+              $nextTab;
+
+          // determine what next/prev are
+          if ( $currentTab.parent().is(':first-child') ) {
+            $prevTab = $lastTab;
+            $nextTab = $currentTab.parent().next().children();
+          }
+          else if ( $currentTab.parent().is(':last-child') ) {
+            $prevTab = $currentTab.parent().prev().children();
+            $nextTab = $firstTab;
+          }
+          else {
+            $prevTab = $currentTab.parent().prev().children();
+            $nextTab = $currentTab.parent().next().children();
           }
 
+
+          if ( e.ctrlKey ) {
+            e.preventDefault(); // prevent default behavior
+
+            switch ( e.keyCode ) {
+              case 38: // up
+                $prevTab.focus();
+                break;
+
+              case 40: // down
+                $nextTab.focus();
+                break;
+
+              case 33: // pg up
+                $prevTab.click().focus();
+                break;
+
+              case 34: // pg down
+                $nextTab.click().focus();
+                break;
+
+              default:
+                break;
+            }
+          }
         };
 
         // run setups on load
@@ -171,8 +226,9 @@
         panelsSetup();
 
         // Events
-        $self.find($(tabBtn)).on('click', tabsShow.bind(this) );
-        $self.find($(tabBtn)).on('keydown', tabsKeytrols.bind(this) );
+        $self.find(tabBtn).on( 'click', tabsShow.bind(this) );
+        $self.find(tabBtn).on( 'keydown', tabBtnKeytrolls.bind(this) );
+        $self.parent().find(tabPanel).on( 'keydown', tabPanelKeytrolls.bind(this) );
 
       }); // end: return this.each()
 
@@ -192,8 +248,12 @@
   Expected Mark-up
 
 <!--
+
   .tab-container is here for styling purposes / to group the
-  tab components together.  It is actually not required by the JS.
+  tab components together. It is actually not required by the JS,
+  as the tab menu and it's corresponding panels can exist in different
+  locations on a page.
+
 -->
 <section class="tab-container">
 
@@ -207,6 +267,7 @@
     Each link within the tab list must have a unique href,
     setup as '#uniqueNameHere' which can not match any other IDs
     on the page. The links must also have a class of "js-tab-item"
+
   -->
   <ul class="tab-menu js-a11y-tabs clearfix" aria-hidden="true" id="uniqueID">
     <li>
@@ -226,6 +287,18 @@
 
   <!--
 
+    Tab panels must be contained within a tab-panel-container
+    parent element.
+
+    Tab panels more than likely should be <section> elements.
+    <article> and <fieldset> elements would also be acceptable
+    semantic wrappers of tab panel content.
+
+    Each tab panel must have
+    • an [id] with the same value of the tab menu
+      href that acts as it's trigger.
+    • a class of js-tab-panel
+
   -->
   <div class="tab-panel-container">
     <section id="panelA"
@@ -239,8 +312,5 @@
   </div>
 
 </section> <!-- end .tab-container -->
-
-
-
 
 */
