@@ -14,6 +14,8 @@
 
     a11yTabs: function ( e ) {
 
+      $('html').removeClass('no-js');
+
       // setup global class variables
       var tabWidget           = '[data-action="a11y-tabs"]',
           tabList             = '.js-tabs__list',
