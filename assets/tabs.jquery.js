@@ -6,7 +6,7 @@
 
   a11yTabs.NS = "a11yTabs";
   a11yTabs.AUTHOR = "Scott O'Hara";
-  a11yTabs.VERION = "1.0.1";
+  a11yTabs.VERION = "1.0.2";
   a11yTabs.LICENSE = "https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md";
 
   // define the plug-in
@@ -24,6 +24,14 @@
 
       return this.each( function () {
 
+        // $(tabList).replaceWith(function () {
+        //   return $('<ul/>', {
+        //     class: 'tab-list js-tabs__list clearfix',
+        //     html: this.innerHTML
+        //   });
+        // });
+
+
         // set up variables specific to the each instance
         var id = this.id,
             $this = $(this),
@@ -35,6 +43,7 @@
         tabsSetup = function () {
           var $tabItems = $(tabList + ' li'),
               $tabBtns = $self.find(tabBtn);
+
 
           // if there's a pre-set aria-hidden on the tab list,
           // then make sure it's set to false.  If not, then

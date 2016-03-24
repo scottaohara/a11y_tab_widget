@@ -26,124 +26,101 @@ h1, h2, h3, h4 ,h5 ,h6, p {
   Tab Demo Specific
 */
 .tab-container {
-  position: relative;
-}
+  border: 1px solid #ccc;
+  position: relative; }
+  .tab-container [tabindex="-1"] {
+    box-shadow: none;
+    outline: none; }
 
 .tab-list {
-  border: 1px solid #777;
-  border-bottom: 0;
   list-style: none;
-  margin: 0;
   padding: 0;
-}
-
-.tab-list[aria-hidden="true"] {
-  display: none;
-}
-
-.tab-list li {
-  float: left;
-}
-
-.tab-list__item {
-  background: #f2f2f2;
-  border-right: 1px solid #777;
-  color: #777;
-  display: block;
-  padding: 12px 16px;
-  position: relative;
-  text-decoration: none;
-}
-
-.tab-list__item:hover,
-.tab-list__item:focus {
-  background: #e0fff3;
-  box-shadow: inset 0 0 0 1px #000;
-  outline: none;
-}
-
-.tab-list__item[aria-selected='true'] {
-  background: #fff;
-  z-index: 2;
-}
-
-.tab-list__item[aria-selected='true']:after {
-  background: #fff;
-  content: '';
-  height: 1px;
-  left: 0;
-  position: absolute;
-  top: 100%;
-  width: 100%;
-  z-index: 3;
-}
-
-.tab-panel-container {
-  border: 1px solid #777;
-  border-bottom: 0;
-}
-
-.tab-panel-container p:last-of-type {
-  margin-bottom: 0;
-}
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  border: none;
+  border-bottom: none;
+  margin: 0; }
+  .tab-list[aria-hidden="true"] {
+    display: none; }
+  .tab-list li {
+    -ms-flex: 1 1;
+    -webkit-flex: 1 1;
+    flex: 1 1;
+    margin: 0;
+    text-align: center; }
+    .tab-list li:last-of-type .tab-list__item {
+      border-right: none; }
+  .tab-list__item {
+    background: #f8f8f8;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    color: #4464c2;
+    display: block;
+    padding: 12px 16px;
+    position: relative;
+    text-decoration: none; }
+    .tab-list__item:hover, .tab-list__item:focus {
+      background: #4464c2;
+      color: #fff;
+      outline: none; }
+    .tab-list__item > span {
+      pointer-events: none; }
+    .tab-list__item[aria-selected='true'], .tab-list__item.is-selected {
+      background: #fff;
+      border-bottom: 1px solid transparent;
+      color: #979797;
+      z-index: 2; }
+      .tab-list__item[aria-selected='true']:hover, .tab-list__item[aria-selected='true']:focus, .tab-list__item.is-selected:hover, .tab-list__item.is-selected:focus {
+        text-decoration: underline; }
 
 .tab-panel {
-  border-bottom: 1px solid #777;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
   min-height: 200px;
-  padding: 20px;
-}
-
-.tab-panel[aria-hidden='true'] {
-  display: none;
-}
-
-.d-block {
-  display: block;
-}
-
-.link-to-tabs {
-  bottom: 4px;
-  font-size: 14px;
-  opacity: 0;
-  position: absolute;
-  right: 4px;
-  transform: translateY(10px);
-  transition: opacity .2s, transform .2s;
-}
-
-.tab-container:hover .link-to-tabs,
-.link-to-tabs:focus {
-  opacity: 1;
-  transform: translateY(0px);
-}
-
+  padding: 20px; }
+  .tab-panel[aria-hidden='true'], .tab-panel.is-hidden {
+    display: none; }
 
 @media screen and (max-width: 700px) {
-  body {
-    padding: 20px;
-  }
-
-  .tab-container {
-    padding-left: 80px;
-  }
-
   .tab-list {
-    border-right: 0;
-    position: absolute;
-    width: 80px;
-    left: 0;
-  }
+    display: block; }
+    .tab-list li {
+      border-bottom: none;
+      border-top: none;
+      display: block; }
+      .tab-list li:first-of-type {
+        border-top: none; }
+    .tab-list__item {
+      border-right: none; } }
 
-  .tab-list li {
-    border-right: 0;
-    border-bottom: 1px solid #777;
-    float: none;
-  }
 
-  .tab-list__item[aria-selected='true']:after {
-    height: 100%;
-    left: 100%;
-    top: 0;
-    width: 1px;
-  }
+
+
+/*
+  off site no-js menus
+*/
+
+.no-js .tab-list {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+}
+
+.no-js .tab-list__item {
+  position: absolute;
+  top: -100px;
+  left: -99999px;
+}
+
+.no-js .tab-list__item:focus {
+  background: #333;
+  padding: 8px;
+  top: 0;
+  left: 0;
+  white-space: nowrap;
 }
