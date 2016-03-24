@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="en-us">
   <head>
     <meta charset="utf-8" />
     <title>Accessible Tabs</title>
@@ -7,7 +7,7 @@
   </head>
   <body>
 
-    <div class="tab-container">
+    <div class="tab-container" style="display: none;">
 
       <!--
 
@@ -25,19 +25,19 @@
 
       -->
 
-      <ul class="tab-menu js-a11y-tabs clearfix" aria-hidden="true" id="unique_id_1">
+      <ul class="tab-list js-tabs__list clearfix" id="unique_id_1">
         <li>
-          <a href="#panel1" class="tab-menu__item js-tab-item" id="tab0">
+          <a href="#panel1" class="tab-list__item js-tabs__list__item" id="tab0">
              Tab 1
           </a>
         </li>
         <li>
-          <a href="#panel2" class="tab-menu__item js-tab-item" id="tab1">
+          <a href="#panel2" class="tab-list__item js-tabs__list__item" id="tab1">
              Tab 2
           </a>
         </li>
         <li>
-          <a href="#panel3" class="tab-menu__item js-tab-item" id="tab2">
+          <a href="#panel3" class="tab-list__item js-tabs__list__item" id="tab2">
              Tab 3
           </a>
         </li>
@@ -50,8 +50,8 @@
 
       -->
 
-      <div class="tab-panel-container js-tab-panel-container">
-        <section id="panel1" class="tab-panel js-tab-panel">
+      <div class="tab-panel-container js-tabs-panel-container">
+        <section id="panel1" class="tab-panel js-tabs__panel">
           <h2>Heading of Panel 1</h2>
           <p>
             Paragraph text goes here and fills up the panel
@@ -60,7 +60,7 @@
             <a href="#">this is here to test in panel keyboard controls</a>
           </p>
         </section>
-        <section id="panel2" class="tab-panel js-tab-panel">
+        <section id="panel2" class="tab-panel js-tabs__panel">
           <h2>Heading of Panel 2</h2>
           <p>
             Paragraph text goes here and fills up the panel
@@ -69,7 +69,7 @@
             <a href="#">this is here to test in panel keyboard controls</a>
           </p>
         </section>
-        <section id="panel3" class="tab-panel js-tab-panel">
+        <section id="panel3" class="tab-panel js-tabs__panel">
           <h2>Heading of Panel 3</h2>
           <p>
             Paragraph text goes here and fills up the panel
@@ -82,131 +82,127 @@
 
     </div>
 
-    <div style="margin-bottom: 10%;"></div>
 
-    <section class="tab-container">
+    <section class="tab-container"
+             data-action="a11y-tabs"
+             id="unique_a11ytabs_id">
 
-      <ul class="tab-menu js-a11y-tabs clearfix" aria-hidden="true" id="tab_in_tabs">
+      <ul class="tab-list js-tabs__list clearfix">
         <li>
           <a href="#panel1a"
-             class="tab-menu__item js-tab-item">
+             class="tab-list__item js-tabs__list__item">
              Panel 1 Tab
           </a>
         </li>
         <li>
           <a href="#panel2a"
-             class="tab-menu__item js-tab-item js-tab-item-default">
+             class="tab-list__item js-tabs__list__item js-show-by-default">
              Panel 2 Tab
           </a>
         </li>
         <li>
           <a href="#panel3a"
-             class="tab-menu__item js-tab-item js-tab-item-default">
+             class="tab-list__item js-tabs__list__item">
              Panel 3 Tab
           </a>
         </li>
       </ul>
 
-      <div class="tab-panel-container js-tab-panel-container">
-        <section id="panel1a"
-                 class="tab-panel js-tab-panel">
+      <div class="tab-panel-container js-tabs-panel-container">
+        <section id="panel1a" class="tab-panel js-tabs__panel">
           <h2>Heading</h2>
           <p>content panel 1</p>
           <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
         </section>
-        <section id="panel2a" class="tab-panel js-tab-panel">
+
+        <section id="panel2a" class="tab-panel js-tabs__panel">
           <h2>Heading</h2>
           <p>content panel 2</p>
           <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
 
+          <hr />
 
 
-          <section class="tab-container">
+          <section class="tab-container"
+                   data-action="a11y-tabs"
+                   id="another_a11ytabwidget">
 
-            <ul class="tab-menu js-a11y-tabs clearfix" aria-hidden="true" id="tab_in_tabsbb">
+            <ul class="tab-list js-tabs__list clearfix">
               <li>
                 <a href="#panel1abb"
-                   class="tab-menu__item js-tab-item">
+                   class="tab-list__item js-tabs__list__item">
                    Panel 1 Tab
                 </a>
               </li>
               <li>
                 <a href="#panel2abb"
-                   class="tab-menu__item js-tab-item js-tab-item-default">
+                   class="tab-list__item js-tabs__list__item">
                    Panel 2 Tab
                 </a>
               </li>
               <li>
                 <a href="#panel3abb"
-                   class="tab-menu__item js-tab-item js-tab-item-default">
+                   class="tab-list__item js-tabs__list__item js-show-by-default">
                    Panel 3 Tab
                 </a>
               </li>
             </ul>
 
-            <div class="tab-panel-container js-tab-panel-container">
-              <section id="panel1abb"
-                       class="tab-panel js-tab-panel">
+            <div class="tab-panel-container js-tabs-panel-container">
+              <section id="panel1abb" class="tab-panel js-tabs__panel">
                 <h2>Heading</h2>
                 <p>content panel 1</p>
                 <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
               </section>
-              <section id="panel2abb" class="tab-panel js-tab-panel">
+
+              <section id="panel2abb" class="tab-panel js-tabs__panel">
                 <h2>Heading</h2>
                 <p>content panel 2</p>
                 <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
-
-
-
               </section>
-              <section id="panel3abb"
-                       class="tab-panel js-tab-panel">
+
+              <section id="panel3abb" class="tab-panel js-tabs__panel">
                 <h2>Heading</h2>
                 <p>content panel 3</p>
                 <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
 
+                <hr />
 
+                <section class="tab-container" data-action="a11y-tabs" id="yet_another_a11tab">
 
-                <section class="tab-container">
-
-                  <ul class="tab-menu js-a11y-tabs clearfix" aria-hidden="true" id="tab_in_tabsbbccc">
+                  <ul class="tab-list js-tabs__list clearfix">
                     <li>
                       <a href="#panel1abbccc"
-                         class="tab-menu__item js-tab-item">
+                         class="tab-list__item js-tabs__list__item">
                          Panel 1 Tab
                       </a>
                     </li>
                     <li>
                       <a href="#panel2abbccc"
-                         class="tab-menu__item js-tab-item js-tab-item-default">
+                         class="tab-list__item js-tabs__list__item">
                          Panel 2 Tab
                       </a>
                     </li>
                     <li>
                       <a href="#panel3abbccc"
-                         class="tab-menu__item js-tab-item js-tab-item-default">
+                         class="tab-list__item js-tabs__list__item">
                          Panel 3 Tab
                       </a>
                     </li>
                   </ul>
 
-                  <div class="tab-panel-container js-tab-panel-container">
-                    <section id="panel1abbccc"
-                             class="tab-panel js-tab-panel">
+                  <div class="tab-panel-container js-tabs-panel-container">
+                    <section id="panel1abbccc" class="tab-panel js-tabs__panel">
                       <h2>Heading</h2>
                       <p>content panel 1</p>
                       <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
                     </section>
-                    <section id="panel2abbccc" class="tab-panel js-tab-panel">
+                    <section id="panel2abbccc" class="tab-panel js-tabs__panel">
                       <h2>Heading</h2>
                       <p>content panel 2</p>
                       <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
-
-
-
                     </section>
-                    <section id="panel3abbccc"
-                             class="tab-panel js-tab-panel">
+                    <section id="panel3abbccc" class="tab-panel js-tabs__panel">
                       <h2>Heading</h2>
                       <p>content panel 3</p>
                       <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>
@@ -214,20 +210,14 @@
                   </div>
 
                 </section>
-
-
-
               </section>
             </div>
 
           </section>
 
-
-
-
         </section>
-        <section id="panel3a"
-                 class="tab-panel js-tab-panel">
+
+        <section id="panel3a" class="tab-panel js-tabs__panel">
           <h2>Heading</h2>
           <p>content panel 3</p>
           <p><a href="#!">Text link to allow for focusable item in this panel.</a></p>

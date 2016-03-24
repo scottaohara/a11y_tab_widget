@@ -29,24 +29,23 @@ h1, h2, h3, h4 ,h5 ,h6, p {
   position: relative;
 }
 
-.tab-menu {
+.tab-list {
   border: 1px solid #777;
   border-bottom: 0;
-  display: none;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.tab-menu[aria-hidden="false"] {
-  display: block;
+.tab-list[aria-hidden="true"] {
+  display: none;
 }
 
-.tab-menu li {
+.tab-list li {
   float: left;
 }
 
-.tab-menu__item {
+.tab-list__item {
   background: #f2f2f2;
   border-right: 1px solid #777;
   color: #777;
@@ -56,19 +55,19 @@ h1, h2, h3, h4 ,h5 ,h6, p {
   text-decoration: none;
 }
 
-.tab-menu__item:hover,
-.tab-menu__item:focus {
+.tab-list__item:hover,
+.tab-list__item:focus {
   background: #e0fff3;
   box-shadow: inset 0 0 0 1px #000;
   outline: none;
 }
 
-.tab-menu__item[aria-selected='true'] {
+.tab-list__item[aria-selected='true'] {
   background: #fff;
   z-index: 2;
 }
 
-.tab-menu__item[aria-selected='true']:after {
+.tab-list__item[aria-selected='true']:after {
   background: #fff;
   content: '';
   height: 1px;
@@ -128,20 +127,20 @@ h1, h2, h3, h4 ,h5 ,h6, p {
     padding-left: 80px;
   }
 
-  .tab-menu {
+  .tab-list {
     border-right: 0;
     position: absolute;
     width: 80px;
     left: 0;
   }
 
-  .tab-menu li {
+  .tab-list li {
     border-right: 0;
     border-bottom: 1px solid #777;
     float: none;
   }
 
-  .tab-menu__item[aria-selected='true']:after {
+  .tab-list__item[aria-selected='true']:after {
     height: 100%;
     left: 100%;
     top: 0;
