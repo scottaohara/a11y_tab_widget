@@ -26,18 +26,45 @@
 
       return this.each( function () {
 
-        // $(tabList).replaceWith(function () {
-        //   return $('<ul/>', {
-        //     class: 'tab-list js-tabs__list clearfix',
-        //     html: this.innerHTML
-        //   });
-        // });
-
-
         // set up variables specific to the each instance
         var id = this.id,
             $this = $(this),
             $self = $('#' + id),
+
+
+        genTabList = function () {
+
+          // find if a tab component needs a generated tablist
+          if ( !$self.find(tabList).length ) {
+            // just a quick visual test to make sure i'm detecting
+            // tab widgets without a pre-set tablist area
+            // $self.css({
+            //   'border': '10px solid'
+            // });
+
+            var createList = '<ul class="tab-list js-tabs__list"></ul>';
+
+            $self.prepend(createList);
+
+
+            $self.find(tabPanel).each(function () {
+              var $this = $(this);
+
+              // create unique id
+              $this.attr('id', id + '_panel_' + Math.floor(Math.random() * 5) + Date.now() );
+
+              var $grabID = $this.attr('id');
+              var $grabLabel = $this.attr('data-tab-label');
+
+              var $createTabItem = '<li><a href="#'+$grabID+'" class="tab-list__item js-tabs__list__item">'+$grabLabel+'</a></li>';
+
+
+              $self.find(tabList).append($createTabItem);
+            });
+
+          }
+
+        },
 
         /*
           Setup Tab List & tabs
@@ -277,6 +304,7 @@
         };
 
         // run setups on load
+        genTabList();
         tabsSetup();
         panelsSetup();
 
