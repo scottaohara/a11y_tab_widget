@@ -45,13 +45,8 @@
         */
         genTabList = function () {
 
-          // find if a tab component needs a generated tablist
+          // determine if a tab component needs a generated tablist
           if ( !$self.find(tabList).length ) {
-            // just a quick visual test to make sure i'm detecting
-            // tab widgets without a pre-set tablist area
-            // $self.css({
-            //   'border': '10px solid'
-            // });
 
             // The tablist wasn't there, so let's add it in
             $self.prepend('<ul class="tab-list js-tabs__list"></ul>')
@@ -82,23 +77,16 @@
 
           }
 
-        },
+        }, // end genTabList()
 
         /*
+
           Setup Tab List & tabs
+
         */
         tabsSetup = function () {
           var $tabItems = $(tabList + ' li'),
               $tabBtns = $self.find(tabBtn);
-
-
-          // if there's a pre-set aria-hidden on the tab list,
-          // then make sure it's set to false.  If not, then
-          // never mind.
-          if ( $self.find(tabList).attr('aria-hidden') ) {
-            $self.find(tabList).attr('aria-hidden', 'false');
-          }
-
 
           // set up the appropriate aria-role for the tablist, and
           // give it a unique ID based on the a11y tabs component ID
@@ -293,11 +281,7 @@
 
             switch ( e.keyCode ) {
               case 38: // up
-                $prevTab.focus();
-                break;
-
-              case 40: // down
-                $nextTab.focus();
+                $currentTab.focus();
                 break;
 
               case 33: // pg up
