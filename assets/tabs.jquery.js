@@ -28,10 +28,21 @@
 
         // set up variables specific to the each instance
         var id = this.id,
-            $this = $(this),
             $self = $('#' + id),
 
+        /*
 
+          Generate TabList
+
+          In certain situations, it may be desirable to have a tab widget
+          interface, but getting full access to a code base may not
+          be possible. (working in a CMS for example)
+
+          This function exists so that the required markup to get
+          a tab widget up and running can be reduced to simply the
+          tabWidget, tabPanelContainer, and the tabPanels
+
+        */
         genTabList = function () {
 
           // find if a tab component needs a generated tablist
@@ -42,23 +53,30 @@
             //   'border': '10px solid'
             // });
 
-            var createList = '<ul class="tab-list js-tabs__list"></ul>';
+            // The tablist wasn't there, so let's add it in
+            $self.prepend('<ul class="tab-list js-tabs__list"></ul>')
 
-            $self.prepend(createList);
+              // now we need to cycle through all the existing panels to pull out
+              // the necessary information to populate the tablist with tabs
+              .find(tabPanel).each(function () {
+                var $this = $(this);
 
-
-            $self.find(tabPanel).each(function () {
-              var $this = $(this);
-
-              // create unique id
+              // create unique ID for the panel, cause we'll need that later when
+              // the aria controls get set up.
               $this.attr('id', id + '_panel_' + Math.floor(Math.random() * 5) + Date.now() );
 
-              var $grabID = $this.attr('id');
-              var $grabLabel = $this.attr('data-tab-label');
+              // now grab that ID for later
+              var $grabID = $this.attr('id'),
 
-              var $createTabItem = '<li><a href="#'+$grabID+'" class="tab-list__item js-tabs__list__item">'+$grabLabel+'</a></li>';
+                  // create the tab label based off from a data attribute on the panel,
+                  // OR the first heading (h1-h6) in the tab
+                  // OR just call it Tab + # cause lol naming stuff
+                  $grabLabel = $this.attr('data-tab-label') || $this.find(':header:first-child').text() || 'Tab' + $this.length,
 
+                  // Put it all together as a new <li>tab</li>
+                  $createTabItem = '<li><a href="#'+$grabID+'" class="tab-list__item js-tabs__list__item">'+$grabLabel+'</a></li>';
 
+              // Now append it to the tablist and repeat!
               $self.find(tabList).append($createTabItem);
             });
 
@@ -87,16 +105,15 @@
           $self.find(tabList).attr({
             'role': 'tablist',
             'id': id + '_tablist'
-          });
+          })
 
-
-          // set the <li>s within the tab menu to have a role
-          // of presentation, to cut down on the verbose
-          // audio declarations of list elements when using
-          // voice over
-          $self.find($tabItems).attr({
-            'role': 'presentation'
-          });
+            // set the <li>s within the tab menu to have a role
+            // of presentation, to cut down on the verbose
+            // audio declarations of list elements when using
+            // voice over
+            .find($tabItems).attr({
+              'role': 'presentation'
+            });
 
 
           // for each tab item (link/button) within this tab menu,
@@ -291,7 +308,6 @@
                 break;
 
               case 34: // pg down
-
                 setTimeout(function () {
                   $nextTab.focus().click();
                 }, 10);
