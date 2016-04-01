@@ -2,6 +2,8 @@
 
   'use strict';
 
+  $('html').removeClass('no-js');
+
   var a11yTabs = {};
 
   a11yTabs.NS = "a11yTabs";
@@ -13,8 +15,6 @@
   $.fn.extend({
 
     a11yTabs: function ( e ) {
-
-      $('html').removeClass('no-js');
 
       // setup global class variables
       var tabWidget           = '[data-action="a11y-tabs"]',
@@ -79,7 +79,7 @@
 
         }, // end genTabList()
 
-        /*
+        /**
 
           Setup Tab List & tabs
 
@@ -110,7 +110,8 @@
           // set aria-selected
           $tabBtns.each( function () {
             var $this = $(this),
-                $getID = $this.attr('href').substring(1);
+                $getURL = $this.attr('href'),
+                $getID = $getURL.split('#')[1];
 
             $this.attr({
               'aria-controls': $getID,
@@ -136,8 +137,11 @@
         },
 
 
+        /**
 
+          Setup Tab Panels
 
+        */
         panelsSetup = function () {
 
           // give the tab panel container a unique ID based off the
@@ -148,7 +152,7 @@
 
 
           // find all the panels
-          $(tabPanel).each( function () {
+          $(tabWidget + ' ' + tabPanel).each( function () {
             var $this = $(this);
 
             // set their attributes
@@ -168,7 +172,11 @@
         },
 
 
+        /**
 
+          Show Active Tab
+
+        */
         tabsShow = function ( e ) {
 
           var $targetTab = $(this).find( e.target ),
@@ -207,6 +215,7 @@
         tabBtnKeytrolls = function ( e ) {
 
           var $currentTabItem = $(e.target).parent(),
+              keyCode = e.which,
 
           // next and previous tabs dynamically set and accessible
           // by right/down, left/up keys
@@ -224,7 +233,7 @@
                           $currentTabItem.first().children().eq(0);
 
 
-          switch ( e.keyCode ) {
+          switch ( keyCode ) {
             case 39: // right
             case 40: // down
               $tabNext.focus();
@@ -297,6 +306,7 @@
                 }, 10);
                 break;
 
+
               default:
                 break;
             }
@@ -319,7 +329,8 @@
 
   }); // end $.fn.extend
 
-  // call it bro
+  // call it
+
   $('[data-action="a11y-tabs"]').a11yTabs();
 
 })( jQuery, this, this.document );
