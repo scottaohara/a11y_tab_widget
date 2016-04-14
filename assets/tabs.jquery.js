@@ -8,7 +8,7 @@
 
   a11yTabs.NS = "a11yTabs";
   a11yTabs.AUTHOR = "Scott O'Hara";
-  a11yTabs.VERION = "1.0.2";
+  a11yTabs.VERION = "1.0.3";
   a11yTabs.LICENSE = "https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md";
 
   // define the plug-in
@@ -207,108 +207,101 @@
 
 
 
+
         // make sure tabs function as expected by keyboard users
         // this makes sure that navigating through tabs is set to act
         // like navigating through radio buttons with a keyboard,
         // as a keyboard user should not have to keyboard tab through
         // undesired navigation tabs to get to content
-        tabBtnKeytrolls = function ( e ) {
+        keytrolls = function ( e ) {
+          var $eTarget = $(e.target),
+              $currentTab,
+              $currentTabList,
+              $currentPanel,
+              keyCode = e.which;
 
-          var $currentTabItem = $(e.target).parent(),
-              keyCode = e.which,
-
-          // next and previous tabs dynamically set and accessible
-          // by right/down, left/up keys
-
-          // TODO:
-          // this doesn't circle around to the beginning/end like it's supposed
-          // to when the current focus is the first/last element in the tablist
-          // why?
-              $tabPrev = $currentTabItem.prev() ?
-                         $currentTabItem.prev().children().eq(0) :
-                         $currentTabItem.last().children().eq(0),
-
-              $tabNext =  $currentTabItem.next() ?
-                          $currentTabItem.next().children().eq(0) :
-                          $currentTabItem.first().children().eq(0);
-
-
-          switch ( keyCode ) {
-            case 39: // right
-            case 40: // down
-              $tabNext.focus();
-              break;
-
-            case 37: // left
-            case 38: // up
-              $tabPrev.focus();
-              break;
-
-            case 32: // space bar
-              e.preventDefault();
-              tabsShow.bind(this);
-              break;
-
-            default:
-              break;
+          if ( $eTarget.attr('role') === 'tab' ) {
+            $currentTab = $(e.target).parent();
+            $currentTabList = $currentTab.closest('[role="tablist"]');
           }
-        },
+          else if ( $(e.target).closest(tabPanel) ) {
+            $currentPanel = $(e.target).closest(tabPanelContainer);
+            $currentTabList = $currentPanel.closest(tabWidget).find('[role="tablist"]');
+            $currentTab = $currentTabList.find('.js-tabs__list__item[aria-selected="true"]').parent();
+          }
 
 
-        tabPanelKeytrolls = function ( e ) {
-
-          var $currentPanel = $(e.target).closest(tabPanelContainer),
-              $currentPanelID = $currentPanel.attr('id'),
-              $currentTabListID = $currentPanelID.substring(0, $currentPanelID.length - 4) + '_tablist',
-              $currentTabList = $('#'+$currentTabListID),
-              $currentTab = $currentTabList.find('.js-tabs__list__item[aria-selected="true"]'),
-
-              $firstTab = $currentTabList.find('li').first().children(),
+          //now that we know our current tablist, we can declare these vars
+          var $firstTab = $currentTabList.find('li').first().children(),
               $lastTab = $currentTabList.find('li').last().children(),
 
               $prevTab,
               $nextTab;
 
-
-          // determine what next/prev are
-          if ( $currentTab.parent().is(':first-child') ) {
+          // now determine what next/prev are
+          if ( $currentTab.is(':first-child') ) {
             $prevTab = $lastTab;
-            $nextTab = $currentTab.parent().next().children();
+            $nextTab = $currentTab.next().children();
           }
-          else if ( $currentTab.parent().is(':last-child') ) {
-            $prevTab = $currentTab.parent().prev().children();
+          else if ( $currentTab.is(':last-child') ) {
+            $prevTab = $currentTab.prev().children();
             $nextTab = $firstTab;
           }
           else {
-            $prevTab = $currentTab.parent().prev().children();
-            $nextTab = $currentTab.parent().next().children();
+            $prevTab = $currentTab.prev().children();
+            $nextTab = $currentTab.next().children();
           }
 
+          // now depending on our e.target, define our keyboard controls
+          if ( $(e.target).attr('role') === 'tab' ) {
+            switch ( keyCode ) {
+              case 39: // right
+              case 40: // down
+                e.preventDefault();
+                $nextTab.focus();
+                break;
 
-          if ( e.ctrlKey ) {
-            e.preventDefault(); // prevent default behavior
-
-            switch ( e.keyCode ) {
+              case 37: // left
               case 38: // up
-                $currentTab.focus();
+                e.preventDefault();
+                $prevTab.focus();
                 break;
 
-              case 33: // pg up
-                setTimeout(function () {
-                  $prevTab.focus().click();
-                }, 10);
-
+              case 32: // space bar
+                e.preventDefault();
+                tabsShow.bind(this);
                 break;
-
-              case 34: // pg down
-                setTimeout(function () {
-                  $nextTab.focus().click();
-                }, 10);
-                break;
-
 
               default:
                 break;
+            }
+          }
+          else if ( $(e.target).closest(tabPanel) ) {
+            if ( e.ctrlKey ) {
+              e.preventDefault(); // prevent default behavior
+
+              switch ( e.keyCode ) {
+                case 38: // up
+                  $currentTab.children().eq(0).focus();
+                  break;
+
+                case 33: // pg up
+                  setTimeout(function () {
+                    $prevTab.focus().click();
+                  }, 10);
+
+                  break;
+
+                case 34: // pg down
+                  setTimeout(function () {
+                    $nextTab.focus().click();
+                  }, 10);
+                  break;
+
+
+                default:
+                  break;
+              }
             }
           }
         };
@@ -320,8 +313,8 @@
 
         // Events
         $self.find(tabBtn).on( 'click', tabsShow.bind(this) );
-        $self.find(tabBtn).on( 'keydown', tabBtnKeytrolls.bind(this) );
-        $self.find(tabPanel).on( 'keydown', tabPanelKeytrolls.bind(this) );
+        $self.find(tabBtn).on( 'keydown', keytrolls.bind(this) );
+        $self.find(tabPanel).on( 'keydown', keytrolls.bind(this) );
 
       }); // end: return this.each()
 
