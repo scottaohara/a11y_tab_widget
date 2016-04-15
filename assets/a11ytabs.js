@@ -2,14 +2,14 @@
 
   'use strict';
 
-  $('html').removeClass('no-js');
-
   var a11yTabs = {};
 
   a11yTabs.NS = "a11yTabs";
   a11yTabs.AUTHOR = "Scott O'Hara";
-  a11yTabs.VERION = "1.0.3";
+  a11yTabs.VERION = "1.0.4";
   a11yTabs.LICENSE = "https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md";
+
+  var tabWidget           = '[data-action="a11y-tabs"]';
 
   // define the plug-in
   $.fn.extend({
@@ -17,8 +17,7 @@
     a11yTabs: function ( e ) {
 
       // setup global class variables
-      var tabWidget           = '[data-action="a11y-tabs"]',
-          tabList             = '.js-tabs__list',
+      var tabList             = '.js-tabs__list',
           tabBtn              = '.js-tabs__list__item',
           tabPanelContainer   = '.js-tabs-panel-container',
           tabPanel            = '.js-tabs__panel',
@@ -48,17 +47,20 @@
           // determine if a tab component needs a generated tablist
           if ( !$self.find(tabList).length ) {
 
+            var $panelNum = 1;
+
             // The tablist wasn't there, so let's add it in
-            $self.prepend('<ul class="tab-list js-tabs__list"></ul>')
+            $self.prepend('<ul class="tab-list js-tabs__list"></ul>');
 
               // now we need to cycle through all the existing panels to pull out
               // the necessary information to populate the tablist with tabs
-              .find(tabPanel).each(function () {
-                var $this = $(this);
+            $self.find(tabPanel).each( function () {
+              var $this = $(this);
 
               // create unique ID for the panel, cause we'll need that later when
               // the aria controls get set up.
-              $this.attr('id', id + '_panel_' + Math.floor(Math.random() * 5) + Date.now() );
+              // $this.attr('id', id + '_panel_' + Math.floor(Math.random() * 5) + Date.now() );
+              $this.attr('id', id + '_panel_' + $panelNum );
 
               // now grab that ID for later
               var $grabID = $this.attr('id'),
@@ -66,14 +68,17 @@
                   // create the tab label based off from a data attribute on the panel,
                   // OR the first heading (h1-h6) in the tab
                   // OR just call it Tab + # cause lol naming stuff
-                  $grabLabel = $this.attr('data-tab-label') || $this.find(':header:first-child').text() || 'Tab' + $this.length,
+                  $grabLabel = $this.attr('data-tab-label') || $this.find(':header:first-child').text() || 'Tab' + $panelNum,
 
                   // Put it all together as a new <li>tab</li>
                   $createTabItem = '<li><a href="#'+$grabID+'" class="tab-list__item js-tabs__list__item">'+$grabLabel+'</a></li>';
 
               // Now append it to the tablist and repeat!
               $self.find(tabList).append($createTabItem);
-            });
+
+              return $panelNum = $panelNum + 1;
+
+            }); // end $self.find(tabPanel).each
 
           }
 
@@ -110,8 +115,7 @@
           // set aria-selected
           $tabBtns.each( function () {
             var $this = $(this),
-                $getURL = $this.attr('href'),
-                $getID = $getURL.split('#')[1];
+                $getID = $this.attr('href').split('#')[1];
 
             $this.attr({
               'aria-controls': $getID,
@@ -125,7 +129,7 @@
           // Normally the first item in a tab list should be activated
           // and its panel displayed.  js-show-by-default is how this is
           if ( $self.find(tabDefault).length === 0) {
-            $self.find(tabList + ' li').first().children().addClass('js-show-by-default');
+            $self.find(tabList + ' > li').first().children().addClass('js-show-by-default');
           }
 
           // update the default tab with the appropriate attribute values
@@ -143,6 +147,10 @@
 
         */
         panelsSetup = function () {
+
+          if ( !$self.find(tabPanelContainer).length ) {
+            $self.find(tabPanel).wrapAll('<div class="tab-panel-container js-tabs-panel-container" />')
+          }
 
           // give the tab panel container a unique ID based off the
           // main ID of the a11y tabs component.
@@ -184,6 +192,8 @@
               $otherBtns = $targetTabMenu.find(tabBtn),
               $targetPanel = $('#' + $targetTab.attr('aria-controls') );
 
+          e.preventDefault();
+
           // hide the tabs again
           $otherBtns.attr({
             'aria-selected': 'false',
@@ -197,12 +207,10 @@
             'aria-live': 'polite'
           });
 
-          // reset panels to hidden
+          // reset panels to hidden and reveal the newly selected panel
           $targetPanel.parent().children().attr('aria-hidden', 'true');
           $targetPanel.attr('aria-hidden', 'false');
-          $targetPanel.children().focus();
 
-          e.preventDefault();
         },
 
 
@@ -214,19 +222,21 @@
         // as a keyboard user should not have to keyboard tab through
         // undesired navigation tabs to get to content
         keytrolls = function ( e ) {
+
           var $eTarget = $(e.target),
               $currentTab,
               $currentTabList,
               $currentPanel,
+              $tabListRole = '[role="tablist"]',
               keyCode = e.which;
 
           if ( $eTarget.attr('role') === 'tab' ) {
             $currentTab = $(e.target).parent();
-            $currentTabList = $currentTab.closest('[role="tablist"]');
+            $currentTabList = $currentTab.closest($tabListRole);
           }
           else if ( $(e.target).closest(tabPanel) ) {
             $currentPanel = $(e.target).closest(tabPanelContainer);
-            $currentTabList = $currentPanel.closest(tabWidget).find('[role="tablist"]');
+            $currentTabList = $currentPanel.closest(tabWidget).find($tabListRole);
             $currentTab = $currentTabList.find('.js-tabs__list__item[aria-selected="true"]').parent();
           }
 
@@ -252,7 +262,8 @@
             $nextTab = $currentTab.next().children();
           }
 
-          // now depending on our e.target, define our keyboard controls
+
+          // depending on our e.target, define our keyboard controls
           if ( $(e.target).attr('role') === 'tab' ) {
             switch ( keyCode ) {
               case 39: // right
@@ -267,9 +278,10 @@
                 $prevTab.focus();
                 break;
 
+              case 13:
               case 32: // space bar
                 e.preventDefault();
-                tabsShow.bind(this);
+                $(e.target).trigger('click');
                 break;
 
               default:
@@ -306,10 +318,12 @@
           }
         };
 
+
         // run setups on load
         genTabList();
         tabsSetup();
         panelsSetup();
+
 
         // Events
         $self.find(tabBtn).on( 'click', tabsShow.bind(this) );
@@ -324,7 +338,7 @@
 
   // call it
 
-  $('[data-action="a11y-tabs"]').a11yTabs();
+  $(tabWidget).a11yTabs();
 
 })( jQuery, this, this.document );
 
@@ -332,8 +346,54 @@
 
 /*
 
-  Expected Mark-up
+  Expected Minimum Mark-up
 
-  this needs to be updated.  will repost once current updates are completed
+
+  <!--
+
+    The parent container MUST have:
+      data-action="a11y-tabs"
+      id="a_unique_id_goes_here"
+
+    These two attributes are absolutely necessary for the plug-in to
+    even recognize this as a tab widget.
+
+    All classes without the prefix of 'js-' are for styling purposes,
+    while the 'js-' classes are required as plug-in hooks.
+
+    If not hard coded, a tablist will be generated. It will first look
+    to see if a tab-panel has a data-tab-label set. If not, it will
+    then look to see if there is a immediate heading for the tab panel
+    (there should be since these are sections and they require a heading h2-h6).
+    If neither of those are available, then a label will be generated based
+    on the order of the panel. e.g. Panel number 3 gets a tab titled 'Tab 3'.
+
+  -->
+
+
+  <div class="tab-container" data-action="a11y-tabs" id="unique_id">
+
+    <div class="tab-panel-container js-tabs-panel-container">
+      <section class="tab-panel js-tabs__panel" data-tab-label="Yo">
+        <h2>Heading of Panel 1</h2>
+        <p>
+          ...
+        </p>
+      </section> <!-- /.tab-panel -->
+      <section class="tab-panel js-tabs__panel" data-tab-label="tab 2">
+        <h2>Heading of Panel 2</h2>
+        <p>
+          ...
+        </p>
+      </section> <!-- /.tab-panel -->
+      <section class="tab-panel js-tabs__panel" data-tab-label="tab 3">
+        <h2>Heading of Panel 3</h2>
+        <p>
+          ...
+        </p>
+      </section> <!-- /.tab-panel -->
+    </div> <!-- /.tab-panel-container -->
+
+  </div> <!-- /.tab-container -->
 
 */

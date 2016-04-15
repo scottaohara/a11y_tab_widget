@@ -1,25 +1,3 @@
-/*
-  General Setup
-*/
-body, html {
-  font-family: arial;
-  font-size: 18px;
-  margin: 0;
-}
-
-body {
-  padding: 60px;
-}
-
-h1, h2, h3, h4 ,h5 ,h6, p {
-  margin-top: 0;
-}
-
-.clearfix:after {
-  clear: both;
-  content: '';
-  display: table;
-}
 
 
 /*
@@ -81,8 +59,7 @@ h1, h2, h3, h4 ,h5 ,h6, p {
 
 .tab-panel {
   background: #fff;
-  min-height: 200px;
-  padding: 20px; }
+  min-height: 200px; }
   .tab-panel[aria-hidden='true'], .tab-panel.is-hidden {
     display: none; }
 
