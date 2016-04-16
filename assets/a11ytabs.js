@@ -9,7 +9,7 @@
   a11yTabs.VERION = "1.0.4";
   a11yTabs.LICENSE = "https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md";
 
-  var tabWidget           = '[data-action="a11y-tabs"]';
+  var tabWidget = '[data-action="a11y-tabs"]';
 
   // define the plug-in
   $.fn.extend({
@@ -19,15 +19,17 @@
       // setup global class variables
       var tabList             = '.js-tabs__list',
           tabBtn              = '.js-tabs__list__item',
-          tabPanelContainer   = '.js-tabs-panel-container',
+          tabPanelContainer   = '.js-tabs__panel-container',
           tabPanel            = '.js-tabs__panel',
-          tabDefault          = '.js-show-by-default';
+          tabDefault          = '.js-show-by-default',
+          tabDEF              = tabDefault.split('.')[1];
 
       return this.each( function () {
 
         // set up variables specific to the each instance
         var id = this.id,
             $self = $('#' + id),
+
 
         /*
 
@@ -47,49 +49,55 @@
           // determine if a tab component needs a generated tablist
           if ( !$self.find(tabList).length ) {
 
+            // start a counter to number the panels in this widget
             var $panelNum = 1;
 
             // The tablist wasn't there, so let's add it in
-            $self.prepend('<ul class="tab-list js-tabs__list"></ul>');
+            $self.prepend('<ul class="tab-list js-tabs__list" />');
 
-              // now we need to cycle through all the existing panels to pull out
-              // the necessary information to populate the tablist with tabs
+
+            // now we need to cycle through all the existing panels to pull out
+            // the necessary information to populate the tablist with tabs
             $self.find(tabPanel).each( function () {
+
               var $this = $(this);
 
-              // create unique ID for the panel, cause we'll need that later when
-              // the aria controls get set up.
-              // $this.attr('id', id + '_panel_' + Math.floor(Math.random() * 5) + Date.now() );
+              // create unique IDs for the panels, cause we'll need 
+              // them later when the aria-controls are set up.
               $this.attr('id', id + '_panel_' + $panelNum );
 
-              // now grab that ID for later
+              // Now store the generated ID
               var $grabID = $this.attr('id'),
-
-                  // create the tab label based off from a data attribute on the panel,
+                  // create the tab label based off from a data 
+                  // attribute on the panel,
                   // OR the first heading (h1-h6) in the tab
                   // OR just call it Tab + # cause lol naming stuff
                   $grabLabel = $this.attr('data-tab-label') || $this.find(':header:first-child').text() || 'Tab' + $panelNum,
 
                   // Put it all together as a new <li>tab</li>
-                  $createTabItem = '<li><a href="#'+$grabID+'" class="tab-list__item js-tabs__list__item">'+$grabLabel+'</a></li>';
+                  $createTabItem = '<li><a href="#'+$grabID+'" class="tab-list__item '+tabBtn.split('.')[1]+'">'+$grabLabel+'</a></li>';
 
               // Now append it to the tablist and repeat!
               $self.find(tabList).append($createTabItem);
 
+              // add one to the number of panels and 
+              // start all over again
               return $panelNum = $panelNum + 1;
 
             }); // end $self.find(tabPanel).each
 
-          }
-
+          } // end if 
+ 
         }, // end genTabList()
+
 
         /**
 
-          Setup Tab List & tabs
+          Setup Tab List & Tabs
 
         */
         tabsSetup = function () {
+
           var $tabItems = $(tabList + ' li'),
               $tabBtns = $self.find(tabBtn);
 
@@ -99,9 +107,8 @@
             'role': 'tablist',
             'id': id + '_tablist'
           })
-
-            // set the <li>s within the tab menu to have a role
-            // of presentation, to cut down on the verbose
+            // set the <li>s within the tab menu to have a
+            // presentation role, to cut down on the verbose
             // audio declarations of list elements when using
             // voice over
             .find($tabItems).attr({
@@ -114,6 +121,7 @@
           // aria-attributes
           // set aria-selected
           $tabBtns.each( function () {
+
             var $this = $(this),
                 $getID = $this.attr('href').split('#')[1];
 
@@ -128,8 +136,10 @@
 
           // Normally the first item in a tab list should be activated
           // and its panel displayed.  js-show-by-default is how this is
-          if ( $self.find(tabDefault).length === 0) {
-            $self.find(tabList + ' > li').first().children().addClass('js-show-by-default');
+          // set, because this class can also be added manually to a 
+          // tab, and it will instead be the tab that's shown by default
+          if ( $self.find(tabDefault).length === 0 ) {
+            $self.find(tabList + ' > li:first-child >').addClass(tabDEF);
           }
 
           // update the default tab with the appropriate attribute values
@@ -148,8 +158,10 @@
         */
         panelsSetup = function () {
 
+          // check to make sure a tab-panel-container is part of the mark-up. 
+          // if not, then wrap all the tab panels in it.
           if ( !$self.find(tabPanelContainer).length ) {
-            $self.find(tabPanel).wrapAll('<div class="tab-panel-container js-tabs-panel-container" />')
+            $self.find(tabPanel).wrapAll('<div class="tab-panel-container '+tabPanelContainer.split('.')[1]+ '" />')
           }
 
           // give the tab panel container a unique ID based off the
@@ -160,7 +172,8 @@
 
 
           // find all the panels
-          $(tabWidget + ' ' + tabPanel).each( function () {
+          $self.find(tabPanel).each( function () {
+
             var $this = $(this);
 
             // set their attributes
@@ -172,11 +185,11 @@
 
             // check to make sure the correct panel is shown by default,
             // which is determined by the tab with the js-show-by-default class
-            if ( $( '#'+ $this.attr('id')+'_tab' ).hasClass('js-show-by-default') ) {
+            if ( $( '#'+ $this.attr('id')+'_tab' ).hasClass(tabDEF) ) {
               $this.attr('aria-hidden', 'false');
             }
 
-          });
+          }); // end $self.find(tabPanel).each
         },
 
 
@@ -188,17 +201,18 @@
         tabsShow = function ( e ) {
 
           var $targetTab = $(this).find( e.target ),
-              $targetTabMenu = $targetTab.closest(tabList),
-              $otherBtns = $targetTabMenu.find(tabBtn),
+              $notTargetTab = $targetTab.closest(tabList).find(tabBtn),
               $targetPanel = $('#' + $targetTab.attr('aria-controls') );
 
+          // stop the uri to be added to the browser address bar,
+          // and any browser jumping
           e.preventDefault();
 
           // hide the tabs again
-          $otherBtns.attr({
+          $notTargetTab.attr({
             'aria-selected': 'false',
             'tabindex': '-1'
-          }).removeAttr('aria-live').removeClass('js-show-by-default');
+          }).removeAttr('aria-live').removeClass(tabDEF);
 
           // activate the selected
           $targetTab.attr({
@@ -208,11 +222,12 @@
           });
 
           // reset panels to hidden and reveal the newly selected panel
-          $targetPanel.parent().children().attr('aria-hidden', 'true');
+          $targetPanel.closest(tabPanelContainer).find('> ' + tabPanel).attr('aria-hidden', 'true');
+          
+          // reveal the currently targeted panel
           $targetPanel.attr('aria-hidden', 'false');
 
         },
-
 
 
 
@@ -236,36 +251,32 @@
           }
           else if ( $(e.target).closest(tabPanel) ) {
             $currentPanel = $(e.target).closest(tabPanelContainer);
-            $currentTabList = $currentPanel.closest(tabWidget).find($tabListRole);
-            $currentTab = $currentTabList.find('.js-tabs__list__item[aria-selected="true"]').parent();
+            $currentTabList = $currentPanel.closest(tabWidget).find('> ' + $tabListRole);
+            $currentTab = $currentTabList.find('[aria-selected="true"]').parent();
           }
 
 
           //now that we know our current tablist, we can declare these vars
-          var $firstTab = $currentTabList.find('li').first().children(),
-              $lastTab = $currentTabList.find('li').last().children(),
+          var $firstTab = $currentTabList.find('li:first-child').children(),
+              $lastTab = $currentTabList.find('li:last-child').children(),
+              $prevTab = $currentTab.prev().children(),
+              $nextTab = $currentTab.next().children();
 
-              $prevTab,
-              $nextTab;
-
-          // now determine what next/prev are
+          // if the current tab is the first or last tab, 
+          // then update prev and next values
           if ( $currentTab.is(':first-child') ) {
             $prevTab = $lastTab;
-            $nextTab = $currentTab.next().children();
           }
           else if ( $currentTab.is(':last-child') ) {
-            $prevTab = $currentTab.prev().children();
             $nextTab = $firstTab;
-          }
-          else {
-            $prevTab = $currentTab.prev().children();
-            $nextTab = $currentTab.next().children();
           }
 
 
           // depending on our e.target, define our keyboard controls
           if ( $(e.target).attr('role') === 'tab' ) {
+
             switch ( keyCode ) {
+
               case 39: // right
               case 40: // down
                 e.preventDefault();
@@ -278,7 +289,7 @@
                 $prevTab.focus();
                 break;
 
-              case 13:
+              case 13: // enter (return) key
               case 32: // space bar
                 e.preventDefault();
                 $(e.target).trigger('click');
@@ -286,13 +297,17 @@
 
               default:
                 break;
-            }
+
+            } // end switch
+
           }
           else if ( $(e.target).closest(tabPanel) ) {
+
             if ( e.ctrlKey ) {
               e.preventDefault(); // prevent default behavior
 
               switch ( e.keyCode ) {
+
                 case 38: // up
                   $currentTab.children().eq(0).focus();
                   break;
@@ -310,13 +325,16 @@
                   }, 10);
                   break;
 
-
                 default:
                   break;
-              }
-            }
-          }
-        };
+
+              } // end switch
+
+            } // end e.ctrlKey if
+
+          } // end else if
+
+        }; // end keytrolls
 
 
         // run setups on load
