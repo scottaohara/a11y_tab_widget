@@ -28,91 +28,14 @@
 
         <article>
 
-          <div class="explanation" style="display: none;">
-            <h1>
-              Accessible Tabs jQuery Plug-in
-            </h1>
 
-            <p>
-              Showcased below are two extreme examples of a tab component. The first example showcases the minimal mark-up requirements to create a tabbed interface that will fall back to a logical HTML structure if no JavaScript is enabled.
-            </p>
-
-            <p>
-              The second example shows how tabs can be loaded within tabs to your heart's content, though you really shouldn't do it because it really isn't the most ideal
-            </p>
-
-            <h2>
-              Keyboard Controls
-            </h2>
-
-            <p>
-              When navigating through the page via keyboard controls, a tabbed interface works in the following ways:
-            </p>
-
-            <h3>
-              Within the tablist
-            </h3>
-
-            <ul>
-              <li>
-                The selected tab in the tablist can receive focus,
-                while other tabs are removed from the tabindex.
-              </li>
-              <li>
-                <p>
-                  When focus is within the tablist the <kbd>right</kbd> &amp; <kbd>down</kbd>
-                  arrows move focus to the next tab in the tablist, while <kbd>left</kbd> &amp;
-                  <kbd>up</kbd> move focus to the previous tab in the tablist.
-                </p>
-                <p>
-                  If the first tab in the tablist is focused, and the <kbd>left</kbd> or <kbd>up</kbd>
-                  keys are pressed, then focus will move to the last tab in the tablist. The inverse
-                  will happen when the <kbd>right</kbd> or <kbd>down</kbd> keys are pressed while
-                  focused on the last tab in the tablist.
-                </p>
-              </li>
-              <li>
-                When focused on a tab, hitting <kbd>Space Bar</kbd> or <kbd>Enter</kbd>
-                will activate the associated tab panel.
-              </li>
-            </ul>
-
-            <h3>
-              Within a tabpanel
-            </h3>
-
-            <p>
-              When focused within a tab panel different keyboard controls become available.
-            </p>
-
-            <ul>
-              <li>
-                <kbd>CTRL</kbd> + <kbd>up</kbd> moves focus to the currently selected tab.
-              </li>
-              <li>
-                <kbd>CTRL</kbd> + <kbd>page up</kbd> moves focus from the currently selected
-                tab to previous tab in the tablist. In the case of the current tab being the
-                first in the tablist order, then this action will move focus to the last tab in the tablist.
-              </li>
-              <li>
-                <kbd>CTRL</kbd> + <kbd>page down</kbd> will move focus from the currently
-                selected tab to the next tab in the tablist. In the case of the current
-                tab being the last in the tablist order, then this action will move focus
-                to the first tab in the tablist.
-              </li>
-              <li>
-                Once focus has been moved from the panel, back to the tabs in the tablist,
-                the tablist keyboard controls become active again.
-              </li>
-            </ul>
-          </div> <!-- explanation -->
 
           <!--
             Example tab mark-up starts here
           -->
 
           <h3 class="txt-up-3" style="margin-top: 20px;">
-            Generated Tabs
+            Generated Tabs (not using <a href="https://www.w3.org/TR/2013/WD-wai-aria-practices-20130307/#tabpanel" target="_blank">ARIA recommendation</a>)
           </h3>
 
          <!--  <p>
@@ -129,7 +52,7 @@
             With that in mind
           </p> -->
 
-          <div class="tab-container" data-action="a11y-tabs" id="no_tabs_by_def">
+          <div class="tab-container" data-action="a11y-tabs" data-aria="false" id="no_tabs_by_def">
 
             <section class="tab-panel js-tabs__panel" data-tab-label="First Tab Example">
               <div class="content-area">

@@ -63,6 +63,10 @@
   .tab-panel[aria-hidden='true'], .tab-panel.is-hidden {
     display: none; }
 
+.tab-panel:focus {
+  box-shadow: inset 0 0 1px #222;
+}
+
 @media screen and (max-width: 700px) {
   .tab-list {
     display: block; }
