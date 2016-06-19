@@ -74,7 +74,7 @@
                   // attribute on the panel,
                   // OR the first heading (h1-h6) in the tab
                   // OR just call it Tab + # cause lol naming stuff
-                  $grabLabel = $this.attr('data-tab-label') || $this.find(':header:first-child').text() || 'Tab' + $panelNum,
+                  $grabLabel = $this.attr('data-tab-label') || $this.find(':header').first().text() || 'Tab' + $panelNum,
 
                   // Put it all together as a new <li>tab</li>
                   $createTabItem = '<li><a href="#'+$grabID+'" class="tab-list__item '+tabBtn.split('.')[1]+'">'+$grabLabel+'</a></li>';
