@@ -6,7 +6,7 @@
 
   a11yTabs.NS = "a11yTabs";
   a11yTabs.AUTHOR = "Scott O'Hara";
-  a11yTabs.VERION = "1.0.5";
+  a11yTabs.VERION = "1.1.0";
   a11yTabs.LICENSE = "https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md";
 
   var tabWidget = '[data-action="a11y-tabs"]';
@@ -19,6 +19,7 @@
 
       // setup global class variables
       var noARIA              = 'data-aria',
+          tabOrientation      = 'data-vertical',
           tabList             = '.js-tabs__list',
           tabBtn              = '.js-tabs__list__item',
           tabPanelContainer   = '.js-tabs__panel-container',
@@ -56,7 +57,6 @@
 
             // The tablist wasn't there, so let's add it in
             $self.prepend('<ul class="tab-list js-tabs__list" />');
-
 
             // now we need to cycle through all the existing panels to pull out
             // the necessary information to populate the tablist with tabs
@@ -111,6 +111,15 @@
               'role': 'tablist'
             })
           }
+
+          // if a tablist is set up vertically, we need to add an
+          // aria-orientation attribute, with a value of 'vertical'
+          // to the tablist parent container
+          if ( $self.attr(tabOrientation) ) {
+            $self.find('>' + tabList).attr('aria-orientation', 'vertical');
+          }
+
+
           $self.find(tabList).attr({'id': id + '_tablist'})
             // set the <li>s within the tab menu to have a
             // presentation role, to cut down on the verbose
@@ -118,7 +127,7 @@
             // voice over
             .find($tabItems).attr({
               'role': 'presentation'
-            });
+          });
 
 
           // for each tab item (link/button) within this tab menu,
@@ -296,22 +305,19 @@
 
             switch ( keyCode ) {
 
+              case 39: // right
+                if ( !$self.attr(noARIA) ) {
+                  e.preventDefault();
+                  $nextTab.focus();
+                }
+                break;
 
-                case 39: // right
-                case 40: // down
-                  if ( !$self.attr(noARIA) ) {
-                    e.preventDefault();
-                    $nextTab.focus();
-                  }
-                  break;
-
-                case 37: // left
-                case 38: // up
-                  if ( !$self.attr(noARIA) ) {
-                    e.preventDefault();
-                    $prevTab.focus();
-                  }
-                  break;
+              case 37: // left
+                if ( !$self.attr(noARIA) ) {
+                  e.preventDefault();
+                  $prevTab.focus();
+                }
+                break;
 
               case 13: // enter (return) key
               case 32: // space bar
@@ -324,8 +330,28 @@
 
             } // end switch
 
-          }
-          else if ( $(e.target).closest(tabPanel) && !$self.attr(noARIA) ) {
+            if ( $(e.target).closest(tabList)[0].hasAttribute('aria-orientation') ) {
+
+              switch ( keyCode ) {
+                // only if tabOrientation is set should the down arrow behave
+                // like the right arrow key
+                case 40: // down
+                  e.preventDefault();
+                  $nextTab.focus();
+                  break;
+
+                // only if tabOrientation is set should the up arrow behave
+                // like the left arrow key
+                case 38: // up
+                  e.preventDefault();
+                  $prevTab.focus();
+                  break;
+
+              } // end switch
+
+            }
+
+          } else if ( $(e.target).closest(tabPanel) && !$self.attr(noARIA) ) {
 
             if ( e.ctrlKey ) {
               e.preventDefault(); // prevent default behavior
