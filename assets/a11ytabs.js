@@ -1,5 +1,4 @@
 (function ( w, doc ) {
-  alert('asdfdasaf');
   'use strict';
 
   var a11yTabs = {};
