@@ -45,3 +45,11 @@ The classes sans the 'js-' prefix can be renamed as you see fit, though the styl
 </div> <!-- /.tab-container -->
 ```
 
+
+### License & Such
+
+This script was written by [Scott O'Hara](https://twitter.com/scottohara).
+
+It has an [MIT](https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md) license.
+
+Do with it what you will :)
