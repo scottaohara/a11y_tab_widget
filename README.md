@@ -6,9 +6,9 @@ Keyboard / screen reader accessible tabs written in jQuery plug-in.
 
 ## Minimum Mark-up Required
 
-To help facilitate the simplest integration with your CMS or code base, the required mark-up is as lean as possible, while maintaining a logical structure for instances where JavaScript may be disabled or unavailable.
+To help facilitate the simplest integration with your CMS or code base, the required markup is as lean as possible, while maintaining a logical structure for instances where JavaScript may be disabled or unavailable.
 
-The classes sans the 'js-' prefix can be renamed as you see fit, though the styling applied to them is also pretty minimal to allow for easier customization out of the box.
+The classes sans the 'js-' prefix can be renamed as you see fit, though the styling applied to them is also pretty minimal to allow for easier out of the box customization.
 
 ```html
 <div class="tab-container"
