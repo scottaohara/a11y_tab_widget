@@ -1,8 +1,17 @@
 'use strict';
 
+<<<<<<< HEAD
 // add utilities
 var util = {
   keyCodes: {
+=======
+// add helper functions
+
+
+// add utilities
+var util = {
+	keyCodes: {
+>>>>>>> restart
     UP: 38,
     DOWN: 40,
     LEFT: 37,
@@ -10,9 +19,13 @@ var util = {
     HOME: 36,
     END: 35,
     ENTER: 13,
+<<<<<<< HEAD
     SPACE: 32,
     BACKSPACE: 46,
     DELETE: 8
+=======
+    SPACE: 32
+>>>>>>> restart
   },
 
   generateID: function ( base ) {
@@ -20,6 +33,7 @@ var util = {
   }
 };
 
+<<<<<<< HEAD
 (function ( w, doc, undefined ) {
   /**
    * ARIA Tabbed Interface
@@ -363,8 +377,67 @@ var util = {
     init.call( this );
 
     return this;
+=======
+
+(function ( w, doc, undefined ) {
+	/**
+   * Author: Scott O'Hara
+   * Version: x
+   * License:
+   */
+  var ARIAtabsOptions = {
+  	baseID: 'atab_',
+  	elSelector: '[data-atab]',
+  	panelSelector: '[data-atabs-panel]',
+    tabSelector: '[data-atabs-tab]',
+  	elClass: 'atab',
+  	panelClass: 'atab__panel',
+  	tabListClass: 'atab__list',
+  	tabClass: 'atab__list__tab',
+    findTabs: true
+  };
+
+  /**
+   *
+   */
+  var ARIAtabs = function ( inst, options ) {
+  	var el = inst;
+  	var elID;
+  	var tabs = [];
+  	var activeIndex = 0;
+
+  	var _options = Object.assign(ARIAtabsOptions, options);
+
+  	var init = function () {
+  		var self = this;
+  	};
+
+
+
+	  var focusActiveTab = function () {
+	  	tabs[activeIndex].focus();
+	  }; // focusActiveTab()
+
+
+	  var attachEvents = function () {
+      //
+	  }; // attachEvents()
+
+	  init.call(this);
+
+	  return this;
+>>>>>>> restart
   }; // ARIAtabs()
 
   w.ARIAtabs = ARIAtabs;
 })( window, document );
 
+<<<<<<< HEAD
+=======
+
+
+/**
+ * Requirements
+ */
+
+>>>>>>> restart
