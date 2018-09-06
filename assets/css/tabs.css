@@ -1,0 +1,92 @@
+.atab {
+  border: 1px solid #999;
+  position: relative;
+}
+
+.atab:focus {
+  box-shadow: none;
+  outline: 2px solid;
+}
+
+.atabs__list {
+  display: flex;
+}
+
+.atabs__list[hidden] {
+  display: none;
+}
+
+/**
+ * Just to make sure invalid children of a
+ * tablist are not visible/accessible.
+ * these should also be removed from the DOM
+ */
+.atabs__list > :not([role="tab"]) {
+  display: none;
+}
+
+button.atabs__list__tab {
+  -webkit-appearance: none; /* btn */
+  appearance: none;
+  font: inherit;
+}
+
+.atabs__list__tab {
+  background: #fff;
+  border: 0;
+  border-bottom: 1px solid;
+  padding: .825em 1em;
+  text-decoration: none; /* if <a> */
+}
+
+.atabs__list__tab:not(:last-of-type) {
+  border-right: 1px solid;
+}
+
+.atabs__list__tab:active,
+.atabs__list__tab:hover,
+.atabs__list__tab:focus {
+  background: #4464c2;
+  color: #fff;
+  outline: none;
+}
+
+.atabs__list__tab > span,
+.atabs__list__tab > svg {
+  pointer-events: none;
+}
+
+.atabs__list__tab[aria-selected="true"] {
+  background: #213469;
+  border-bottom: 3px solid #213469; /* high contrast vid */
+}
+
+.atabs__panel[hidden] {
+  display: none;
+}
+
+.atabs__panel {
+  border: 1px solid;
+  border-top: 0;
+  padding: 1.25em;
+}
+
+.atabs__panel > :first-child {
+  margin-top: 0;
+}
+
+.atabs__panel > :last-child {
+  margin-bottom: 0;
+}
+
+.atabs__panel:focus {
+  box-shadow: inset 0 0 1px #222;
+}
+
+
+
+
+
+/**
+ * need aria-orientation styles
+ */
