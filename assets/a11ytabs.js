@@ -183,8 +183,14 @@
           // give the tab panel container a unique ID based off the
           // main ID of the a11y tabs component.
           $self.find(tabPanelContainer).attr({
-            'id': id + '_tpc'
+            'id': id + '_tpc',
           });
+
+          if ( !$self.attr(noARIA) ) {
+            $self.find(tabPanelContainer).attr({
+              'tabindex': '0'
+            });
+          }
 
 
           // find all the panels
