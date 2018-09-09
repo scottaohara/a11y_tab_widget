@@ -64,6 +64,7 @@
         <h2>Test 2</h2>
 
         <section data-atabs>
+          <div data-atabs-list>test</div>
           <h3 data-atabs-tab="1">Item 1</h3>
           <div data-atabs-panel="1">
             <p>content</p>
@@ -110,7 +111,14 @@
 
     </div> <!-- /.page (demo layout) -->
 
-    <script src="assets/js/index.js"></script>
+    <script src="index.js"></script>
+    <script>
+      var selector = '[data-atabs]';
+      var els = document.querySelectorAll(selector);
 
+      for ( var i = 0; i < els.length; i++ ) {
+        var nTabs = new ARIAtabs( els[i] );
+      }
+    </script>
   </body>
 </html>
