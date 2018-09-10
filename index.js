@@ -187,8 +187,26 @@ var util = {
     };
 
 
+    var incrementActiveIndex = function () {
+      if ( activeIndex < tabs.length - 1 ) {
+        return ++activeIndex;
+      }
+      else {
+        activeIndex = 0;
+        return activeIndex;
+      }
+    }; // incrementActiveIndex()
 
 
+    var decrementActiveIndex = function () {
+      if ( activeIndex > 0 ) {
+        return --activeIndex;
+      }
+      else {
+        activeIndex = tabs.length - 1;
+        return activeIndex;
+      }
+    }; // decrementActiveIndex()
 
 
     var focusActiveTab = function () {
