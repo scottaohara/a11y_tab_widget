@@ -76,6 +76,7 @@ var util = {
 
       // find tabPanels
 
+      tabTOC();
       setupPanels();
     };
 
@@ -95,6 +96,7 @@ var util = {
       tabs[idx].splice(idx, 1);
     }; // this.removeTab()
 
+
     var generateTablist = function ( tabList ) {
       var newTablist = el.querySelector(_options.tablistSelector) || doc.createElement('div');
       newTablist.setAttribute('role', 'tablist');
@@ -107,12 +109,22 @@ var util = {
       return tabList
     }; // generateTablist()
 
+
     var generateTabs = function () {
 
     }; // generateTabs()
 
 
     var tabTOC = function () {
+      if ( el.getAttribute('data-atabs-toc') ) {
+        var toc = doc.getElementById(el.getAttribute('data-atabs-toc'));
+        // safety check to make sure a toc isn't set to be deleted
+        // after it's already deleted. e.g. if there are two
+        // dat-atabs-toc that equal the same ID.
+        if ( toc ) {
+          toc.parentNode.removeChild(toc);
+        }
+      }
     };
 
 
