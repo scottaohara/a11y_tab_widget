@@ -13,7 +13,9 @@ var util = {
     HOME: 36,
     END: 35,
     ENTER: 13,
-    SPACE: 32
+    SPACE: 32,
+    BACKSPACE: 46,
+    DELETE: 8
   },
 
   generateID: function ( base ) {
