@@ -75,9 +75,7 @@ var util = {
       tabList = generateTablist();
 
       // find tabPanels
-      tabPanel = el.querySelectorAll(_options.panelSelector);
 
-      //
       setupPanels();
     };
 
@@ -113,39 +111,26 @@ var util = {
 
     }; // generateTabs()
 
-    var tabHeadings = function () {
-
-    }; // tabHeadings()
 
     var tabTOC = function () {
-
-    };
-
-
-    var populateTablist = function () {
-
     };
 
 
 
-    var setupTablist = function () {
-
-    }; // setupTablist()
 
 
-    var setupPanels = function () {
 
-    }; // setupPanels()
 
-    // tabs have a single focus stop
+
+
+
+
 
     var focusActiveTab = function () {
       tabs[activeIndex].focus();
     }; // focusActiveTab()
 
 
-    var attachEvents = function () {
-    }; // attachEvents()
 
     init.call(this);
 
