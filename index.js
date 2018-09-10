@@ -68,7 +68,8 @@ var util = {
 
     var init = function () {
       var self = this;
-      elID = el.id || util.generateID(_options.baseID);
+      el.id = el.id || util.generateID(_options.baseID);
+      elID = el.id
 
       // find or create the tabList
       tabList = el.querySelector('[role="tablist"]') || generateTablist();
