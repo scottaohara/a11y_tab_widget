@@ -57,7 +57,9 @@ var util = {
     var elID;
     var tab;
     var tabList;
-    var tabPanel;
+    var tabPanels;
+
+    var acIDs = [];
 
     var tabs = [];
     var activeIndex = 0;
