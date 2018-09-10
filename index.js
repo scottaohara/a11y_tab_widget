@@ -72,8 +72,7 @@ var util = {
       elID = el.id
 
       // find or create the tabList
-      tabList = el.querySelector('[role="tablist"]') || generateTablist();
-      tabList.classList.add(_options.tabListClass);
+      tabList = generateTablist();
 
       // find tabPanels
       tabPanel = el.querySelectorAll(_options.panelSelector);
@@ -101,9 +100,12 @@ var util = {
     var generateTablist = function ( tabList ) {
       var newTablist = el.querySelector(_options.tablistSelector) || doc.createElement('div');
       newTablist.setAttribute('role', 'tablist');
+      newTablist.classList.add(_options.tabListClass);
+      newTablist.id = elID + '_list';
+      newTablist.innerText = '';
       el.insertBefore(newTablist, el.querySelector(':first-child'));
 
-      tabList = newTablist
+      tabList = doc.getElementById(newTablist.id);
       return tabList
     }; // generateTablist()
 
