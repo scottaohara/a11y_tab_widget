@@ -79,6 +79,8 @@ var util = {
 
       tabTOC();
       setupPanels();
+      generateTabs();
+
       tab = doc.querySelectorAll('#' + elID + ' > ' + '[role="tablist"] [role="tab"]');
     };
 
@@ -112,7 +114,39 @@ var util = {
 
 
     var generateTabs = function () {
+      var i;
+      var newTab;
 
+      for ( i = 0; i < tabPanels.length; i++ ) {
+        var panelHeading = tabPanels[i].querySelector(_options.headingSelector);
+        var panelLabel = tabPanels[i].hasAttribute('data-atabs-panel-label');
+
+        newTab = doc.createElement('button');
+        newTab.setAttribute('role', 'tab');
+        newTab.setAttribute('aria-controls', acIDs[i]);
+        newTab.classList.add(_options.tabClass);
+
+        if ( activeIndex === i ) {
+          newTab.setAttribute('aria-selected', 'true');
+        }
+        else {
+          newTab.setAttribute('aria-selected', 'false');
+          newTab.tabIndex = '-1';
+        }
+
+
+        if ( panelLabel ) {
+          newTab.textContent = tabPanels[i].getAttribute('data-atabs-panel-label');
+        }
+        else if ( panelHeading.textContent !== '' ) {
+          newTab.textContent = panelHeading.textContent;
+        }
+        else {
+          newTab.textContent = _options.defaultTabLabel + (i + 1);
+        }
+
+        tabList.appendChild(newTab);
+      }
     }; // generateTabs()
 
 
