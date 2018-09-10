@@ -35,16 +35,18 @@ var util = {
    * License:
    */
   var ARIAtabsOptions = {
-    baseID: 'atab',
+    baseID: 'atab_',
     elSelector: '[data-atabs]',
     tablistSelector: '[data-atabs-list]',
     panelSelector: '[data-atabs-panel]',
-    tabSelector: '[data-atabs-tab]',
+    headingSelector: '[data-atabs-heading]',
     elClass: 'atabs',
     panelClass: 'atabs__panel',
     tabListClass: 'atabs__list',
     tabClass: 'atabs__list__tab',
-    findTabs: true
+    findTabs: true,
+    defaultTabLabel: 'Tab ',
+    orientation: 'horizontal'
   };
 
   /**
