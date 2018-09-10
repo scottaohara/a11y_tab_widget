@@ -82,6 +82,10 @@ var util = {
       generateTabs();
 
       tab = doc.querySelectorAll('#' + elID + ' > ' + '[role="tablist"] [role="tab"]');
+
+      for ( var i = 0; i < tab.length; i++ ) {
+        self.addTab(tab[i]);
+      }
     };
 
     this.addTab = function ( newTab, idx ) {
