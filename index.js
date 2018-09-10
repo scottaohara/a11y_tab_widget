@@ -75,9 +75,11 @@ var util = {
       tabList = generateTablist();
 
       // find tabPanels
+      tabPanels = doc.querySelectorAll('#' + elID + ' > ' + _options.panelSelector);
 
       tabTOC();
       setupPanels();
+      tab = doc.querySelectorAll('#' + elID + ' > ' + '[role="tablist"] [role="tab"]');
     };
 
     this.addTab = function ( newTab, idx ) {
@@ -88,7 +90,6 @@ var util = {
       else {
         tabs.push(newTab);
       }
-      // add events here
     } // this.addTab()
 
     this.removeTab = function ( idx ) {
