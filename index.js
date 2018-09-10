@@ -163,10 +163,23 @@ var util = {
     };
 
 
+    var setupPanels = function () {
+      var i;
 
+      for ( i = 0; i < tabPanels.length; i++ ) {
+        tabPanels[i].id = tabPanels[i].id || elID + '_panel_' + i;
+        acIDs.push(tabPanels[i].id);
 
+        tabPanels[i].classList.add(_options.panelClass);
+        tabPanels[i].hidden = true;
 
+        if ( tabPanels[i].hasAttribute('data-atabs-default') ) {
+          activeIndex = i;
+        }
+      }
 
+      tabPanels[activeIndex].hidden = false;
+    };
 
 
 
