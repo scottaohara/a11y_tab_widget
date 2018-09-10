@@ -28,17 +28,18 @@
         </nav>
 
         <div data-atabs data-atabs-toc="toc">
-          <section data-atabs-panel>
-            <h3 data-atabs-tab>
+          <section id="a" data-atabs-panel>
+            <h3 data-atabs-heading>
               Item 1
             </h3>
             <p>
-              Content goes here.
+              No explicit default was set, so this
+              panel should be shown by default.
             </p>
             <p><a href="#">and a link for fun</a>.</p>
           </section>
-          <section data-atabs-panel>
-            <h3 data-atabs-tab>
+          <section id="b" data-atabs-panel>
+            <h3 data-atabs-heading>
               Item 2
             </h3>
             <p>
@@ -46,8 +47,8 @@
             </p>
             <p><a href="#">and a link for fun</a>.</p>
           </section>
-          <section data-atabs-panel>
-            <h3 data-atabs-tab>
+          <section id="c" data-atabs-panel>
+            <h3 data-atabs-heading>
               Item 3
             </h3>
             <p>
@@ -63,50 +64,46 @@
       <section>
         <h2>Test 2</h2>
 
-        <section data-atabs>
+        <section data-atabs data-atabs-toc="toc">
           <div data-atabs-list>test</div>
-          <h3 data-atabs-tab="1">Item 1</h3>
-          <div data-atabs-panel="1">
+
+          <div data-atabs-panel data-atabs-panel-label="Number 1">
+            <h3 data-atabs-heading>Item 1</h3>
             <p>content</p>
           </div>
 
-          <div data-atabs-panel data-atabs-tab-label="Label 2">
-            <h3>Item 2</h3>
-            <p>content</p>
+          <div data-atabs-panel data-atabs-default>
+            <h3 data-atabs-heading>This heading will remain</h3>
+            <p>default tab</p>
+
+            <section data-atabs>
+              <div data-atabs-list>test</div>
+
+              <div data-atabs-panel>
+                <h3 data-atabs-heading></h3>
+                <p>content</p>
+              </div>
+
+              <div data-atabs-panel data-atabs-default data-atabs-panel-label="Label 2a">
+                <h3>This heading will remain</h3>
+                <p>default tab</p>
+              </div>
+
+              <div data-atabs-panel>
+                <h3 data-atabs-heading>i don't know</h3>
+                <p>content related to item 3.</p>
+              </div>
+            </section>
+
           </div>
 
-          <h3 data-atabs-tab="a">Item 3</h3>
-          <div data-atabs-panel="a">
+          <div data-atabs-panel>
+            <h3 data-atabs-heading>hmm</h3>
             <p>content related to item 3.</p>
           </div>
         </section>
       </section>
 
-
-      <section>
-        <h2>Test 3</h2>
-        <div data-atabs>
-          <div role="tablist" class="atabs__list">
-            <button role="tab" class="atabs__list__tab">B Tab</button>
-            <div role="tab" class="atabs__list__tab">D Tab</div>
-            <a href="#!" role="tab" class="atabs__list__tab">A Tab</a>
-            <span>Not a tab</span>
-          </div>
-          <div role="tabpanel" class="atabs__panel">
-            <p>Content area 1</p>
-          </div>
-          <div role="tabpanel" class="atabs__panel">
-            <p>Content area 2</p>
-          </div>
-          <div role="tabpanel" class="atabs__panel">
-            <p>Content area 3</p>
-          </div>
-          <div>
-            <p>Content area 4</p>
-          </div>
-        </div>
-
-      </section>
 
 
     </div> <!-- /.page (demo layout) -->
