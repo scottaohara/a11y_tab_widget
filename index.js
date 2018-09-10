@@ -96,6 +96,7 @@ var util = {
       else {
         tabs.push(newTab);
       }
+      newTab.addEventListener('click', activateTab, false);
     } // this.addTab()
 
     this.removeTab = function ( idx ) {
@@ -195,6 +196,8 @@ var util = {
     }; // focusActiveTab()
 
 
+    var activateTab = function ( e ) {
+    };
 
     init.call(this);
 
