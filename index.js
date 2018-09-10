@@ -46,7 +46,8 @@ var util = {
     tabClass: 'atabs__list__tab',
     findTabs: true,
     defaultTabLabel: 'Tab ',
-    orientation: 'horizontal'
+    orientation: 'horizontal',
+    activate: 'manual'
   };
 
   /**
@@ -88,6 +89,7 @@ var util = {
       }
     };
 
+
     this.addTab = function ( newTab, idx ) {
       if ( idx ) {
         idx = idx - 1;
@@ -97,7 +99,9 @@ var util = {
         tabs.push(newTab);
       }
       newTab.addEventListener('click', activateTab, false);
+      newTab.addEventListener('keydown', onKeyPress, false);
     } // this.addTab()
+
 
     this.removeTab = function ( idx ) {
       tabs[idx].removeEventListener('click');
@@ -139,7 +143,6 @@ var util = {
           newTab.tabIndex = '-1';
         }
 
-
         if ( panelLabel ) {
           newTab.textContent = tabPanels[i].getAttribute('data-atabs-panel-label');
         }
@@ -165,7 +168,7 @@ var util = {
           toc.parentNode.removeChild(toc);
         }
       }
-    };
+    }; // tabTOC()
 
 
     var setupPanels = function () {
@@ -184,7 +187,7 @@ var util = {
       }
 
       tabPanels[activeIndex].hidden = false;
-    };
+    }; // setupPanels()
 
 
     var incrementActiveIndex = function () {
@@ -210,12 +213,96 @@ var util = {
 
 
     var focusActiveTab = function () {
+      tabs[activeIndex].tabIndex = 0;
       tabs[activeIndex].focus();
     }; // focusActiveTab()
 
 
+    var onKeyPress = function ( e ) {
+      var keyCode = e.keyCode || e.which;
+
+      switch ( keyCode ) {
+
+        case util.keyCodes.SPACE:
+          e.preventDefault();
+          e.target.click();
+          break;
+
+        case util.keyCodes.LEFT:
+          if ( _options.orientation === 'horizontal' ) {
+            e.preventDefault();
+            e.target.tabIndex = '-1';
+            decrementActiveIndex();
+            focusActiveTab();
+            if ( _options.activate === 'automatic' ) {
+              activateTab()
+            }
+          }
+          break;
+
+        case util.keyCodes.RIGHT:
+          if ( _options.orientation === 'horizontal' ) {
+            e.preventDefault();
+            e.target.tabIndex = '-1';
+            incrementActiveIndex();
+            focusActiveTab();
+          }
+          break;
+
+        case util.keyCodes.UP:
+          if ( _options.orientation === 'vertical' ) {
+            e.preventDefault();
+            e.target.tabIndex = '-1';
+            decrementActiveIndex();
+            focusActiveTab();
+          }
+          break;
+
+        case util.keyCodes.DOWN:
+          if ( _options.orientation === 'vertical' ) {
+            e.preventDefault();
+            e.target.tabIndex = '-1';
+            incrementActiveIndex();
+            focusActiveTab();
+          }
+          break;
+
+        case util.keyCodes.END:
+          e.preventDefault();
+          e.target.tabIndex = '-1';
+          activeIndex = tabs.length - 1;
+          focusActiveTab();
+          break;
+
+        case util.keyCodes.HOME:
+          e.preventDefault();
+          e.target.tabIndex = '-1';
+          activeIndex = 0;
+          focusActiveTab();
+          break;
+
+        case util.keyCodes.DELETE:
+        case util.keyCodes.BACKSPACE:
+          var getParent = e.target.parentNode;
+          var getPanel = e.target.getAttribute('aria-controls');
+          getParent.removeChild(e.target);
+          getParent.parentNode.removeChild(doc.getElementById(getPanel))
+          /**
+           * this should be coupled with the removeTab
+           * function.
+           */
+
+          break;
+
+        default:
+          break;
+      }
+    }; // onKeyPress()
+
+
     var activateTab = function ( e ) {
-    };
+    }; // activateTab()
+
 
     init.call(this);
 
