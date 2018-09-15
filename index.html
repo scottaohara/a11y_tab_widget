@@ -29,7 +29,7 @@
 
         <div data-atabs data-atabs-toc="toc">
           <section id="a" data-atabs-panel>
-            <h3 data-atabs-heading>
+            <h3 data-atabs-label>
               Item 1
             </h3>
             <p>
@@ -39,7 +39,7 @@
             <p><a href="#">and a link for fun</a>.</p>
           </section>
           <section id="b" data-atabs-panel>
-            <h3 data-atabs-heading>
+            <h3 data-atabs-label>
               Item 2
             </h3>
             <p>
@@ -48,7 +48,7 @@
             <p><a href="#">and a link for fun</a>.</p>
           </section>
           <section id="c" data-atabs-panel>
-            <h3 data-atabs-heading>
+            <h3 data-atabs-label>
               Item 3
             </h3>
             <p>
@@ -65,22 +65,25 @@
         <h2>Test 2</h2>
 
         <section data-atabs data-atabs-toc="toc">
+
+          Hi i'm just here for fun
+
           <div data-atabs-list>test</div>
 
           <div data-atabs-panel data-atabs-panel-label="Number 1">
-            <h3 data-atabs-heading>Item 1</h3>
+            <h3 data-atabs-label>Item 1</h3>
             <p>content</p>
           </div>
 
           <div data-atabs-panel data-atabs-default>
-            <h3 data-atabs-heading>This heading will remain</h3>
+            <h3 data-atabs-label>This heading will remain</h3>
             <p>default tab</p>
 
             <section data-atabs>
               <div data-atabs-list>test</div>
 
               <div data-atabs-panel>
-                <h3 data-atabs-heading></h3>
+                <h3 data-atabs-label></h3>
                 <p>content</p>
               </div>
 
@@ -90,7 +93,7 @@
               </div>
 
               <div data-atabs-panel>
-                <h3 data-atabs-heading>i don't know</h3>
+                <h3 data-atabs-label>i don't know</h3>
                 <p>content related to item 3.</p>
               </div>
             </section>
@@ -98,24 +101,45 @@
           </div>
 
           <div data-atabs-panel>
-            <h3 data-atabs-heading>hmm</h3>
+            <h3 data-atabs-label>hmm</h3>
             <p>content related to item 3.</p>
           </div>
         </section>
       </section>
-
-
-
     </div> <!-- /.page (demo layout) -->
+
+
+
+
+
+    <section id="inject-content">
+      <h4>External Section</h4>
+      <p>
+        This section exists outside of the main tab grouping.
+      </p>
+    </section>
+
 
     <script src="index.js"></script>
     <script>
-      var selector = '[data-atabs]';
-      var els = document.querySelectorAll(selector);
+      var tabInstance = '[data-atabs]';
+      var els = document.querySelectorAll(tabInstance);
+      var injectContent = document.getElementById('inject-content');
+      var cloneContent = injectContent.cloneNode(true);
+      var allTabs = [];
 
+      // Generate all tab instances
       for ( var i = 0; i < els.length; i++ ) {
         var nTabs = new ARIAtabs( els[i] );
+        allTabs.push(nTabs);
       }
+
+      // remove the original instance of the external content from the document.
+      injectContent.parentNode.removeChild(injectContent);
+
+      // Inject the external content into a particular
+      // tab, captured in the allTabs var.
+      allTabs[0].addTab(cloneContent, 'New Title');
     </script>
   </body>
 </html>
