@@ -148,39 +148,41 @@ var util = {
     };
 
     var buildTabs = function () {
-      var t, i = 0;
+      var t;
       var tabs = el.querySelectorAll(':scope > ' + _options.panelSelector);
 
-      for (; i < tabs.length; i++) {
+      for ( var i = 0; i < tabs.length; i++ ) {
         this.addTab(tabs[i]);
       }
     };
 
     var deleteTOC = function () {
-      if (el.getAttribute('data-atabs-toc')) {
+      if ( el.getAttribute('data-atabs-toc') ) {
         var toc = doc.getElementById(el.getAttribute('data-atabs-toc'));
         // safety check to make sure a toc isn't set to be deleted
         // after it's already deleted. e.g. if there are two
         // dat-atabs-toc that equal the same ID.
-        if (toc) {
+        if ( toc ) {
           toc.parentNode.removeChild(toc);
         }
       }
     }; // deleteTOC()
 
     var incrementActiveIndex = function () {
-      if (activeIndex < _tabs.length - 1) {
+      if ( activeIndex < _tabs.length - 1 ) {
         return ++activeIndex;
-      } else {
+      }
+      else {
         activeIndex = 0;
         return activeIndex;
       }
     }; // incrementActiveIndex()
 
     var decrementActiveIndex = function () {
-      if (activeIndex > 0) {
+      if ( activeIndex > 0 ) {
         return --activeIndex;
-      } else {
+      }
+      else {
         activeIndex = _tabs.length - 1;
         return activeIndex;
       }
@@ -206,18 +208,19 @@ var util = {
           break;
 
         case util.keyCodes.LEFT:
-          if (_options.orientation === 'horizontal') {
+          if ( _options.orientation === 'horizontal' ) {
             e.preventDefault();
             decrementActiveIndex();
             focusActiveTab();
-            if (_options.activate === 'automatic') {
+
+            if ( _options.activate === 'automatic' ) {
               activateTab();
             }
           }
           break;
 
         case util.keyCodes.RIGHT:
-          if (_options.orientation === 'horizontal') {
+          if ( _options.orientation === 'horizontal' ) {
             e.preventDefault();
             incrementActiveIndex();
             focusActiveTab();
@@ -225,7 +228,7 @@ var util = {
           break;
 
         case util.keyCodes.UP:
-          if (_options.orientation === 'vertical') {
+          if ( _options.orientation === 'vertical' ) {
             e.preventDefault();
             decrementActiveIndex();
             focusActiveTab();
@@ -233,10 +236,14 @@ var util = {
           break;
 
         case util.keyCodes.DOWN:
-          if (_options.orientation === 'vertical') {
+          if ( _options.orientation === 'vertical' ) {
             e.preventDefault();
             incrementActiveIndex();
             focusActiveTab();
+          }
+          else {
+            e.preventDefault();
+            _tabs[activeIndex].content.focus();
           }
           break;
 
