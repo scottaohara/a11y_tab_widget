@@ -52,13 +52,9 @@ var util = {
     var activeIndex = 0;
     var el = inst;
     var elID;
-    var oldIndex = -1;
-    var tabs = [];
-
 
     var init = function () {
-      el.id = el.id || util.generateID(_options.baseID);
-      elID = el.id;
+      elID = el.id || util.generateID(_options.baseID);
 
       // find or create the tabList
       _tabListContainer = generateTablistContainer();
@@ -193,12 +189,14 @@ var util = {
       _tabs[activeIndex].button.focus();
     }; // focusActiveTab()
 
-    var onClick = function (index) {
+
+    var onClick = function ( index ) {
       activeIndex = index;
       activateTab();
-    };
+    }; // onClick()
 
-    var onKeyPress = function (e) {
+
+    var onKeyPress = function ( e ) {
       var keyCode = e.keyCode || e.which;
 
       switch (keyCode) {
@@ -289,11 +287,13 @@ var util = {
       }
     }; // onKeyPress()
 
+
     var deactivateTabs = function () {
       for ( var i = 0; i < _tabs.length; i++ ) {
         deactivateTab(i);
       }
-    };
+    }; // deactivateTabs()
+
 
     var deactivateTab = function ( idx ) {
       _tabs[idx].content.hidden = true;
