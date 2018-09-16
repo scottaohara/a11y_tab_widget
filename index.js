@@ -121,7 +121,7 @@ var util = {
             c.querySelector(_options.headingSelector) && c.querySelector(_options.headingSelector).textContent,
             _options.defaultTabLabel + (i + 1)
           ]
-          .filter(function(l) {
+          .filter( function ( l ) {
             return l && l !== '';
           })[0];
 
@@ -139,7 +139,7 @@ var util = {
         el.appendChild(content);
       }
 
-      if (c.hasAttribute('data-atabs-default') ) {
+      if ( c.getAttribute('data-atabs-panel') === 'default' ) {
         activeIndex = i;
       }
 
@@ -275,7 +275,7 @@ var util = {
       });
     };
 
-    var deactivateTab = function(idx) {
+    var deactivateTab = function ( idx ) {
       _tabs[idx].content.hidden = true;
       _tabs[idx].button.tabIndex = -1;
       _tabs[idx].button.setAttribute('aria-selected', false);
@@ -289,7 +289,7 @@ var util = {
       active.button.tabIndex = 0;
     }; // activateTab()
 
-    init.call(this);
+    init.call( this );
 
     return this;
   }; // ARIAtabs()
