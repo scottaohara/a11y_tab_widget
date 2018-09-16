@@ -284,7 +284,6 @@ var util = {
       var active = _tabs[activeIndex];
       deactivateTabs();
       active.content.hidden = false;
-      active.button.focus();
       active.button.setAttribute('aria-selected', true);
       active.button.tabIndex = 0;
     }; // activateTab()
