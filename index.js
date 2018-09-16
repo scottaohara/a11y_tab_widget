@@ -204,7 +204,7 @@ var util = {
       switch (keyCode) {
         case util.keyCodes.SPACE:
           e.preventDefault();
-          e.target.click();
+          activateTab();
           break;
 
         case util.keyCodes.LEFT:
