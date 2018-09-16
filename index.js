@@ -266,10 +266,10 @@ var util = {
       }
     }; // onKeyPress()
 
-    var deactivateTabs = function() {
-      _tabs.forEach(function(t, i) {
+    var deactivateTabs = function () {
+      for ( var i = 0; i < _tabs.length; i++ ) {
         deactivateTab(i);
-      });
+      }
     };
 
     var deactivateTab = function ( idx ) {
