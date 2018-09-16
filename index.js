@@ -100,6 +100,7 @@ var util = {
 
         t.addEventListener('click', function() {
           onClick.call( this, index );
+          this.focus();
         }, false);
 
         t.addEventListener('keydown', onKeyPress.bind(this), false);
