@@ -252,14 +252,30 @@ var util = {
           focusActiveTab();
           break;
 
-        case util.keyCodes.DELETE:
-        case util.keyCodes.BACKSPACE:
-          var getParent = e.target.parentNode;
-          var getPanel = e.target.getAttribute('aria-controls');
-          getParent.removeChild(e.target);
-          getParent.parentNode.removeChild(doc.getElementById(getPanel));
+        // case util.keyCodes.DELETE:
+        // case util.keyCodes.BACKSPACE:
+          /*
+            TODO
+            break this out into its own function
+           */
+          // var getParent = e.target.parentNode;
+          // var getPanel = e.target.getAttribute('aria-controls');
+          // getParent.removeChild(e.target);
+          // getParent.parentNode.removeChild(doc.getElementById(getPanel));
 
-          break;
+          // activateTab( (activeIndex - 1) );
+          /**
+           * if the active tab is the tab deleted, need to focus
+           * the previous tab in the list.
+           *
+           * if the deleted tab is not the current activeIndex, then
+           * set keyboard focus to the previous tab in the list.
+           *
+           * if there is only one tab left in the list, this function
+           * should not run.
+           */
+
+          // break;
 
         default:
           break;
