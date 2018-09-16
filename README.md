@@ -1,55 +1,68 @@
-Accessible Tabs
-================
-
-Keyboard / screen reader accessible tabs written in jQuery plug-in.
+# Accessible Tabbed Interfaces
+A script to progressively enhance sectioned content into an accessible tabbed interface.
 
 
-## Minimum Mark-up Required
+## How to use 
+To help facilitate the simplest integration with your code base, the required markup is as lean as possible.
 
-To help facilitate the simplest integration with your CMS or code base, the required markup is as lean as possible, while maintaining a logical structure for instances where JavaScript may be disabled or unavailable.
-
-The classes sans the 'js-' prefix can be renamed as you see fit, though the styling applied to them is also pretty minimal to allow for easier out of the box customization.
-
+### Minimum Setup
 ```html
-<div class="tab-container"
-     data-action="a11y-tabs"
-     id="unique_id">
-
-  <section class="tab-panel js-tabs__panel" data-tab-label="First Tab">
-    <h2>Heading of Panel 1</h2>
-    ...
+<div data-atabs>
+  <div data-atabs-panel 
+    data-atabs-panel-label="Tab label goes here">
+    <!-- all panel content goes here -->
+  </div>
+  <section data-atabs-panel>
+    <h# data-atabs-label>
+      <!-- 
+        The text/markup injected the panel's 
+        associated role="tab" element.
+      -->
+    </h#>
   </section>
-  <!--
-    The above panel will have a tab generated with the
-    text from the [data-tab-label] attribute
-  -->
+</div>
+<!-- ... -->
+<script src="index.js"></script>
+<script>
+  var widget = '[data-atabs]';
+  var els = document.querySelectorAll(widget);
 
-  <section class="tab-panel js-tabs__panel">
-    <h#>Heading of Panel 2</h#>
-    ...
-  </section>
-  <!--
-    The above panel will have a tab generated with the
-    text from the <h#>
-  -->
-
-  <section class="tab-panel js-tabs__panel">
-    ...
-  </section>
-  <!--
-    The above panel has neither a [data-tab-label] nor a
-    <h#>, so the generated tab will have the text of "Tab 3"
-    as this is the third panel.
-  -->
-
-</div> <!-- /.tab-container -->
+  // Generate all tab instances
+  for ( var i = 0; i < els.length; i++ ) {
+    var nTabs = new ARIAtabs( els[i] );
+  }
+</script>
 ```
 
 
-### License & Such
 
-This script was written by [Scott O'Hara](https://twitter.com/scottohara).
+
+
+
+## User Experience
+The manner in which you interact with a Tab Widget is dependent on your input device. Not all devices/assistive applications are listed here, but the following will give you a baseline of expectations if when testing this script, or comparing your own Tab Widget.
+
+### Mouse / Touch
+Clicking or tapping a `tab` will set that `tab` to its selected state, and reveal its associated `tabpanel`, while deselecting and hiding the previously selected `tab` and its `tabpanel`.
+
+#### Mouse / Touch + Screen Reader
+If using a mouse while also using NVDA with the setting "Report role when mouse enters object", NVDA will announce "Tab. Accessible Name."
+
+If using iOS with VoiceOver enabled, and exploring by touch, a `tab` should announce itself as "Accessible name. Tab. Number of Numbers".  If the touched `tab` is currently active VoiceOver will announce "Selected" prior to the accessible name.
+
+
+
+## Additional Reading
+* [ARIA Specification: Tab Role](https://www.w3.org/TR/wai-aria-1.2/#tab)
+* [ARIA Specification: Tablist Role](https://www.w3.org/TR/wai-aria-1.2/#tablist)
+* [Aria Specification: Tabpanel Role](https://www.w3.org/TR/wai-aria-1.2/#tabpanel)
+* [WAI-ARIA Authoring Practices: Tab Widgets](https://www.w3.org/TR/wai-aria-practices-1.2/#tabpanel)
+
+## License, Thank yous & Such
+This script was written by Scott O'Hara: [Website](https://www.scottohara.me) [Twitter](https://twitter.com/scottohara).
 
 It has an [MIT](https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md) license.
 
-Do with it what you will :)
+Special thanks to [Josh Drumm](https://github.com/wwnjp) for helping me with some JavaScript refactoring.
+
+Use it, modify it, contribute to it to help make your project more accessible :)
