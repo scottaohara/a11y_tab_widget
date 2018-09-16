@@ -77,6 +77,11 @@
   padding: 1.25em;
 }
 
+.atabs__panel:focus {
+  box-shadow: 0;
+  outline: 2px solid;
+}
+
 .atabs__panel > :first-child {
   margin-top: 0;
 }
