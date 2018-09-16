@@ -15,12 +15,12 @@ var util = {
     DELETE: 8
   },
 
-  generateID: function(base) {
+  generateID: function ( base ) {
     return base + Math.floor(Math.random() * 999);
   }
 };
 
-(function(w, doc, undefined) {
+(function ( w, doc, undefined ) {
   /**
    * ARIA Tabbed Interface
    * Creates a tab list to toggle the visibility of
@@ -34,7 +34,7 @@ var util = {
     baseID: 'atab_',
     tablistSelector: '[data-atabs-list]',
     panelSelector: '[data-atabs-panel]',
-    headingSelector: '[data-atabs-label]',
+    headingSelector: '[data-atabs-heading]',
     elClass: 'atabs',
     panelClass: 'atabs__panel',
     tabListClass: 'atabs__list',
@@ -45,10 +45,7 @@ var util = {
     manual: true
   };
 
-  /**
-   *
-   */
-  var ARIAtabs = function(inst, options) {
+  var ARIAtabs = function ( inst, options ) {
     var _options = Object.assign(ARIAtabsOptions, options);
     var _tabListContainer;
     var _tabs = [];
@@ -58,6 +55,7 @@ var util = {
     var oldIndex = -1;
     var tabs = [];
 
+
     var init = function () {
       el.id = el.id || util.generateID(_options.baseID);
       elID = el.id;
@@ -65,30 +63,33 @@ var util = {
       // find or create the tabList
       _tabListContainer = generateTablistContainer();
 
-      buildTabs.call(this);
+      // create the tabs and setup the panels
+      buildTabs.call( this );
 
       // If there's a table of contents for no-js sections,
       // that won't be needed anymore. Remove it.
       deleteTOC();
 
-      if (activeIndex > -1) {
+      if ( activeIndex > -1 ) {
         activateTab();
       }
     };
 
-    var generateTablistContainer = function() {
+
+    var generateTablistContainer = function () {
       var tabListContainer = el.querySelector(_options.tablistSelector) || doc.createElement('div');
       tabListContainer.setAttribute('role', 'tablist');
       tabListContainer.classList.add(_options.tabListClass);
       tabListContainer.id = elID + '_list';
-      tabListContainer.innerHTML = '';
+      tabListContainer.innerHTML = ''; // clear out anything that shouldn't be there
       el.insertBefore(tabListContainer, el.querySelector(':first-child'));
 
       return tabListContainer;
     }; // generateTablistContainer()
 
-    this.addTab = function( content, label ) {
-      var generateButton = function( index, id, tabContent ) {
+
+    this.addTab = function ( content, label ) {
+      var generateButton = function ( index, id, tabContent ) {
         var t = doc.createElement('button');
         t.id = elID + '_tab_' + index;
         t.tabIndex = -1;
@@ -98,7 +99,7 @@ var util = {
         t.classList.add(_options.tabClass);
         t.innerHTML = tabContent;
 
-        t.addEventListener('click', function() {
+        t.addEventListener('click', function () {
           onClick.call( this, index );
           this.focus();
         }, false);
@@ -146,7 +147,7 @@ var util = {
       _tabs.push({ button: b, content: c });
     };
 
-    var buildTabs = function() {
+    var buildTabs = function () {
       var t, i = 0;
       var tabs = el.querySelectorAll(':scope > ' + _options.panelSelector);
 
@@ -155,7 +156,7 @@ var util = {
       }
     };
 
-    var deleteTOC = function() {
+    var deleteTOC = function () {
       if (el.getAttribute('data-atabs-toc')) {
         var toc = doc.getElementById(el.getAttribute('data-atabs-toc'));
         // safety check to make sure a toc isn't set to be deleted
@@ -167,7 +168,7 @@ var util = {
       }
     }; // deleteTOC()
 
-    var incrementActiveIndex = function() {
+    var incrementActiveIndex = function () {
       if (activeIndex < _tabs.length - 1) {
         return ++activeIndex;
       } else {
@@ -176,7 +177,7 @@ var util = {
       }
     }; // incrementActiveIndex()
 
-    var decrementActiveIndex = function() {
+    var decrementActiveIndex = function () {
       if (activeIndex > 0) {
         return --activeIndex;
       } else {
@@ -185,17 +186,17 @@ var util = {
       }
     }; // decrementActiveIndex()
 
-    var focusActiveTab = function() {
+    var focusActiveTab = function () {
       _tabs[activeIndex].button.tabIndex = 0;
       _tabs[activeIndex].button.focus();
     }; // focusActiveTab()
 
-    var onClick = function(index) {
+    var onClick = function (index) {
       activeIndex = index;
       activateTab();
     };
 
-    var onKeyPress = function(e) {
+    var onKeyPress = function (e) {
       var keyCode = e.keyCode || e.which;
 
       switch (keyCode) {
@@ -257,10 +258,6 @@ var util = {
           var getPanel = e.target.getAttribute('aria-controls');
           getParent.removeChild(e.target);
           getParent.parentNode.removeChild(doc.getElementById(getPanel));
-          /**
-           * this should be coupled with the removeTab
-           * function.
-           */
 
           break;
 
@@ -281,8 +278,8 @@ var util = {
       _tabs[idx].button.setAttribute('aria-selected', false);
     };
 
-    var activateTab = function(e) {
-      var active = _tabs[activeIndex];
+    var activateTab = function ( idx ) {
+      var active = _tabs[idx] || _tabs[activeIndex];
       deactivateTabs();
       active.content.hidden = false;
       active.button.setAttribute('aria-selected', true);
@@ -295,5 +292,5 @@ var util = {
   }; // ARIAtabs()
 
   w.ARIAtabs = ARIAtabs;
-})(window, document);
+})( window, document );
 
