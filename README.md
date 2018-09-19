@@ -36,7 +36,6 @@ To help facilitate the simplest integration with your code base, the required ma
 ```
 
 
-
 #### `data-atabs` attributes & options
 The script runs through the minimum markup looking for specific `data-atabs-*` to use as hooks to modify the original markup and generate the final Tab Widget.
 
@@ -46,11 +45,44 @@ The script runs through the minimum markup looking for specific `data-atabs-*` t
   Without JavaScript, a table of contents (TOC) can provide easy access to different sections of a document that would have otherwise been part of the Tab Widget. With JavaScript available, the TOC isn't as necessary. Providing this attribute with the `id` of the TOC will remove the TOC from the DOM.
 * `data-atabs-automatic`  
   If this attribute is set to the `data-atabs` wrapper of *any* Tab Widget in a document, it will make **all** Tab Widgets automatically reveal the `tabpanel` associated with the currently focused `tab` element.  The reason this globallly affects Tab Widgets is to reduce any possibility of an inconsistent user experience between different Tab Widgets.
+* `data-atabs-orientation`  
+  If this attribute is set to the `data-atabs` wrapper element, and it's value is set to "vertical", then it will add `aria-orientation="vertical"` to the `tablist` and modify the arrow keys from <kbd>left</kbd> and <kbd>right</kbd> to <kbd>up</kbd> and <kbd>down</kbd> to move focus through the `tab`s within the `tablist`.
+* `data-atabs-panel`    
   Designates that an element should serve as a `tabpanel`. If given the value of "default", the script will set this `tabpanel` and associated `tab` to be active, instead of the first `tab` and `tabpanel`.  If multiple `data-atabs-panel` attributes have the value of "default", only the first one will be respected.
-* `data-atabs-panel-label`  
-  Also used on the element that will be a `tabpanel`, this attribute indicates that the generated `tab` should use its value as the `tab`'s label. The value of `data-atabs-panel-label` takes precedents over using the content of the `tabpanel`'s heading when generating the `tab`.
-* `data-atabs-heading`  
+* `data-atabs-tab-label`   
+  Also used on the element that will be a `tabpanel`, this attribute indicates that the generated `tab` should use its value as the `tab`'s label. The value of `data-atabs-tab-label` takes precedents over using the content of the `tabpanel`'s heading when generating the `tab`.
+* `data-atabs-heading`   
+  Place this attribute on the element that serves as the heading within the `tabpanel`. Unless a `data-atabs-tab-label` is used on the `tabpanel`, this heading will serve as the accessible name for the generated `tab`.  By default, elements with the `data-atabs-heading` attribute will be removed after their content has been used for the generated `tab`, unless the value of "keep" is set, e.g. `data-atabs-heading="keep`. Only the first instance of an element with this attribute will be recognized by the script.
 
+
+### Injecting `tabpanel`s into the Tab Widget
+Once a new instance of a Tab Widget has been created, the `addTab` function can be called from outside the script.  Using this function, you can point to elements in the DOM that are not wrapped in the `data-atabs` element to inject them into the Tab Widget.
+
+For instance:
+```html
+<script src="index.js"></script>
+<script>
+  var tabInstance = '[data-atabs]';
+  var els = document.querySelectorAll(tabInstance);
+  var injectContent = document.getElementById('inject-content');
+  var cloneContent = injectContent.cloneNode(true);
+  var allTabs = [];
+
+  // Generate all tab instances
+  for ( var i = 0; i < els.length; i++ ) {
+    var nTabs = new ARIAtabs( els[i] );
+
+    allTabs.push(nTabs);
+  }
+
+  // remove the original instance of the external content from the document.
+  injectContent.parentNode.removeChild(injectContent);
+
+  // Inject the external content into a particular
+  // tab, captured in the allTabs var.
+  allTabs[1].addTab(cloneContent, 'Tab label', 'add-a-class');
+</script>
+```
 
 ## User Experience
 The manner in which you interact with a Tab Widget is dependent on your input device. Not all devices/assistive applications are listed here, but the following will give you a baseline of expectations if when testing this script, or comparing your own Tab Widget.
@@ -68,6 +100,10 @@ When interacting with a Tab Widget with a desktop or laptop keyboard, one can us
 
 If the `tablist` is horizontally orientated, using the <kbd>Left</kbd> and <kbd>Right</kbd> arrow keys to will navigate to the previous and next `tab`s in the `tablist`.  Keyboard focus will loop from the last `tab` to the first, and vice versa.  If the `tablist` is vertically oriented, <kbd>Up</kbd> and <kbd>Down</kbd> arrow keys will navigate the `tab`s. Note: vertically oriented `tablist`s should have the attribute `aria-orientation="vertical`.
 
+If a Tab Widget has a `data-atabs-automatic` set to it, then any Tab Widgets in the current document will automatically load the associated `tabpanel` of a `tab` when it receives focus via arrow keys.
+
+### Keyboard + Screen Readers
+This section coming soon...
 
 
 ## Additional Reading
