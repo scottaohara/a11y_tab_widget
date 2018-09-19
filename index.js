@@ -32,16 +32,16 @@ var util = {
    */
   var ARIAtabsOptions = {
     baseID: 'atab_',
-    tablistSelector: '[data-atabs-list]',
-    panelSelector: '[data-atabs-panel]',
-    headingSelector: '[data-atabs-heading]',
+    defaultTabLabel: 'Tab ',
     elClass: 'atabs',
+    tabLabelAttribute: 'data-atabs-tab-label',
+    headingAttribute: 'data-atabs-heading',
     defaultOrientation: 'horizontal',
     panelClass: 'atabs__panel',
-    tabListClass: 'atabs__list',
+    panelSelector: '[data-atabs-panel]',
     tabClass: 'atabs__list__tab',
-    findTabs: true,
-    defaultTabLabel: 'Tab ',
+    tabListClass: 'atabs__list',
+    tablistSelector: '[data-atabs-list]',
     manual: true
   };
 
@@ -53,6 +53,7 @@ var util = {
     var activeIndex = 0;
     var el = inst;
     var elID;
+    var headingSelector = '[' + _options.headingAttribute + ']';
 
     var init = function () {
       elID = el.id || util.generateID(_options.baseID);
@@ -92,63 +93,76 @@ var util = {
     }; // generateTablistContainer()
 
 
-    this.addTab = function ( content, label ) {
-      var generateButton = function ( index, id, tabContent ) {
-        var t = doc.createElement('button');
-        t.id = elID + '_tab_' + index;
-        t.tabIndex = -1;
-        t.setAttribute('role', 'tab');
-        t.setAttribute('aria-controls', id);
-        t.setAttribute('aria-selected', activeIndex === index);
-        t.classList.add(_options.tabClass);
-        t.innerHTML = tabContent;
+    this.addTab = function ( panel, label, customClass ) {
+      var customClass = customClass;
 
-        t.addEventListener('click', function () {
+      var generateTab = function ( index, id, tabPanel, customClass ) {
+        var newTab = doc.createElement('button');
+        newTab.id = elID + '_tab_' + index;
+        newTab.tabIndex = -1;
+        newTab.setAttribute('role', 'tab');
+        newTab.setAttribute('aria-controls', id);
+        newTab.setAttribute('aria-selected', activeIndex === index);
+        newTab.innerHTML = tabPanel;
+        newTab.classList.add(_options.tabClass);
+        if ( customClass ) {
+          newTab.classList.add(customClass);
+        }
+
+        newTab.addEventListener('click', function () {
           onClick.call( this, index );
           this.focus();
         }, false);
 
-        t.addEventListener('keydown', onKeyPress.bind(this), false);
-        return t;
+        newTab.addEventListener('keydown', onKeyPress.bind(this), false);
+        return newTab;
       };
 
-      var c = content;
+      var newPanel = panel;
       var i = _tabs.length;
 
-      if ( !c ) {
+      if ( !newPanel ) {
         return;
       }
 
       // TODO: Write a comment;
+      var panelHeading = newPanel.querySelector(headingSelector);
       var finalLabel = [
             label,
-            c.getAttribute('data-atabs-panel-label'),
-            c.querySelector(_options.headingSelector) && c.querySelector(_options.headingSelector).textContent,
+            newPanel.getAttribute(_options.tabLabelAttribute),
+            panelHeading && panelHeading.textContent,
             _options.defaultTabLabel + (i + 1)
           ]
           .filter( function ( l ) {
             return l && l !== '';
           })[0];
 
-      var newId = c.id || elID + '_panel_' + i;
-      var b = generateButton(i, newId, finalLabel);
+
+      var newId = newPanel.id || elID + '_panel_' + i;
+      var b = generateTab(i, newId, finalLabel, customClass);
 
       _tabListContainer.appendChild(b);
-      c.id = newId;
-      c.tabIndex = 0;
-      c.setAttribute('aria-labelledby', elID + '_tab_' + i)
-      c.classList.add(_options.panelClass);
-      c.hidden = true;
+      newPanel.id = newId;
+      newPanel.tabIndex = -1;
+      newPanel.setAttribute('aria-labelledby', elID + '_tab_' + i)
+      newPanel.classList.add(_options.panelClass);
+      newPanel.hidden = true;
 
-      if ( !el.contains(content) ) {
-        el.appendChild(content);
+      if ( !el.contains(panel) ) {
+        el.appendChild(panel);
       }
 
-      if ( c.getAttribute('data-atabs-panel') === 'default' ) {
+      if ( defaultPanel === 0 && newPanel.getAttribute('data-atabs-panel') === 'default' ) {
         activeIndex = i;
+        defaultPanel = activeIndex;
       }
 
-      _tabs.push({ button: b, content: c });
+      if ( panelHeading ) {
+        if ( panelHeading.getAttribute(_options.headingAttribute) !== 'keep' ) {
+          panelHeading.parentNode.removeChild(panelHeading)
+        }
+      }
+      _tabs.push({ tab: b, panel: newPanel });
     };
 
 
@@ -197,8 +211,7 @@ var util = {
     }; // decrementActiveIndex()
 
     var focusActiveTab = function () {
-      _tabs[activeIndex].button.tabIndex = 0;
-      _tabs[activeIndex].button.focus();
+      _tabs[activeIndex].tab.focus();
     }; // focusActiveTab()
 
 
@@ -253,7 +266,7 @@ var util = {
           }
           else {
             e.preventDefault();
-            _tabs[activeIndex].content.focus();
+            _tabs[activeIndex].panel.focus();
           }
           break;
 
@@ -308,17 +321,24 @@ var util = {
 
 
     var deactivateTab = function ( idx ) {
-      _tabs[idx].content.hidden = true;
-      _tabs[idx].button.tabIndex = -1;
-      _tabs[idx].button.setAttribute('aria-selected', false);
+      _tabs[idx].panel.hidden = true;
+      _tabs[idx].tab.tabIndex = -1;
+      _tabs[idx].tab.setAttribute('aria-selected', false);
     };
 
+
+    /**
+     * Update the active Tab and make it focusable.
+     * Deactivate any previously active Tab.
+     * Reveal active Panel.
+     */
     var activateTab = function ( idx ) {
       var active = _tabs[idx] || _tabs[activeIndex];
       deactivateTabs();
-      active.content.hidden = false;
-      active.button.setAttribute('aria-selected', true);
-      active.button.tabIndex = 0;
+      active.tab.setAttribute('aria-selected', true);
+      active.tab.tabIndex = 0;
+
+      active.panel.hidden = false;
     }; // activateTab()
 
     init.call( this );
