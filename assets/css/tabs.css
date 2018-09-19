@@ -1,14 +1,13 @@
-.atab {
+.atabs {
+  background: #fff;
   border: 1px solid #999;
   position: relative;
 }
 
-.atab:focus {
-  box-shadow: none;
-  outline: 2px solid;
-}
-
 .atabs__list:not([aria-orientation="vertical"]) {
+  border-left: 1px solid;
+  border-right: 1px solid;
+  border-top: 1px solid;
   display: flex;
   white-space: nowrap;
   overflow: auto;
@@ -21,10 +20,13 @@
 
 [data-atabs-orientation="vertical"] .atabs__panel {
   flex-grow: 1;
+  width: 100%;
 }
 
 .atabs__list[aria-orientation="vertical"] {
+  min-width: 10em;
   max-width: 15em;
+  flex-grow: 1;
 }
 
 .atabs__list[aria-orientation="vertical"] .atabs__list__tab {
@@ -103,6 +105,7 @@
 .atabs__panel:focus {
   box-shadow: 0;
   outline: 2px solid;
+  outline-offset: -2px;
 }
 
 .atabs__panel > :first-child {
