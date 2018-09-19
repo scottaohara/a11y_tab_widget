@@ -37,6 +37,7 @@ var util = {
     tabLabelAttribute: 'data-atabs-tab-label',
     headingAttribute: 'data-atabs-heading',
     defaultOrientation: 'horizontal',
+    orientationAttribute: 'data-atabs-orientation',
     panelClass: 'atabs__panel',
     panelSelector: '[data-atabs-panel]',
     tabClass: 'atabs__list__tab',
@@ -59,7 +60,7 @@ var util = {
     var init = function () {
       elID = el.id || util.generateID(_options.baseID);
 
-      if ( el.getAttribute('data-atabs-orientation') === 'vertical' ) {
+      if ( el.getAttribute(_options.orientationAttribute) === 'vertical' ) {
         orientation = 'vertical';
       }
 
@@ -163,6 +164,7 @@ var util = {
           panelHeading.parentNode.removeChild(panelHeading)
         }
       }
+
       _tabs.push({ tab: b, panel: newPanel });
     };
 
@@ -174,7 +176,7 @@ var util = {
       for ( var i = 0; i < tabs.length; i++ ) {
         this.addTab(tabs[i]);
       }
-    };
+    }; // buildTabs()
 
 
     var deleteTOC = function () {
@@ -210,6 +212,7 @@ var util = {
         return activeIndex;
       }
     }; // decrementActiveIndex()
+
 
     var focusActiveTab = function () {
       _tabs[activeIndex].tab.focus();
