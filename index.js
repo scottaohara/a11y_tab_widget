@@ -36,17 +36,18 @@ var util = {
     panelSelector: '[data-atabs-panel]',
     headingSelector: '[data-atabs-heading]',
     elClass: 'atabs',
+    defaultOrientation: 'horizontal',
     panelClass: 'atabs__panel',
     tabListClass: 'atabs__list',
     tabClass: 'atabs__list__tab',
     findTabs: true,
     defaultTabLabel: 'Tab ',
-    orientation: 'horizontal',
     manual: true
   };
 
   var ARIAtabs = function ( inst, options ) {
     var _options = Object.assign(ARIAtabsOptions, options);
+    var orientation = _options.defaultOrientation;
     var _tabListContainer;
     var _tabs = [];
     var activeIndex = 0;
@@ -55,6 +56,10 @@ var util = {
 
     var init = function () {
       elID = el.id || util.generateID(_options.baseID);
+
+      if ( el.getAttribute('data-atabs-orientation') === 'vertical' ) {
+        orientation = 'vertical';
+      }
 
       // find or create the tabList
       _tabListContainer = generateTablistContainer();
@@ -78,6 +83,9 @@ var util = {
       tabListContainer.classList.add(_options.tabListClass);
       tabListContainer.id = elID + '_list';
       tabListContainer.innerHTML = ''; // clear out anything that shouldn't be there
+      if ( orientation === 'vertical' ) {
+        tabListContainer.setAttribute('aria-orientation', orientation);
+      }
       el.insertBefore(tabListContainer, el.querySelector(':first-child'));
 
       return tabListContainer;
@@ -143,6 +151,7 @@ var util = {
       _tabs.push({ button: b, content: c });
     };
 
+
     var buildTabs = function () {
       var t;
       var tabs = el.querySelectorAll(':scope > ' + _options.panelSelector);
@@ -151,6 +160,7 @@ var util = {
         this.addTab(tabs[i]);
       }
     };
+
 
     var deleteTOC = function () {
       if ( el.getAttribute('data-atabs-toc') ) {
@@ -164,6 +174,7 @@ var util = {
       }
     }; // deleteTOC()
 
+
     var incrementActiveIndex = function () {
       if ( activeIndex < _tabs.length - 1 ) {
         return ++activeIndex;
@@ -173,6 +184,7 @@ var util = {
         return activeIndex;
       }
     }; // incrementActiveIndex()
+
 
     var decrementActiveIndex = function () {
       if ( activeIndex > 0 ) {
@@ -206,7 +218,7 @@ var util = {
           break;
 
         case util.keyCodes.LEFT:
-          if ( _options.orientation === 'horizontal' ) {
+          if ( orientation === 'horizontal' ) {
             e.preventDefault();
             decrementActiveIndex();
             focusActiveTab();
@@ -218,7 +230,7 @@ var util = {
           break;
 
         case util.keyCodes.RIGHT:
-          if ( _options.orientation === 'horizontal' ) {
+          if ( orientation === 'horizontal' ) {
             e.preventDefault();
             incrementActiveIndex();
             focusActiveTab();
@@ -226,7 +238,7 @@ var util = {
           break;
 
         case util.keyCodes.UP:
-          if ( _options.orientation === 'vertical' ) {
+          if ( orientation === 'vertical' ) {
             e.preventDefault();
             decrementActiveIndex();
             focusActiveTab();
@@ -234,7 +246,7 @@ var util = {
           break;
 
         case util.keyCodes.DOWN:
-          if ( _options.orientation === 'vertical' ) {
+          if ( orientation === 'vertical' ) {
             e.preventDefault();
             incrementActiveIndex();
             focusActiveTab();

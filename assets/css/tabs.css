@@ -8,8 +8,31 @@
   outline: 2px solid;
 }
 
-.atabs__list {
+.atabs__list:not([aria-orientation="vertical"]) {
   display: flex;
+  white-space: nowrap;
+  overflow: auto;
+}
+
+[data-atabs-orientation="vertical"] {
+  display: flex;
+  border-top: 1px solid;
+}
+
+[data-atabs-orientation="vertical"] .atabs__panel {
+  flex-grow: 1;
+}
+
+.atabs__list[aria-orientation="vertical"] {
+  max-width: 15em;
+}
+
+.atabs__list[aria-orientation="vertical"] .atabs__list__tab {
+  border-right: 0;
+  border-left: 1px solid;
+  text-align: left;
+  width: 100%;
+}
 }
 
 .atabs__list[hidden] {
@@ -93,11 +116,3 @@
 .atabs__panel:focus {
   box-shadow: inset 0 0 1px #222;
 }
-
-
-
-
-
-/**
- * need aria-orientation styles
- */
