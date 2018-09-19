@@ -34,6 +34,7 @@ var util = {
     baseID: 'atab_',
     defaultTabLabel: 'Tab ',
     elClass: 'atabs',
+    customTabClassAttribute: 'data-atabs-tab-class',
     tabLabelAttribute: 'data-atabs-tab-label',
     headingAttribute: 'data-atabs-heading',
     defaultOrientation: 'horizontal',
@@ -63,6 +64,8 @@ var util = {
       if ( el.getAttribute(_options.orientationAttribute) === 'vertical' ) {
         orientation = 'vertical';
       }
+
+      el.classList.add(_options.elClass);
 
       // find or create the tabList
       _tabListContainer = generateTablistContainer();
@@ -96,7 +99,7 @@ var util = {
 
 
     this.addTab = function ( panel, label, customClass ) {
-      var customClass = customClass;
+      var customClass = customClass || panel.getAttribute(_options.customTabClassAttribute);
 
       var generateTab = function ( index, id, tabPanel, customClass ) {
         var newTab = doc.createElement('button');
@@ -127,7 +130,6 @@ var util = {
         return;
       }
 
-      // TODO: Write a comment;
       var panelHeading = newPanel.querySelector(headingSelector);
       var finalLabel = [
             label,
