@@ -51,6 +51,7 @@ var util = {
     var _tabListContainer;
     var _tabs = [];
     var activeIndex = 0;
+    var defaultPanel = 0;
     var el = inst;
     var elID;
     var headingSelector = '[' + _options.headingAttribute + ']';
