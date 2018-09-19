@@ -27,7 +27,7 @@ var util = {
    * different subsections of a document.
    *
    * Author: Scott O'Hara
-   * Version: x
+   * Version: 2.0.0
    * License:
    */
   var ARIAtabsOptions = {
@@ -44,7 +44,8 @@ var util = {
     tabClass: 'atabs__list__tab',
     tabListClass: 'atabs__list',
     tablistSelector: '[data-atabs-list]',
-    manual: true
+    automaticAttribute: 'data-atabs-automatic',
+    automatic: false
   };
 
   var ARIAtabs = function ( inst, options ) {
@@ -63,6 +64,10 @@ var util = {
 
       if ( el.getAttribute(_options.orientationAttribute) === 'vertical' ) {
         orientation = 'vertical';
+      }
+
+      if ( el.hasAttribute(_options.automaticAttribute) ) {
+        _options.automatic = true;
       }
 
       el.classList.add(_options.elClass);
@@ -242,7 +247,7 @@ var util = {
             decrementActiveIndex();
             focusActiveTab();
 
-            if ( _options.activate === 'automatic' ) {
+            if ( _options.automatic ) {
               activateTab();
             }
           }
@@ -253,6 +258,10 @@ var util = {
             e.preventDefault();
             incrementActiveIndex();
             focusActiveTab();
+
+            if ( _options.automatic ) {
+              activateTab();
+            }
           }
           break;
 
@@ -269,6 +278,10 @@ var util = {
             e.preventDefault();
             incrementActiveIndex();
             focusActiveTab();
+
+            if ( _options.automatic ) {
+              activateTab();
+            }
           }
           else {
             e.preventDefault();

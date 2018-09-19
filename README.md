@@ -9,7 +9,7 @@ To help facilitate the simplest integration with your code base, the required ma
 ```html
 <div data-atabs>
   <div data-atabs-panel 
-    data-atabs-panel-label="Tab label goes here">
+    data-atabs-tab-label="Tab label goes here">
     <!-- all panel content goes here -->
   </div>
   <section data-atabs-panel>
@@ -44,7 +44,8 @@ The script runs through the minimum markup looking for specific `data-atabs-*` t
   The primary hook. This attribute is used to contain the final Tab Widget.
 * `data-atabs-toc`  
   Without JavaScript, a table of contents (TOC) can provide easy access to different sections of a document that would have otherwise been part of the Tab Widget. With JavaScript available, the TOC isn't as necessary. Providing this attribute with the `id` of the TOC will remove the TOC from the DOM.
-* `data-atabs-panel`  
+* `data-atabs-automatic`  
+  If this attribute is set to the `data-atabs` wrapper of *any* Tab Widget in a document, it will make **all** Tab Widgets automatically reveal the `tabpanel` associated with the currently focused `tab` element.  The reason this globallly affects Tab Widgets is to reduce any possibility of an inconsistent user experience between different Tab Widgets.
   Designates that an element should serve as a `tabpanel`. If given the value of "default", the script will set this `tabpanel` and associated `tab` to be active, instead of the first `tab` and `tabpanel`.  If multiple `data-atabs-panel` attributes have the value of "default", only the first one will be respected.
 * `data-atabs-panel-label`  
   Also used on the element that will be a `tabpanel`, this attribute indicates that the generated `tab` should use its value as the `tab`'s label. The value of `data-atabs-panel-label` takes precedents over using the content of the `tabpanel`'s heading when generating the `tab`.
