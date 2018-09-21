@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ...
 
-## [2.0.1] - 2018-09-19
+## [2.0.1] - 2018-09-20
 ### Added
 - Use `:focus-visible` and `.focus-visible` class in demonstration page. However this polyfill was not added as a script dependency.
 ### Fixed
