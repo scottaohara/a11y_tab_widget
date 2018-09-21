@@ -105,6 +105,8 @@ If a Tab Widget has a `data-atabs-automatic` set to it, then any Tab Widgets in 
 ### Keyboard + Screen Readers
 This section coming soon...
 
+## Dependencies
+There are no major dependencies for this script. The [WICG `:focus-visible` polyfill](https://github.com/WICG/focus-visible) is used in the [demonstration page](https://scottaohara.github.io/a11y_tab_widget/), and has a class included in the CSS file. However, it is up to you if you would like to download the polyfill yourself.
 
 ## Additional Reading
 * [ARIA Specification: Tab Role](https://www.w3.org/TR/wai-aria-1.2/#tab)

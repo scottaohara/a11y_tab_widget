@@ -1,0 +1,37 @@
+{
+  "title": "Accessible ARIA Tab Widgets",
+  "name": "a11y_tab_widgets",
+  "description": "ES5 script to create accessible tab widget components",
+  "version": "2.0.1",
+  "main": "index.js",
+  "homepage": "https://github.com/scottaohara/a11y_tab_widget/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://scottaohara@github.com/scottaohara/a11y_tab_widget.git"
+  },
+  "bugs": {
+    "url": "https://github.com/scottaohara/a11y_tab_widget/issues"
+  },
+  "keywords": [
+    "a11y",
+    "aria",
+    "accessibility",
+    "tabs",
+    "tabpanels",
+    "tablists",
+    "tabbedUI",
+    "javascript",
+    "es5"
+  ],
+  "license": "MIT",
+  "author": [
+    {
+      "name": "Scott O'Hara",
+      "email": "sao.npm@gmail.com",
+      "web": "https://www.scottohara.me"
+    }
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
