@@ -27,8 +27,8 @@ var util = {
    * different subsections of a document.
    *
    * Author: Scott O'Hara
-   * Version: 2.0.0
-   * License:
+   * Version: 2.0.1
+   * License: https://github.com/scottaohara/a11y_tab_widget/blob/master/LICENSE
    */
   var ARIAtabsOptions = {
     baseID: 'atab_',
