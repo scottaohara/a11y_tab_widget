@@ -11,7 +11,6 @@ var util = {
     END: 35,
     ENTER: 13,
     SPACE: 32,
-    BACKSPACE: 46,
     DELETE: 8
   },
 
@@ -45,6 +44,7 @@ var util = {
     tabListClass: 'atabs__list',
     tablistSelector: '[data-atabs-list]',
     automaticAttribute: 'data-atabs-automatic',
+    removeableAttribute: 'data-atabs-removable',
     automatic: false
   };
 
@@ -58,6 +58,7 @@ var util = {
     var el = inst;
     var elID;
     var headingSelector = '[' + _options.headingAttribute + ']';
+    var canRemove;
 
     var init = function () {
       elID = el.id || util.generateID(_options.baseID);
@@ -68,6 +69,10 @@ var util = {
 
       if ( el.hasAttribute(_options.automaticAttribute) ) {
         _options.automatic = true;
+      }
+
+      if ( el.hasAttribute(_options.removeableAttribute) ) {
+        canRemove = true;
       }
 
       el.classList.add(_options.elClass);
@@ -85,7 +90,7 @@ var util = {
       if ( activeIndex > -1 ) {
         activateTab();
       }
-    };
+    }; // init()
 
 
     var generateTablistContainer = function () {
@@ -301,35 +306,31 @@ var util = {
           focusActiveTab();
           break;
 
-        // case util.keyCodes.DELETE:
-        // case util.keyCodes.BACKSPACE:
-          /*
-            TODO
-            break this out into its own function
-           */
-          // var getParent = e.target.parentNode;
-          // var getPanel = e.target.getAttribute('aria-controls');
-          // getParent.removeChild(e.target);
-          // getParent.parentNode.removeChild(doc.getElementById(getPanel));
-
-          // activateTab( (activeIndex - 1) );
-          /**
-           * if the active tab is the tab deleted, need to focus
-           * the previous tab in the list.
-           *
-           * if the deleted tab is not the current activeIndex, then
-           * set keyboard focus to the previous tab in the list.
-           *
-           * if there is only one tab left in the list, this function
-           * should not run.
-           */
-
-          // break;
+        case util.keyCodes.DELETE:
+          if ( _tabs.length > 1 && canRemove ) {
+            e.preventDefault();
+            removeTabAndPanel(activeIndex);
+            focusActiveTab();
+          }
+          break;
 
         default:
           break;
       }
     }; // onKeyPress()
+
+
+    var removeTabAndPanel = function ( idx ) {
+      // remove panel and tab
+      _tabListContainer.removeChild(_tabs[idx].tab);
+      el.removeChild(_tabs[idx].panel);
+
+      // remove tab from index of tabs
+      _tabs.splice(idx, 1);
+
+      decrementActiveIndex();
+      activateTab( activeIndex );
+    }; // removeTabAndPanel()
 
 
     var deactivateTabs = function () {
