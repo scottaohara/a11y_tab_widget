@@ -119,6 +119,6 @@ This script was written by Scott O'Hara: [Website](https://www.scottohara.me), [
 
 It has an [MIT](https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md) license.
 
-Special thanks to [Josh Drumm](https://github.com/wwnjp) for helping me with some JavaScript refactoring.
+Special thanks to [Josh Drumm](https://github.com/wwnjp) and [Chris Ferdinandi](https://gomakethings.com/) for helping me with some JavaScript refactoring and helper functions.
 
 Use it, modify it, contribute to it to help make your project more accessible :)

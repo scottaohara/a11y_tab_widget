@@ -1,5 +1,4 @@
 'use strict';
-
 if (typeof Object.assign != 'function') {
   // Must be writable: true, enumerable: false, configurable: true
   Object.defineProperty(Object, "assign", {
@@ -30,6 +29,13 @@ if (typeof Object.assign != 'function') {
   });
 }
 
+if ( Element && !Element.prototype.matches ) {
+  var proto = Element.prototype;
+  proto.matches = proto.matchesSelector ||
+    proto.mozMatchesSelector || proto.msMatchesSelector ||
+    proto.oMatchesSelector || proto.webkitMatchesSelector;
+}
+
 // add utilities
 var util = {
   keyCodes: {
@@ -46,6 +52,12 @@ var util = {
 
   generateID: function ( base ) {
     return base + Math.floor(Math.random() * 999);
+  },
+
+  getDirectChildren: function ( elm, selector ) {
+    return Array.prototype.filter.call(elm.children, function ( child ) {
+      return child.matches(selector);
+    });
   }
 };
 
@@ -56,7 +68,7 @@ var util = {
    * different subsections of a document.
    *
    * Author: Scott O'Hara
-   * Version: 2.0.1
+   * Version: 2.0.2
    * License: https://github.com/scottaohara/a11y_tab_widget/blob/master/LICENSE
    */
   var ARIAtabsOptions = {
@@ -212,8 +224,7 @@ var util = {
 
 
     var buildTabs = function () {
-      var t;
-      var tabs = el.querySelectorAll(':scope > ' + _options.panelSelector);
+      var tabs = util.getDirectChildren(el, _options.panelSelector)
 
       for ( var i = 0; i < tabs.length; i++ ) {
         this.addTab(tabs[i]);
