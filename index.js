@@ -47,7 +47,7 @@ var util = {
     END: 35,
     ENTER: 13,
     SPACE: 32,
-    DELETE: 8
+    DELETE: 46
   },
 
   generateID: function ( base ) {
@@ -235,7 +235,7 @@ var util = {
     var deleteTOC = function () {
       if ( el.getAttribute('data-atabs-toc') ) {
         var toc = doc.getElementById(el.getAttribute('data-atabs-toc'));
-        // safety check to make sure a toc isn't set to be deleted
+        // safety check to make sure a TOC isn't set to be deleted
         // after it's already deleted. e.g. if there are two
         // dat-atabs-toc that equal the same ID.
         if ( toc ) {
