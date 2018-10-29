@@ -90,6 +90,7 @@ var util = {
     automatic: false
   };
 
+
   var ARIAtabs = function ( inst, options ) {
     var _options = Object.assign(ARIAtabsOptions, options);
     var orientation = _options.defaultOrientation;
@@ -101,6 +102,7 @@ var util = {
     var elID;
     var headingSelector = '[' + _options.headingAttribute + ']';
     var canRemove;
+
 
     var init = function () {
       elID = el.id || util.generateID(_options.baseID);
@@ -193,7 +195,6 @@ var util = {
             return l && l !== '';
           })[0];
 
-
       var newId = newPanel.id || elID + '_panel_' + i;
       var t = generateTab(i, newId, finalLabel, customClass);
 
@@ -220,7 +221,7 @@ var util = {
       }
 
       _tabs.push({ tab: t, panel: newPanel });
-    };
+    }; // this.addTab
 
 
     var buildTabs = function () {
@@ -320,6 +321,10 @@ var util = {
             e.preventDefault();
             decrementActiveIndex();
             focusActiveTab();
+
+            if ( _options.automatic ) {
+              activateTab();
+            }
           }
           break;
 
@@ -389,7 +394,7 @@ var util = {
       _tabs[idx].panel.hidden = true;
       _tabs[idx].tab.tabIndex = -1;
       _tabs[idx].tab.setAttribute('aria-selected', false);
-    };
+    }; // deactivateTab()
 
 
     /**
@@ -406,10 +411,11 @@ var util = {
       active.panel.hidden = false;
     }; // activateTab()
 
-    init.call( this );
 
+    init.call( this );
     return this;
   }; // ARIAtabs()
+
 
   w.ARIAtabs = ARIAtabs;
 })( window, document );
