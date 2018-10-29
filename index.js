@@ -309,6 +309,10 @@ var util = {
               activateTab();
             }
           }
+          else {
+            e.preventDefault();
+            _tabs[activeIndex].panel.focus();
+          }
           break;
 
         case util.keyCodes.UP:
