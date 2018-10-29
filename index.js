@@ -195,9 +195,9 @@ var util = {
 
 
       var newId = newPanel.id || elID + '_panel_' + i;
-      var b = generateTab(i, newId, finalLabel, customClass);
+      var t = generateTab(i, newId, finalLabel, customClass);
 
-      _tabListContainer.appendChild(b);
+      _tabListContainer.appendChild(t);
       newPanel.id = newId;
       newPanel.tabIndex = 0;
       newPanel.setAttribute('aria-labelledby', elID + '_tab_' + i)
@@ -219,7 +219,7 @@ var util = {
         }
       }
 
-      _tabs.push({ tab: b, panel: newPanel });
+      _tabs.push({ tab: t, panel: newPanel });
     };
 
 
