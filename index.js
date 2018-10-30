@@ -203,6 +203,7 @@ var util = {
       _tabListContainer.appendChild(t);
       newPanel.id = newId;
       newPanel.tabIndex = -1;
+      newPanel.setAttribute('role', 'tabpanel');
       newPanel.setAttribute('aria-labelledby', elID + '_tab_' + i)
       newPanel.classList.add(_options.panelClass);
       newPanel.hidden = true;
