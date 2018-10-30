@@ -99,6 +99,7 @@ var util = {
     var _tabs = [];
     var activeIndex = 0;
     var defaultPanel = 0;
+    var selectedTab = activeIndex;
     var el = inst;
     var elID;
     var headingSelector = '[' + _options.headingAttribute + ']';
@@ -174,7 +175,7 @@ var util = {
           this.focus();
         }, false);
 
-        newTab.addEventListener('keydown', onKeyPress.bind(this), false);
+        newTab.addEventListener('keydown', tabElementPress.bind(this), false);
         return newTab;
       };
 
@@ -205,6 +206,8 @@ var util = {
       newPanel.setAttribute('aria-labelledby', elID + '_tab_' + i)
       newPanel.classList.add(_options.panelClass);
       newPanel.hidden = true;
+
+      newPanel.addEventListener('keydown', panelElementPress.bind(this), false);
 
       if ( !el.contains(panel) ) {
         el.appendChild(panel);
@@ -302,18 +305,26 @@ var util = {
     };
 
 
-    var onKeyPress = function ( e ) {
+    var panelElementPress = function ( e ) {
       var keyCode = e.keyCode || e.which;
 
       switch ( keyCode ) {
         case util.keyCodes.TAB:
-          // only want to take over this behavior
-          // if someone is navigating down the DOM,
-          // not if they're going in reverse.
-          if ( !e.shiftKey ) {
-            e.preventDefault();
-              _tabs[activeIndex].panel.focus();
-          }
+          _tabs[activeIndex].panel.tabIndex = -1;
+          break;
+
+        default:
+          break;
+      }
+    }
+
+    var tabElementPress = function ( e ) {
+      var keyCode = e.keyCode || e.which;
+
+      switch ( keyCode ) {
+        case util.keyCodes.TAB:
+          _tabs[selectedTab].panel.tabIndex = 0;
+          activeIndex = selectedTab;
           break;
 
         case util.keyCodes.SPACE:
@@ -375,7 +386,7 @@ var util = {
         default:
           break;
       }
-    }; // onKeyPress()
+    }; // tabElementPress()
 
 
     var removeTabAndPanel = function ( idx ) {
@@ -387,7 +398,13 @@ var util = {
       _tabs.splice(idx, 1);
 
       decrementActiveIndex();
-      activateTab(activeIndex);
+
+      // only activate the previous tab if the current
+      // tab being deleted is the active tab
+      if ( idx === selectedTab ) {
+        activateTab();
+      }
+
     }; // removeTabAndPanel()
 
 
@@ -410,12 +427,15 @@ var util = {
      * Deactivate any previously active Tab.
      * Reveal active Panel.
      */
-    var activateTab = function ( idx ) {
-      var active = _tabs[idx] || _tabs[activeIndex];
+    var activateTab = function () {
+      var active = _tabs[activeIndex];
       deactivateTabs();
       active.tab.setAttribute('aria-selected', true);
       active.tab.tabIndex = 0;
       active.panel.hidden = false;
+      active.panel.tabIndex = 0;
+      selectedTab = activeIndex;
+      return selectedTab;
     }; // activateTab()
 
 
