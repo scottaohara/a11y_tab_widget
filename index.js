@@ -69,7 +69,7 @@ var util = {
    * different subsections of a document.
    *
    * Author: Scott O'Hara
-   * Version: 2.0.2
+   * Version: 2.1.0
    * License: https://github.com/scottaohara/a11y_tab_widget/blob/master/LICENSE
    */
   var ARIAtabsOptions = {
@@ -87,7 +87,6 @@ var util = {
     tabListClass: 'atabs__list',
     tablistSelector: '[data-atabs-list]',
     automaticAttribute: 'data-atabs-automatic',
-    removeableAttribute: 'data-atabs-removable',
     automatic: false
   };
 
@@ -103,7 +102,6 @@ var util = {
     var el = inst;
     var elID;
     var headingSelector = '[' + _options.headingAttribute + ']';
-    var canRemove;
 
 
     var init = function () {
@@ -115,10 +113,6 @@ var util = {
 
       if ( el.hasAttribute(_options.automaticAttribute) ) {
         _options.automatic = true;
-      }
-
-      if ( el.hasAttribute(_options.removeableAttribute) ) {
-        canRemove = true;
       }
 
       el.classList.add(_options.elClass);
@@ -388,34 +382,10 @@ var util = {
           focusActiveTab();
           break;
 
-        case util.keyCodes.DELETE:
-          if ( _tabs.length > 1 && canRemove ) {
-            e.preventDefault();
-            removeTabAndPanel(activeIndex);
-            focusActiveTab();
-          }
-          break;
-
         default:
           break;
       }
     }; // tabElementPress()
-
-
-    var removeTabAndPanel = function ( idx ) {
-      _tabListContainer.removeChild(_tabs[idx].tab);
-      el.removeChild(_tabs[idx].panel);
-
-      // remove tab from index of tabs
-      _tabs.splice(idx, 1);
-      decrementActiveIndex();
-
-      // only activate the previous tab if the current
-      // tab being deleted is the active tab
-      if ( idx === selectedTab ) {
-        activateTab();
-      }
-    }; // removeTabAndPanel()
 
 
     var deactivateTabs = function () {
