@@ -3,15 +3,18 @@ A script to progressively enhance sectioned content into an accessible tabbed in
 
 
 ## How to use 
-To help facilitate the simplest integration with your code base, the required markup is as lean as possible.
+To help facilitate the simplest integration with your code base, the necessary markup has been boiled down to a wrapping element with a `data-atabs` attribute to serve as the Tab Widget container. Additionally, `tab`s, and `tabpanel`s can be designated via different markup patterns to help suit your needs.
 
-### Minimum Setup
+### Example Setup
 ```html
-<div data-atabs>
+<div data-atabs> <!-- necessary wrapping element -->
+  <!-- Panel method 1 -->
   <div data-atabs-panel 
     data-atabs-tab-label="Tab label goes here">
     <!-- all panel content goes here -->
   </div>
+
+  <!-- Panel method 2 -->
   <section data-atabs-panel>
     <h# data-atabs-label>
       <!-- 
@@ -40,11 +43,13 @@ To help facilitate the simplest integration with your code base, the required ma
 The script runs through the minimum markup looking for specific `data-atabs-*` to use as hooks to modify the original markup and generate the final Tab Widget.
 
 * `data-atabs`  
-  The primary hook. This attribute is used to contain the final Tab Widget.
+  The primary hook. This attribute is used to contain the final Tab Widget.  
 * `data-atabs-toc`  
   Without JavaScript, a table of contents (TOC) can provide easy access to different sections of a document that would have otherwise been part of the Tab Widget. With JavaScript available, the TOC isn't as necessary. Providing this attribute with the `id` of the TOC will remove the TOC from the DOM.
 * `data-atabs-automatic`  
-  If this attribute is set to the `data-atabs` wrapper of *any* Tab Widget in a document, it will make **all** Tab Widgets automatically reveal the `tabpanel` associated with the currently focused `tab` element.  The reason this globallly affects Tab Widgets is to reduce any possibility of an inconsistent user experience between different Tab Widgets.
+  If this attribute is set to the `data-atabs` wrapper of *any* Tab Widget in a document, it will make **all** Tab Widgets automatically reveal the `tabpanel` associated with the currently focused `tab` element.  The reason this globally affects Tab Widgets is to reduce any possibility of an inconsistent user experience between different Tab Widgets.
+
+  Note that when navigating automatically activated `tab`s with a virtual cursor, whether that be on desktop or mobile, `tabpanel`s will not automatically reveal until a user purposefully activates the virtual cursor focused `tab`.  
 * `data-atabs-orientation`  
   If this attribute is set to the `data-atabs` wrapper element, and it's value is set to "vertical", then it will add `aria-orientation="vertical"` to the `tablist` and modify the arrow keys from <kbd>left</kbd> and <kbd>right</kbd> to <kbd>up</kbd> and <kbd>down</kbd> to move focus through the `tab`s within the `tablist`.
 * `data-atabs-panel`    

@@ -225,8 +225,6 @@ var util = {
       newPanel.addEventListener('keydown', panelElementPress.bind(this), false);
       newPanel.addEventListener('blur', removePanelTabindex, false);
 
-
-
       _tabs.push({ tab: t, panel: newPanel });
     }; // this.addTab
 
@@ -294,7 +292,7 @@ var util = {
       if ( _options.automatic ) {
         activateTab();
       }
-    };
+    }; // moveBack()
 
 
     var moveNext = function ( e ) {
@@ -305,9 +303,15 @@ var util = {
       if ( _options.automatic ) {
         activateTab();
       }
-    };
+    }; // moveNext()
 
 
+    /**
+     * A tabpanel is focusable upon hitting the TAB key
+     * from a tab within a tablist.  When navigating away
+     * from the tabpanel, with the TAB key, remove the
+     * tabindex from the tabpanel.
+     */
     var panelElementPress = function ( e ) {
       var keyCode = e.keyCode || e.which;
 
@@ -319,12 +323,12 @@ var util = {
         default:
           break;
       }
-    };
+    }; // panelElementPress()
 
 
     var removePanelTabindex = function () {
       _tabs[activeIndex].panel.removeAttribute('tabindex');
-    };
+    }; // removePanelTabindex()
 
 
     var tabElementPress = function ( e ) {
@@ -399,7 +403,6 @@ var util = {
 
 
     var removeTabAndPanel = function ( idx ) {
-      // remove panel and tab
       _tabListContainer.removeChild(_tabs[idx].tab);
       el.removeChild(_tabs[idx].panel);
 
@@ -412,7 +415,6 @@ var util = {
       if ( idx === selectedTab ) {
         activateTab();
       }
-
     }; // removeTabAndPanel()
 
 
