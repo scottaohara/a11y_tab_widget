@@ -202,13 +202,10 @@ var util = {
 
       _tabListContainer.appendChild(t);
       newPanel.id = newId;
-      newPanel.tabIndex = -1;
       newPanel.setAttribute('role', 'tabpanel');
       newPanel.setAttribute('aria-labelledby', elID + '_tab_' + i)
       newPanel.classList.add(_options.panelClass);
       newPanel.hidden = true;
-
-      newPanel.addEventListener('keydown', panelElementPress.bind(this), false);
 
       if ( !el.contains(panel) ) {
         el.appendChild(panel);
@@ -224,6 +221,11 @@ var util = {
           panelHeading.parentNode.removeChild(panelHeading)
         }
       }
+
+      newPanel.addEventListener('keydown', panelElementPress.bind(this), false);
+      newPanel.addEventListener('blur', removePanelTabindex, false);
+
+
 
       _tabs.push({ tab: t, panel: newPanel });
     }; // this.addTab
@@ -311,13 +313,19 @@ var util = {
 
       switch ( keyCode ) {
         case util.keyCodes.TAB:
-          _tabs[activeIndex].panel.tabIndex = -1;
+          removePanelTabindex();
           break;
 
         default:
           break;
       }
-    }
+    };
+
+
+    var removePanelTabindex = function () {
+      _tabs[activeIndex].panel.removeAttribute('tabindex');
+    };
+
 
     var tabElementPress = function ( e ) {
       var keyCode = e.keyCode || e.which;
@@ -397,7 +405,6 @@ var util = {
 
       // remove tab from index of tabs
       _tabs.splice(idx, 1);
-
       decrementActiveIndex();
 
       // only activate the previous tab if the current
@@ -434,7 +441,6 @@ var util = {
       active.tab.setAttribute('aria-selected', true);
       active.tab.tabIndex = 0;
       active.panel.hidden = false;
-      active.panel.tabIndex = 0;
       selectedTab = activeIndex;
       return selectedTab;
     }; // activateTab()
