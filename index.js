@@ -47,7 +47,8 @@ var util = {
     END: 35,
     ENTER: 13,
     SPACE: 32,
-    DELETE: 46
+    DELETE: 46,
+    TAB: 9
   },
 
   generateID: function ( base ) {
@@ -200,7 +201,7 @@ var util = {
 
       _tabListContainer.appendChild(t);
       newPanel.id = newId;
-      newPanel.tabIndex = 0;
+      newPanel.tabIndex = -1;
       newPanel.setAttribute('aria-labelledby', elID + '_tab_' + i)
       newPanel.classList.add(_options.panelClass);
       newPanel.hidden = true;
@@ -279,10 +280,42 @@ var util = {
     }; // onClick()
 
 
+    var moveBack = function ( e ) {
+      e.preventDefault();
+      decrementActiveIndex();
+      focusActiveTab();
+
+      if ( _options.automatic ) {
+        activateTab();
+      }
+    };
+
+
+    var moveNext = function ( e ) {
+      e.preventDefault();
+      incrementActiveIndex();
+      focusActiveTab();
+
+      if ( _options.automatic ) {
+        activateTab();
+      }
+    };
+
+
     var onKeyPress = function ( e ) {
       var keyCode = e.keyCode || e.which;
 
       switch ( keyCode ) {
+        case util.keyCodes.TAB:
+          // only want to take over this behavior
+          // if someone is navigating down the DOM,
+          // not if they're going in reverse.
+          if ( !e.shiftKey ) {
+            e.preventDefault();
+              _tabs[activeIndex].panel.focus();
+          }
+          break;
+
         case util.keyCodes.SPACE:
           e.preventDefault();
           activateTab();
@@ -290,56 +323,31 @@ var util = {
 
         case util.keyCodes.LEFT:
           if ( orientation === 'horizontal' ) {
-            e.preventDefault();
-            decrementActiveIndex();
-            focusActiveTab();
-
-            if ( _options.automatic ) {
-              activateTab();
-            }
-          }
-          break;
-
-        case util.keyCodes.RIGHT:
-          if ( orientation === 'horizontal' ) {
-            e.preventDefault();
-            incrementActiveIndex();
-            focusActiveTab();
-
-            if ( _options.automatic ) {
-              activateTab();
-            }
-          }
-          else {
-            e.preventDefault();
-            _tabs[activeIndex].panel.focus();
+            moveBack( e );
           }
           break;
 
         case util.keyCodes.UP:
           if ( orientation === 'vertical' ) {
-            e.preventDefault();
-            decrementActiveIndex();
-            focusActiveTab();
-
-            if ( _options.automatic ) {
-              activateTab();
-            }
+            moveBack( e );
           }
           break;
 
-        case util.keyCodes.DOWN:
-          if ( orientation === 'vertical' ) {
-            e.preventDefault();
-            incrementActiveIndex();
-            focusActiveTab();
-
-            if ( _options.automatic ) {
-              activateTab();
-            }
+        case util.keyCodes.RIGHT:
+          if ( orientation === 'horizontal' ) {
+            moveNext( e );
           }
           else {
-            e.preventDefault();
+            _tabs[activeIndex].panel.focus();
+          }
+          break;
+
+
+        case util.keyCodes.DOWN:
+          if ( orientation === 'vertical' ) {
+            moveNext( e );
+          }
+          else {
             _tabs[activeIndex].panel.focus();
           }
           break;
@@ -379,7 +387,7 @@ var util = {
       _tabs.splice(idx, 1);
 
       decrementActiveIndex();
-      activateTab( activeIndex );
+      activateTab(activeIndex);
     }; // removeTabAndPanel()
 
 
@@ -407,7 +415,6 @@ var util = {
       deactivateTabs();
       active.tab.setAttribute('aria-selected', true);
       active.tab.tabIndex = 0;
-
       active.panel.hidden = false;
     }; // activateTab()
 
@@ -419,4 +426,3 @@ var util = {
 
   w.ARIAtabs = ARIAtabs;
 })( window, document );
-
