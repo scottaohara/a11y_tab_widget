@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en-us" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>ARIA Tabs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <link rel="stylesheet" href="../assets/css/tabs.css">
+    <link rel="stylesheet" href="../assets/css/--demo--.css">
+  </head>
+  <body>
+
+    <div class="page">
+
+      <header>
+        <h1>
+          Content with Table of Contents w/out JavaScript
+        </h1>
+      </header>
+
+      <main>
+        <nav id="toc">
+          <p>
+            A table of contents for no-js situations.
+            If JS is working, you probably aren't seeing this though.
+          </p>
+          <ul>
+            <li>
+              <a href="#a">Item 1</a>
+            </li>
+            <li>
+              <a href="#b">Item 2</a>
+            </li>
+            <li>
+              <a href="#c">Item 3</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div data-atabs data-atabs-toc="toc">
+          <section id="a" data-atabs-panel>
+            <h3 data-atabs-heading>
+              Tab label 1
+            </h3>
+            <p>
+              No explicit default was set, so per standard functionality
+              this first <code>tabpanel</code> will be shown by default.
+            </p>
+            <p>
+              Here's a <a href="#">link just to test</a> keyboard tabbing.
+              (it's odd talking about <code>tab</code>s, and keyboard <kbd>tab</kbd>s.)
+            </p>
+          </section>
+          <section id="b" data-atabs-panel>
+            <h3 data-atabs-heading="keep">
+              Tab label 2
+            </h3>
+            <p data-atabs-heading>
+              This is an example of a heading being used to populate the
+              <code>tab</code>'s label, while also not removing heading
+              from the <code>tabpanel</code>.  This is done by adding
+              the value "keep" to <code>data-atabs-heading</code>.
+            </p>
+          </section>
+          <section id="c" data-atabs-panel data-atabs-tab-label="Tab label 3">
+            <h3>
+              There are two headings here
+            </h3>
+            <p>
+              The <code>tab</code> is getting its label from the
+              <code>data-atabs-tab-label</code>.  The heading is
+              kept in the <code>tabpanel</code> because it does
+              <b>not</b> have the <code>data-atabs-heading</code>
+              attribute.
+            </p>
+            <h4>It wouldn't make much sense</h4>
+            <p>
+              To remove the first heading and then have a gap in the
+              heading structure. Which is why the first heading should
+              not be removed in this situation.
+            </p>
+          </section>
+        </div>
+      </main>
+
+    </div> <!-- /.page (demo layout) -->
+
+    <script src="../index.js"></script>
+    <script>
+      var widget = '[data-atabs]';
+      var els = document.querySelectorAll(widget);
+
+      // Generate all tab instances
+      for ( var i = 0; i < els.length; i++ ) {
+        var nTabs = new ARIAtabs( els[i] );
+      }
+    </script>
+  </body>
+</html>

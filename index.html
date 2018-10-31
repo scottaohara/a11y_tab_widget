@@ -189,49 +189,10 @@
       </main>
     </div> <!-- /.page (demo layout) -->
 
-
-
-
-    <!--
-      Example of external content injected into an
-      existing Tab Widget.
-    -->
-    <section id="inject-content">
-      <h3>This was an external section</h3>
-      <p>
-        This section existed outside of the primary grouping of tab panels.
-      </p>
-      <p>
-        You might need something like this if you don't have full control
-        over your markup but need to create a Tab Widget with what you
-        have to work with.
-      </p>
-      <p>
-        For full context, view source to see the <code>script</code> that
-        sets up the Tab Widgets. The following code snippet are the lines
-        specific to adding a <code>tab</code> and <code>tabpanel</code> to
-        a specific Tab Widget.
-      </p>
-      <pre><code>
-var injectContent = document.getElementById('inject-content');
-var cloneContent = injectContent.cloneNode(true);
-var allTabs = []; // collection of all Tab Widgets
-
-// remove the original instance of the external content from the document.
-injectContent.parentNode.removeChild(injectContent);
-
-// Inject the external content into a particular Tab Widget.
-allTabs[1].addTab(cloneContent, 'Tab Label Here', 'custom-class');
-      </code></pre>
-    </section>
-
-
     <script src="index.js"></script>
     <script>
       var tabInstance = '[data-atabs]';
       var els = document.querySelectorAll(tabInstance);
-      var injectContent = document.getElementById('inject-content');
-      var cloneContent = injectContent.cloneNode(true);
       var allTabs = [];
 
       // Generate all tab instances
@@ -240,13 +201,6 @@ allTabs[1].addTab(cloneContent, 'Tab Label Here', 'custom-class');
 
         allTabs.push(nTabs);
       }
-
-      // remove the original instance of the external content from the document.
-      injectContent.parentNode.removeChild(injectContent);
-
-      // Inject the external content into a particular
-      // tab, captured in the allTabs var.
-      allTabs[1].addTab(cloneContent, 'This tab label is long for testing purposes', 'custom-class');
     </script>
   </body>
 </html>

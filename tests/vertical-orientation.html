@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en-us" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Vertical ARIA Tabs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <link rel="stylesheet" href="../assets/css/tabs.css">
+    <link rel="stylesheet" href="../assets/css/--demo--.css">
+  </head>
+  <body>
+
+    <div class="page">
+
+      <header>
+        <h1>
+          Vertical ARIA Tab Widget
+        </h1>
+      </header>
+
+      <main>
+
+
+        <section data-atabs data-atabs-orientation="vertical">
+          <div data-atabs-panel>
+            <h3 data-atabs-heading>A section</h3>
+            <p>Nothing particularly new to report here...</p>
+          </div>
+
+          <div data-atabs-panel="default" data-atabs-tab-label="Label 2a">
+            <h3>The default tabpanel</h3>
+            <p>
+              Not only is this Tab Widget nested within another, it also
+              has <code>data-atabs-orientation="vertical"</code> set to the
+              widget wrapper. This attribute with the "vertical" value
+              will convert a <code>tablist</code> to a stacked UI. <code>aria-orientation="vertical"</code> will be set to the <code>tablist</code>, and <kbd>up</kbd> and <kbd>down</kbd> arrow keys, instead of <kbd>left</kbd> and <kbd>right</kbd> arrow keys will be used to navigate the individual <code>tab</code>s.
+            </p>
+          </div>
+
+          <div data-atabs-list>
+            <!--
+              a tablist that is set by default will have any
+              of its content purged to ensure that only
+              role=tab elements are child elements.
+            -->
+            This <code>tablist</code> will be repositioned to the top
+            of the Tab Widget container.  And this message will be
+            deleted when the script runs. So if you're seeing this, hi!
+          </div>
+        </section>
+      </main>
+
+    </div> <!-- /.page (demo layout) -->
+
+    <script src="../index.js"></script>
+    <script>
+      var widget = '[data-atabs]';
+      var els = document.querySelectorAll(widget);
+
+      // Generate all tab instances
+      for ( var i = 0; i < els.length; i++ ) {
+        var nTabs = new ARIAtabs( els[i] );
+      }
+    </script>
+  </body>
+</html>
