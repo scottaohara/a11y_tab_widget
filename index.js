@@ -152,7 +152,7 @@ var util = {
       var customClass = customClass || panel.getAttribute(_options.customTabClassAttribute);
 
       var generateTab = function ( index, id, tabPanel, customClass ) {
-        var newTab = doc.createElement('button');
+        var newTab = doc.createElement('span');
         newTab.id = elID + '_tab_' + index;
         newTab.tabIndex = -1;
         newTab.setAttribute('role', 'tab');
@@ -334,6 +334,7 @@ var util = {
           activeIndex = selectedTab;
           break;
 
+        case util.keyCodes.ENTER:
         case util.keyCodes.SPACE:
           e.preventDefault();
           activateTab();

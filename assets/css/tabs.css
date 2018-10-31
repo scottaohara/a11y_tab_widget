@@ -19,13 +19,13 @@
 }
 
 
-
 .atabs__list[aria-orientation="vertical"] {
   width: 100%
 }
 
 .atabs__list[aria-orientation="vertical"] .atabs__list__tab {
   border-right: 0;
+  display: inline-block;
   text-align: left;
   width: 100%;
 }
