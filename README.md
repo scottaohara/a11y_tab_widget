@@ -49,11 +49,11 @@ The script runs through the minimum markup looking for specific `data-atabs-*` t
 * `data-atabs-automatic`  
   If this attribute is set to the `data-atabs` wrapper of *any* Tab Widget in a document, it will make **all** Tab Widgets automatically reveal the `tabpanel` associated with the currently focused `tab` element.  The reason this globally affects Tab Widgets is to reduce any possibility of an inconsistent user experience between different Tab Widgets.
 
-  Note that when navigating automatically activated `tab`s with a virtual cursor, whether that be on desktop or mobile, `tabpanel`s will not automatically reveal until a user purposefully activates the virtual cursor focused `tab`.  
+  Note that if navigating via the virtual cursor (on desktop or mobile), `tab`s will not auto-activate.  
 * `data-atabs-orientation`  
   If this attribute is set to the `data-atabs` wrapper element, and it's value is set to "vertical", then it will add `aria-orientation="vertical"` to the `tablist` and modify the arrow keys from <kbd>left</kbd> and <kbd>right</kbd> to <kbd>up</kbd> and <kbd>down</kbd> to move focus through the `tab`s within the `tablist`.
 * `data-atabs-panel`    
-  Designates that an element should serve as a `tabpanel`. If given the value of "default", the script will set this `tabpanel` and associated `tab` to be active, instead of the first `tab` and `tabpanel`.  If multiple `data-atabs-panel` attributes have the value of "default", only the first one will be respected.
+  Designates that an element should serve as a `tabpanel`. If given the value of "default", the script will set this `tabpanel` and associated `tab` to be active, instead of automatically  first `tab` and `tabpanel`.  If multiple `data-atabs-panel` attributes have the value of "default", only the first one will be respected.
 * `data-atabs-tab-label`   
   Also used on the element that will be a `tabpanel`, this attribute indicates that the generated `tab` should use its value as the `tab`'s label. The value of `data-atabs-tab-label` takes precedents over using the content of the `tabpanel`'s heading when generating the `tab`.
 * `data-atabs-heading`   
@@ -101,7 +101,7 @@ If using a mouse while also using NVDA with the setting "Report role when mouse 
 If using iOS with VoiceOver enabled, and exploring by touch, a `tab` should announce itself as "Accessible name. Tab. Number of Numbers".  If the touched `tab` is currently active VoiceOver will announce "Selected" prior to the accessible name.
 
 ### Keyboard
-When interacting with a Tab Widget with a desktop or laptop keyboard, one can use the <kbd>Tab</kbd> key to navigate to the `tablist`. Keyboard focus will highlight the `tab` that is currently active.
+When interacting with a Tab Widget with a desktop or laptop keyboard, one can use the <kbd>Tab</kbd> key to navigate to the `tablist`. Keyboard focus will move to the `tab` that is currently active. Pressing the <kbd>Tab</kbd> key again will move keyboard focus to the `tabpanel` itself. The `tabpanel` must be temporarily focusable so as to ensure that keyboard focus doesn't move past a `tabpanel` which doesn't contain any interactive (focusable) child elements.
 
 If the `tablist` is horizontally orientated, using the <kbd>Left</kbd> and <kbd>Right</kbd> arrow keys to will navigate to the previous and next `tab`s in the `tablist`.  Keyboard focus will loop from the last `tab` to the first, and vice versa.  If the `tablist` is vertically oriented, <kbd>Up</kbd> and <kbd>Down</kbd> arrow keys will navigate the `tab`s. Note: vertically oriented `tablist`s should have the attribute `aria-orientation="vertical`.
 
@@ -118,6 +118,7 @@ There are no major dependencies for this script.
 * [ARIA Specification: Tablist Role](https://www.w3.org/TR/wai-aria-1.2/#tablist)
 * [Aria Specification: Tabpanel Role](https://www.w3.org/TR/wai-aria-1.2/#tabpanel)
 * [WAI-ARIA Authoring Practices: Tab Widgets](https://www.w3.org/TR/wai-aria-practices-1.2/#tabpanel)
+* [Inclusive Design Components: Tabbed Interfaces](https://inclusive-components.design/tabbed-interfaces/)
 
 ## License, Thank yous & Such
 This script was written by Scott O'Hara: [Website](https://www.scottohara.me), [Twitter](https://twitter.com/scottohara).
