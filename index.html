@@ -27,38 +27,11 @@
       </header>
 
       <main>
-        <!--
-          Test case 1
-        -->
         <section>
-          <h2>Tab Widget Example 1</h2>
+          <h2>Tab Widget Example</h2>
 
-          <nav id="toc">
-            <p>
-              A table of contents for no-js situations.
-              If JS is working, you probably aren't seeing this though.
-            </p>
-            <ul>
-              <li>
-                <a href="#a">Item 1</a>
-              </li>
-              <li>
-                <a href="#b">Item 2</a>
-              </li>
-              <li>
-                <a href="#c">Item 3</a>
-              </li>
-            </ul>
-          </nav>
 
-          <!--
-            data-atabs-toc points to the ID of the table of contents.
-            This is how the script knows to remove it.
-
-            Adding data-atabs-automatic will make this, and any other
-            Tab Widget on the page load a selected tabpanel on focus.
-          -->
-          <div data-atabs data-atabs-toc="toc" data-atabs-removable>
+          <div data-atabs>
             <section id="a" data-atabs-panel>
               <h3 data-atabs-heading>
                 Tab label 1
@@ -104,86 +77,16 @@
           </div>
         </section>
 
-
-        <!--
-          Test case 2
-        -->
         <section>
-          <h2>Tab Widget Example 2</h2>
-
-          <section data-atabs data-atabs-toc="toc">
-            <!--
-              This data-atabs-toc is purposefully left on the wrapper, even
-              though the 'toc' was really meant for the first example.
-
-              This was to test/prevent duplicate IDrefs from erroring
-              out the script.
-            -->
-            <div data-atabs-panel data-atabs-tab-label="Section 1" data-atabs-tab-class="test-class">
-              <h3 data-atabs-heading>My default heading</h3>
-              <p>
-                The <code>tab</code> for this <code>tabpanel</code> is created from a
-                <code>data-atabs-tab-label</code> attribute which is on the
-                <code>data-atabs-panel</code>.
-              </p>
-              <p>
-                The <code>tab</code> associated with this panel has it's own unique
-                class, beyond the default one set by the script.  This is done
-                via the <code>tabpanel</code> having the <code>data-atabs-tab-class</code> with a single string value of the class to add. For example "test-class".
-              </p>
-            </div>
-
-            <div data-atabs-panel="default">
-              <h3 data-atabs-heading="keep">Default tab</h3>
-              <p>
-                The <code>data-atabs-panel</code> has the value "default", which results in this <code>tabpanel</code> being opened by default.
-              </p>
-
-              <p>
-                While not necessarily condoned, this <code>tabpanel</code>
-                contains a separate Tab Widget instance.
-              </p>
-
-              <!--
-                Tab Widgets within Tab Widgets.  Oh my...
-              -->
-              <section data-atabs data-atabs-orientation="vertical">
-
-                <div data-atabs-panel>
-                  <h3 data-atabs-heading>A section</h3>
-                  <p>Nothing particularly new to report here...</p>
-                </div>
-
-                <div data-atabs-panel="default" data-atabs-tab-label="Label 2a">
-                  <h3>The default tabpanel</h3>
-                  <p>
-                    Not only is this Tab Widget nested within another, it also
-                    has <code>data-atabs-orientation="vertical"</code> set to the
-                    widget wrapper. This attribute with the "vertical" value
-                    will convert a <code>tablist</code> to a stacked UI. <code>aria-orientation="vertical"</code> will be set to the <code>tablist</code>, and <kbd>up</kbd> and <kbd>down</kbd> arrow keys, instead of <kbd>left</kbd> and <kbd>right</kbd> arrow keys will be used to navigate the individual <code>tab</code>s.
-                  </p>
-                </div>
-
-                <div data-atabs-list>
-                  <!--
-                    a tablist that is set by default will have any
-                    of its content purged to ensure that only
-                    role=tab elements are child elements.
-                  -->
-                  This <code>tablist</code> will be repositioned to the top
-                  of the Tab Widget container.  And this message will be
-                  deleted when the script runs. So if you're seeing this, hi!
-                </div>
-              </section>
-            </div>
-
-            <div data-atabs-panel="default">
-              <h3 data-atabs-heading>Not default</h3>
-              <p>This <code>tabpanel</code> also has <code>data-atabs-panel="default"</code>,
-                but as it is not the first <code>tabpanel</code> with "default" as its value,
-                this one is ignored.
-            </div>
-          </section>
+          <h2>More demos</h2>
+          <ul>
+            <li><a href="tests/nested.html">Nested Tab Widgets</a></li>
+            <li><a href="tests/automatic.html">Automatically activated <code>tabpanel</code>s</a></li>
+            <li><a href="tests/inject-tabs-into-widget.html">Injected Tab Panels</a></li>
+            <li><a href="tests/vertical-orientation.html">Vertical Tab Widget</a></li>
+            <li><a href="tests/has-toc.html">No JS Table of Contents Sections</a></li>
+            <li><a href="tests/multiple-instances.html">Multiple Tab Widget Instances</a></li>
+          </ul>
         </section>
 
       </main>

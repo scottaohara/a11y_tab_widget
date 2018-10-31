@@ -12,3 +12,13 @@ header {
   border-bottom: 1px solid #999;
   padding-bottom: 1.5em;
 }
+
+header nav a {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+header nav a:first-of-type {
+	border-right: 1px solid;
+	padding-right: 1em;
+}

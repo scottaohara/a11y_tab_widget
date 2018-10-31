@@ -2,16 +2,11 @@
 <html lang="en-us" class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>ARIA Tabs</title>
+    <title>Auto Activated ARIA Tabs</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
     <link rel="stylesheet" href="../assets/css/tabs.css">
     <link rel="stylesheet" href="../assets/css/--demo--.css">
-    <style>
-      .no-js :focus {
-        outline: 2px solid;
-      }
-    </style>
   </head>
   <body>
 
@@ -19,10 +14,10 @@
 
       <header>
         <h1>
-          Content with Table of Contents w/out JavaScript
+          Auto Activated Tab Panels
         </h1>
         <p>
-          Turn off JavaScript and a table of contents navigation with skip links to the different sections will be available.
+          <code>tabpanel</code>s will be automatically opened upon keyboard focus being set to each <code>tab</code> element.</p><p>Note: keyboard focus and virtual cursor focus are not necessarily the same thing.</p>
         </p>
         <nav>
           <a href="../index.html">Back to index</a>
@@ -31,25 +26,7 @@
       </header>
 
       <main>
-        <nav id="toc">
-          <p>
-            A table of contents for no-js situations.
-            If JS is working, you probably aren't seeing this though.
-          </p>
-          <ul>
-            <li>
-              <a href="#a">Item 1</a>
-            </li>
-            <li>
-              <a href="#b">Item 2</a>
-            </li>
-            <li>
-              <a href="#c">Item 3</a>
-            </li>
-          </ul>
-        </nav>
-
-        <div data-atabs data-atabs-toc="toc">
+        <div data-atabs data-atabs-automatic>
           <section tabindex="-1" id="a" data-atabs-panel>
             <h3 data-atabs-heading>
               Tab label 1
@@ -64,7 +41,7 @@
             </p>
           </section>
           <section tabindex="-1" id="b" data-atabs-panel>
-            <h3 data-atabs-heading="keep">
+            <h3 data-atabs-heading>
               Tab label 2
             </h3>
             <p data-atabs-heading>
