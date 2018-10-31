@@ -356,16 +356,18 @@ var util = {
             moveNext( e );
           }
           else {
+            _tabs[selectedTab].panel.tabIndex = 0;
             _tabs[activeIndex].panel.focus();
           }
           break;
-
 
         case util.keyCodes.DOWN:
           if ( orientation === 'vertical' ) {
             moveNext( e );
           }
           else {
+            e.preventDefault();
+            _tabs[selectedTab].panel.tabIndex = 0;
             _tabs[activeIndex].panel.focus();
           }
           break;
