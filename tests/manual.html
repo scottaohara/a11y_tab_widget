@@ -2,7 +2,7 @@
 <html lang="en-us" class="no-js">
   <head>
     <meta charset="utf-8">
-    <title>Auto Activated ARIA Tabs</title>
+    <title>Manual ARIA Tabs</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
     <link rel="stylesheet" href="../assets/css/tabs.css">
@@ -14,11 +14,10 @@
 
       <header>
         <h1>
-          Auto Activated Tab Panels
+          Manual Tab Panels
         </h1>
         <p>
-          <code>tabpanel</code>s will be automatically opened upon keyboard focus being set to each <code>tab</code> element.</p><p>Note: keyboard focus and virtual cursor focus are not necessarily the same thing.</p>
-        </p>
+          A <code>tabpanel</code>s will be opened after the currently focused <code>tab</code> element has been purposefully activated by press of <kbd>Enter</kbd> or <kbd>Space</kbd> keys.</p>
         <nav>
           <a href="../index.html">Back to index</a>
           <a href="https://github.com/scottaohara/a11y_tab_widget">GitHub Repo</a>
@@ -27,10 +26,10 @@
 
       <main>
         <h2>
-          Situationally quite useful
+          Manual activation example
         </h2>
 
-        <div data-atabs data-atabs-automatic>
+        <div data-atabs data-atabs-manual>
           <section tabindex="-1" id="a" data-atabs-panel>
             <h3 data-atabs-heading>
               Tab label 1

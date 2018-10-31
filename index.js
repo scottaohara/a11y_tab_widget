@@ -86,8 +86,8 @@ var util = {
     tabClass: 'atabs__list__tab',
     tabListClass: 'atabs__list',
     tablistSelector: '[data-atabs-list]',
-    automaticAttribute: 'data-atabs-automatic',
-    automatic: false
+    manualAttribute: 'data-atabs-manual',
+    manual: false
   };
 
 
@@ -111,8 +111,8 @@ var util = {
         orientation = 'vertical';
       }
 
-      if ( el.hasAttribute(_options.automaticAttribute) ) {
-        _options.automatic = true;
+      if ( el.hasAttribute(_options.manualAttribute) ) {
+        _options.manual = true;
       }
 
       el.classList.add(_options.elClass);
@@ -283,7 +283,7 @@ var util = {
       decrementActiveIndex();
       focusActiveTab();
 
-      if ( _options.automatic ) {
+      if ( !_options.manual ) {
         activateTab();
       }
     }; // moveBack()
@@ -294,7 +294,7 @@ var util = {
       incrementActiveIndex();
       focusActiveTab();
 
-      if ( _options.automatic ) {
+      if ( !_options.manual ) {
         activateTab();
       }
     }; // moveNext()
