@@ -173,6 +173,10 @@ var util = {
         }, false);
 
         newTab.addEventListener('keydown', tabElementPress.bind(this), false);
+        newTab.addEventListener('focus', function () {
+          checkYoSelf.call( this, index );
+        }, false);
+
         return newTab;
       };
 
@@ -215,7 +219,7 @@ var util = {
 
       if ( panelHeading ) {
         if ( panelHeading.getAttribute(_options.headingAttribute) !== 'keep' ) {
-          panelHeading.parentNode.removeChild(panelHeading)
+          panelHeading.parentNode.removeChild(panelHeading);
         }
       }
 
@@ -369,6 +373,18 @@ var util = {
           break;
       }
     }; // tabElementPress()
+
+
+    /**
+     * This function shouldn't exist.  BUT for...
+     * https://github.com/nvaccess/nvda/issues/8906
+     * https://github.com/FreedomScientific/VFO-standards-support/issues/132
+     */
+    var checkYoSelf = function ( index ) {
+      if ( index !== activeIndex ) {
+        focusActiveTab();
+      }
+    }; // checkYoSelf()
 
 
     var deactivateTabs = function () {
