@@ -341,36 +341,13 @@ var util = {
           break;
 
         case util.keyCodes.LEFT:
-          if ( orientation === 'horizontal' ) {
-            moveBack( e );
-          }
-          break;
-
         case util.keyCodes.UP:
-          if ( orientation === 'vertical' ) {
-            moveBack( e );
-          }
+          moveBack( e );
           break;
 
         case util.keyCodes.RIGHT:
-          if ( orientation === 'horizontal' ) {
-            moveNext( e );
-          }
-          else {
-            _tabs[selectedTab].panel.tabIndex = 0;
-            _tabs[activeIndex].panel.focus();
-          }
-          break;
-
         case util.keyCodes.DOWN:
-          if ( orientation === 'vertical' ) {
-            moveNext( e );
-          }
-          else {
-            e.preventDefault();
-            _tabs[selectedTab].panel.tabIndex = 0;
-            _tabs[activeIndex].panel.focus();
-          }
+          moveNext( e );
           break;
 
         case util.keyCodes.END:
