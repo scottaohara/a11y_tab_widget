@@ -156,8 +156,11 @@ var util = {
         newTab.id = elID + '_tab_' + index;
         newTab.tabIndex = -1;
         newTab.setAttribute('role', 'tab');
-        newTab.setAttribute('aria-controls', id);
         newTab.setAttribute('aria-selected', activeIndex === index);
+        if ( activeIndex === index ) {
+          newTab.setAttribute('aria-controls', id);
+        }
+        newTab.setAttribute('data-controls', id);
         newTab.innerHTML = tabPanel;
         newTab.classList.add(_options.tabClass);
         if ( customClass ) {
@@ -379,6 +382,10 @@ var util = {
       _tabs[idx].panel.hidden = true;
       _tabs[idx].tab.tabIndex = -1;
       _tabs[idx].tab.setAttribute('aria-selected', false);
+      _tabs[idx].tab.removeAttribute('aria-controls');
+      // remove the aria-controls from inactive tabs since
+      // a user can *not* move to their associated element
+      // if that element is not displayed.
     }; // deactivateTab()
 
 
@@ -390,6 +397,7 @@ var util = {
     var activateTab = function () {
       var active = _tabs[activeIndex];
       deactivateTabs();
+      active.tab.setAttribute('aria-controls', active.tab.getAttribute('data-controls'))
       active.tab.setAttribute('aria-selected', true);
       active.tab.tabIndex = 0;
       active.panel.hidden = false;
