@@ -101,7 +101,7 @@ If using a mouse while also using ZoomText Fusion or NVDA with the setting "Repo
 If using iOS with VoiceOver enabled, and exploring by touch, a `tab` should announce itself as "Accessible name. Tab. Number of Numbers".  If the touched `tab` is currently active VoiceOver will announce "Selected" prior to the accessible name.  A similar experience will occur if exploring by touch with TalkBack and Chrome.  
 
 ### Keyboard
-When interacting with a Tab Widget with a desktop or laptop keyboard, one can use the <kbd>Tab</kbd> key to navigate to the `tablist`. Keyboard focus will move to the `tab` that is currently active. Pressing the <kbd>Tab</kbd> key again will move keyboard focus to the `tabpanel` itself. The `tabpanel` must be temporarily focusable so as to ensure that keyboard focus doesn't move past a `tabpanel` which doesn't contain any interactive (focusable) child elements.
+When interacting with a Tab Widget with a desktop or laptop keyboard, one can use the <kbd>Tab</kbd> key to navigate to the `tablist`. Keyboard focus will move to the `tab` that is currently active. Pressing the <kbd>Tab</kbd> key again will move keyboard focus to the `tabpanel` itself. The `tabpanel` must be temporarily focusable so as to ensure that keyboard focus doesn't move past a `tabpanel` which doesn't contain any interactive (focusable) child elements. 
 
 When keyboard focus enters the `tablist`, the currently active `tab` should receive focus and skip over any `tab`s that are currently not activated. The <kbd>Left</kbd> &amp; <kbd>Up</kbd> and <kbd>Right</kbd> &amp; <kbd>Down</kbd> arrow keys to will navigate to the previous and next `tab` in the `tablist`, respectively.  Keyboard focus will loop from the last `tab` to the first, and vice versa.  
 
@@ -113,7 +113,7 @@ If a Tab Widget has a `data-atabs-manual` set to it, then a user must purposeful
 
 
 ### Keyboard + Screen Readers
-For default keyboard UX, without the aid of a screen reader, the <kbd>Tab</kbd> key will navigate to the currently selected `tab`, but should not navigate to unselected `tab` elements.  Instead, arrow keys are used to navigate the `tab`s.  ((( retest for NVDA + JAWS to note quirks with this )))
+When an individual enters a `tablist` and enters Forms Mode, many of the keyboard controls will work as previously outlined.  Where functionality will differ has been outlined per each of the following screen readers.
 
 #### VoiceOver: MacOS
 Since VoiceOver doesn't have a forms/application mode, arrow keys will function similarly to default keyboard controls.  Use the <kbd>VO key</kbd> + <kbd>left</kbd> or <kbd>right</kbd> arrow keys to navigate through a `tablist` without setting keyboard focus to a `tab`, until hitting <kbd>VO key</kbd> + <kbd>Space</kbd>.
