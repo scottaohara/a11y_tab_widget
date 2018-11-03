@@ -27,15 +27,8 @@
         <section>
           <h2>A tale of two Tab Widgets</h2>
 
-          <section data-atabs data-atabs-toc="toc">
-            <!--
-              This data-atabs-toc is purposefully left on the wrapper, even
-              though the 'toc' was really meant for the first example.
-
-              This was to test/prevent duplicate IDrefs from erroring
-              out the script.
-            -->
-            <div data-atabs-panel data-atabs-tab-label="Section 1" data-atabs-tab-class="test-class">
+          <section data-atabs>
+            <div data-atabs-panel data-atabs-tab-label="Pumpkins" data-atabs-tab-class="test-class">
               <h3 data-atabs-heading>My default heading</h3>
               <p>
                 The <code>tab</code> for this <code>tabpanel</code> is created from a
@@ -50,13 +43,17 @@
             </div>
 
             <div data-atabs-panel="default">
-              <h3 data-atabs-heading="keep">Default tab</h3>
+              <h3 data-atabs-heading="keep">Default</h3>
               <p>
-                The <code>data-atabs-panel</code> has the value "default", which results in this <code>tabpanel</code> being opened by default.
+                The <code>data-atabs-panel</code> has
+                the value "default", which results in
+                this <code>tabpanel</code> being opened
+                by default.
               </p>
 
               <p>
-                While not necessarily condoned, this <code>tabpanel</code>
+                While not necessarily condoned,
+                this <code>tabpanel</code>
                 contains a separate Tab Widget instance.
               </p>
 
@@ -66,38 +63,36 @@
               <section data-atabs data-atabs-orientation="vertical">
 
                 <div data-atabs-panel>
-                  <h3 data-atabs-heading>A section</h3>
-                  <p>Nothing particularly new to report here...</p>
+                  <h3 data-atabs-heading>Apples</h3>
+                  <p>Hey.  Apples are great, aren't they?</p>
                 </div>
 
-                <div data-atabs-panel="default" data-atabs-tab-label="Label 2a">
-                  <h3>The default tabpanel</h3>
+                <div data-atabs-panel="default" data-atabs-tab-label="Nested Default">
+                  <h3>The default nested tabpanel</h3>
                   <p>
-                    Not only is this Tab Widget nested within another, it also
-                    has <code>data-atabs-orientation="vertical"</code> set to the
+                    This Tab Widget has <code>data-atabs-orientation="vertical"</code> set to the
                     widget wrapper. This attribute with the "vertical" value
-                    will convert a <code>tablist</code> to a stacked UI. <code>aria-orientation="vertical"</code> will be set to the <code>tablist</code>, and <kbd>up</kbd> and <kbd>down</kbd> arrow keys, instead of <kbd>left</kbd> and <kbd>right</kbd> arrow keys will be used to navigate the individual <code>tab</code>s.
+                    will convert a <code>tablist</code> to a stacked UI. <code>aria-orientation="vertical"</code> will be set to the <code>tablist</code>.
                   </p>
-                </div>
-
-                <div data-atabs-list>
-                  <!--
-                    a tablist that is set by default will have any
-                    of its content purged to ensure that only
-                    role=tab elements are child elements.
-                  -->
-                  This <code>tablist</code> will be repositioned to the top
-                  of the Tab Widget container.  And this message will be
-                  deleted when the script runs. So if you're seeing this, hi!
+                  <p>
+                    <code>aria-orientation</code> is not universally supported yet, so this
+                    is more for introducing announcements for future behavior, rather
+                    than for any unique functionality at this time.
+                  </p>
                 </div>
               </section>
             </div>
 
             <div data-atabs-panel="default">
-              <h3 data-atabs-heading>Not default</h3>
+              <h3 data-atabs-heading>Oranges</h3>
               <p>This <code>tabpanel</code> also has <code>data-atabs-panel="default"</code>,
                 but as it is not the first <code>tabpanel</code> with "default" as its value,
                 this one is ignored.
+              </p>
+              <p>
+                Also, there is no information about
+                oranges here. Apologies.
+              </p>
             </div>
           </section>
         </section>

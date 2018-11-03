@@ -29,17 +29,21 @@
 
         <section data-atabs data-atabs-orientation="vertical">
           <div data-atabs-panel>
-            <h3 data-atabs-heading>A section</h3>
+            <h3 data-atabs-heading>Apples</h3>
             <p>Nothing particularly new to report here...</p>
           </div>
 
           <div data-atabs-panel="default" data-atabs-tab-label="Label 2a">
-            <h3>The default tabpanel</h3>
+            <h3>Bananas</h3>
             <p>
-              Not only is this Tab Widget nested within another, it also
-              has <code>data-atabs-orientation="vertical"</code> set to the
+              This Tab Widget has <code>data-atabs-orientation="vertical"</code> set to the
               widget wrapper. This attribute with the "vertical" value
-              will convert a <code>tablist</code> to a stacked UI. <code>aria-orientation="vertical"</code> will be set to the <code>tablist</code>, and <kbd>up</kbd> and <kbd>down</kbd> arrow keys, instead of <kbd>left</kbd> and <kbd>right</kbd> arrow keys will be used to navigate the individual <code>tab</code>s.
+              will convert a <code>tablist</code> to a stacked UI. <code>aria-orientation="vertical"</code> will be set to the <code>tablist</code>.
+            </p>
+            <p>
+              <code>aria-orientation</code> is not universally supported yet, so this
+              is more for introducing announcements for future behavior, rather
+              than for any unique functionality at this time.
             </p>
           </div>
 
@@ -52,6 +56,7 @@
             This <code>tablist</code> will be repositioned to the top
             of the Tab Widget container.  And this message will be
             deleted when the script runs. So if you're seeing this, hi!
+            How's the Internet treating you with JS turned off?
           </div>
         </section>
 

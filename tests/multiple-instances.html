@@ -35,17 +35,17 @@
           <nav id="toc">
             <p>
               A table of contents for no-js situations.
-              If JS is working, you probably aren't seeing this though.
+              If JS is working, you should be seeing this...
             </p>
             <ul>
               <li>
-                <a href="#a">Item 1</a>
+                <a href="#a">Apples</a>
               </li>
               <li>
-                <a href="#b">Item 2</a>
+                <a href="#b">Bananas</a>
               </li>
               <li>
-                <a href="#c">Item 3</a>
+                <a href="#c">Oranges are delicious and super great</a>
               </li>
             </ul>
           </nav>
@@ -53,7 +53,7 @@
           <div data-atabs>
             <section id="a" data-atabs-panel>
               <h3 data-atabs-heading>
-                Tab label 1
+                Apples
               </h3>
               <p>
                 No explicit default was set, so per standard functionality
@@ -66,7 +66,7 @@
             </section>
             <section id="b" data-atabs-panel>
               <h3 data-atabs-heading="keep">
-                Tab label 2
+                Bananas
               </h3>
               <p data-atabs-heading>
                 This is an example of a heading being used to populate the
@@ -75,9 +75,9 @@
                 the value "keep" to <code>data-atabs-heading</code>.
               </p>
             </section>
-            <section id="c" data-atabs-panel data-atabs-tab-label="Tab label 3">
+            <section id="c" data-atabs-panel data-atabs-tab-label="Oranges">
               <h3>
-                There are two headings here
+                Oranges are delicious and super great
               </h3>
               <p>
                 The <code>tab</code> is getting its label from the
@@ -86,11 +86,8 @@
                 <b>not</b> have the <code>data-atabs-heading</code>
                 attribute.
               </p>
-              <h4>It wouldn't make much sense</h4>
               <p>
-                To remove the first heading and then have a gap in the
-                heading structure. Which is why the first heading should
-                not be removed in this situation.
+                This is also an example of why using <code>data-atabs-tab-label</code> to define a <code>tab</code>'s label can be preferred to using a heading or Table of Contents link. Shorter <code>tab</code> labels work better for these types of UI, rather than long headings / link labels.
               </p>
             </section>
           </div>
@@ -111,7 +108,7 @@
               This was to test/prevent duplicate IDrefs from erroring
               out the script.
             -->
-            <div data-atabs-panel data-atabs-tab-label="Section 1" data-atabs-tab-class="test-class">
+            <div data-atabs-panel data-atabs-tab-label="Mangos" data-atabs-tab-class="test-class">
               <h3 data-atabs-heading>My default heading</h3>
               <p>
                 The <code>tab</code> for this <code>tabpanel</code> is created from a
@@ -126,7 +123,7 @@
             </div>
 
             <div data-atabs-panel="default">
-              <h3 data-atabs-heading="keep">Default tab</h3>
+              <h3 data-atabs-heading="keep">Carrots</h3>
               <p>
                 The <code>data-atabs-panel</code> has the value "default", which results in this <code>tabpanel</code> being opened by default.
               </p>
@@ -142,18 +139,23 @@
               <section data-atabs data-atabs-orientation="vertical">
 
                 <div data-atabs-panel>
-                  <h3 data-atabs-heading>A section</h3>
-                  <p>Nothing particularly new to report here...</p>
+                  <h3 data-atabs-heading>Lettuce</h3>
+                  <p>Leafy and crunchy, unless it's old and mushy...</p>
                 </div>
 
-                <div data-atabs-panel="default" data-atabs-tab-label="Label 2a">
-                  <h3>The default tabpanel</h3>
+                <div data-atabs-panel="default" data-atabs-tab-label="Ice Cream">
+                  <h3>Ice cream, the default tabpanel</h3>
                   <p>
                     Not only is this Tab Widget nested within another, it also
                     has <code>data-atabs-orientation="vertical"</code> set to the
                     widget wrapper. This attribute with the "vertical" value
                     will convert a <code>tablist</code> to a stacked UI. <code>aria-orientation="vertical"</code> will be set to the <code>tablist</code>, and <kbd>up</kbd> and <kbd>down</kbd> arrow keys, instead of <kbd>left</kbd> and <kbd>right</kbd> arrow keys will be used to navigate the individual <code>tab</code>s.
                   </p>
+                </div>
+
+                <div data-atabs-panel>
+                  <h3 data-atabs-heading>Mushrooms</h3>
+                  <p>Either gross or food.  I don't get it.</p>
                 </div>
 
                 <div data-atabs-list>
@@ -209,7 +211,7 @@
         specific to adding a <code>tab</code> and <code>tabpanel</code> to
         a specific Tab Widget.
       </p>
-      <pre><code>
+      <pre style="overflow-x: auto; border: 1px solid; padding: .125em 1em"><code>
 var injectContent = document.getElementById('inject-content');
 var cloneContent = injectContent.cloneNode(true);
 var allTabs = []; // collection of all Tab Widgets
@@ -218,7 +220,7 @@ var allTabs = []; // collection of all Tab Widgets
 injectContent.parentNode.removeChild(injectContent);
 
 // Inject the external content into a particular Tab Widget.
-allTabs[1].addTab(cloneContent, 'Tab Label Here', 'custom-class');
+allTabs[1].addTab(cloneContent, 'This tab label is long for testing purposes', 'custom-class');
       </code></pre>
     </section>
 

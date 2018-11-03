@@ -32,7 +32,7 @@
         <div data-atabs data-atabs-manual>
           <section tabindex="-1" id="a" data-atabs-panel>
             <h3 data-atabs-heading>
-              Tab label 1
+              Apples
             </h3>
             <p>
               No explicit default was set, so per standard functionality
@@ -44,19 +44,23 @@
             </p>
           </section>
           <section tabindex="-1" id="b" data-atabs-panel>
-            <h3 data-atabs-heading>
-              Tab label 2
+            <h3 data-atabs-heading="keep">
+              Oranges
             </h3>
             <p data-atabs-heading>
+              <!--
+                test. only the first data-atabs-heading
+                should be used to populate the tab label.
+              -->
               This is an example of a heading being used to populate the
               <code>tab</code>'s label, while also not removing heading
               from the <code>tabpanel</code>.  This is done by adding
               the value "keep" to <code>data-atabs-heading</code>.
             </p>
           </section>
-          <section tabindex="-1" id="c" data-atabs-panel data-atabs-tab-label="Tab label 3">
+          <section tabindex="-1" id="c" data-atabs-panel data-atabs-tab-label="Bananas">
             <h3>
-              There are two headings here
+              These things are never about fruit...
             </h3>
             <p>
               The <code>tab</code> is getting its label from the
@@ -65,12 +69,7 @@
               <b>not</b> have the <code>data-atabs-heading</code>
               attribute.
             </p>
-            <h4>It wouldn't make much sense</h4>
-            <p>
-              To remove the first heading and then have a gap in the
-              heading structure. Which is why the first heading should
-              not be removed in this situation.
-            </p>
+
           </section>
         </div>
 
