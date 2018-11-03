@@ -91,19 +91,21 @@ The Tab Widget script runs through the markup looking for specific `data-atabs-*
 ## User Experience
 Tab Widgets are a type of show/hide component, and the manner in which you interact with a Tab Widget will dictate the experience.
 
-For mouse and touch users, the show/hide functionality is initiated by interacting with the `tab`s within the `tablist`.  Activating one `tab` will reveal the `tabpanel` its associated with, while deactivating the previously active `tab`, and hiding its `tabpanel`.
+For mouse and touch users, the show/hide functionality is initiated by interacting with the `tab`s within the `tablist`.  Activating a `tab` will reveal the `tabpanel` its associated with, while also deactivating the previously active `tab`, and hiding its `tabpanel`.
 
+For keyboard users, and screen reader users in forms mode, a Tab Widget will automatically select and reveal the contents of the focused `tab` as a user navigate the `tablist` via arrow keys.  
 
+A setting is available (`data-atabs-manual`) to require manual activation of `tab`s.
 
-This script has been tested to work with mouse, touch, and keyboard devices. Each input device has also been re-tested while running 
+The [ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices-1.2/#tabpanel) notes:
+>It is recommended that tabs activate automatically when they receive focus as long as their associated tab panels are displayed without noticeable latency. This typically requires tab panel content to be preloaded. Otherwise, automatic activation slows focus movement, which significantly hampers users' ability to navigate efficiently across the tab list.
 
+This script has been tested to work with mouse, touch, and keyboard devices. Each input device has also been re-tested while running various browser and screen reader pairings.
 
-
+**FYI: More information concerning expected functionality and screen reader announcements will be linked to from here.**
 
 ## Dependencies and known issues
 There are no dependencies for this script. Any necessary polyfill (for IE11) is included in the JavaScript.  
-
-
 
 
 ## Additional Reading
