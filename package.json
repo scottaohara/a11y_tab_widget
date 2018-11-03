@@ -2,7 +2,7 @@
   "title": "Accessible ARIA Tab Widgets",
   "name": "a11y_tab_widgets",
   "description": "ES5 script to create accessible tab widget components",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "main": "index.js",
   "homepage": "https://github.com/scottaohara/a11y_tab_widget/blob/master/README.md",
   "repository": {
