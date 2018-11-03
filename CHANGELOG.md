@@ -2,7 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-...
+- [Removable `tab`/`tabpanel` functionality](https://github.com/scottaohara/a11y_tab_widget/issues/6).
+- [Open a `tabpanel` from URL hash](https://github.com/scottaohara/a11y_tab_widget/issues/8).
 
 ## [2.0.1] - 2018-09-20
 ### Added
