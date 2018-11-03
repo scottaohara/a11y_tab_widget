@@ -14,7 +14,17 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Rewrote the entire script from scratch into vanilla JavaScript.
 - Revised base markup pattern.
+- Revised CSS classes.
 - Allow for external elements to be added to a Tab Widget, generating both the new `tabpanel` and associated `tab`.
 - Options for non-default `aria-orientation=vertial` and automatic activation of `tab`s on focus. 
+### Removed
+- Non-ARIA Tab Widget version.
+
+
+## [1.0.0] - 2015-09-30 to [1.1.1] - 2016-12-19
+1.0.0 to 1.1.1 were a jQuery based version of Tab Widgets.  
+This series of versions allowed for ARIA vs non-ARIA versions of the Tab Widget.
+
+This version of the script also called for a different version of the expected baseline markup, and hooks to make the script work.  
 
 
