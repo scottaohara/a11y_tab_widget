@@ -379,6 +379,15 @@ var util = {
      * This function shouldn't exist.  BUT for...
      * https://github.com/nvaccess/nvda/issues/8906
      * https://github.com/FreedomScientific/VFO-standards-support/issues/132
+     *
+     * Note this doesn't completely fix JAWS announcements.
+     * With this function, focus will be placed on the correct Tab,
+     * but JAWS will make no announcement until the user begins
+     * re-navigating with arrow keys.
+     *
+     * The alternative is not using this, having JAWS announce the
+     * inactive tag (which will receive focus), JAWS will announce
+     * to use the Space key to activate, but nothing will happen.
      */
     var checkYoSelf = function ( index ) {
       if ( index !== activeIndex ) {
