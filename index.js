@@ -1,22 +1,23 @@
 'use strict';
-if (typeof Object.assign != 'function') {
+
+if ( typeof Object.assign != 'function' ) {
   // Must be writable: true, enumerable: false, configurable: true
   Object.defineProperty(Object, "assign", {
-    value: function assign(target, varArgs) { // .length of function is 2
-      'use strict';
-      if (target == null) { // TypeError if undefined or null
+    value: function assign( target, varArgs ) { // .length of function is 2
+
+      if ( target == null ) { // TypeError if undefined or null
         throw new TypeError('Cannot convert undefined or null to object');
       }
 
       var to = Object(target);
 
-      for (var index = 1; index < arguments.length; index++) {
+      for ( var index = 1; index < arguments.length; index++ ) {
         var nextSource = arguments[index];
 
-        if (nextSource != null) { // Skip over if undefined or null
-          for (var nextKey in nextSource) {
+        if ( nextSource != null ) { // Skip over if undefined or null
+          for ( var nextKey in nextSource ) {
             // Avoid bugs when hasOwnProperty is shadowed
-            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+            if ( Object.prototype.hasOwnProperty.call(nextSource, nextKey) ) {
               to[nextKey] = nextSource[nextKey];
             }
           }
@@ -69,7 +70,7 @@ var util = {
    * different subsections of a document.
    *
    * Author: Scott O'Hara
-   * Version: 2.1.0
+   * Version: 2.1.1
    * License: https://github.com/scottaohara/a11y_tab_widget/blob/master/LICENSE
    */
   var ARIAtabsOptions = {
@@ -204,7 +205,7 @@ var util = {
       _tabListContainer.appendChild(t);
       newPanel.id = newId;
       newPanel.setAttribute('role', 'tabpanel');
-      newPanel.setAttribute('aria-labelledby', elID + '_tab_' + i)
+      newPanel.setAttribute('aria-labelledby', elID + '_tab_' + i);
       newPanel.classList.add(_options.panelClass);
       newPanel.hidden = true;
 
@@ -226,12 +227,15 @@ var util = {
       newPanel.addEventListener('keydown', panelElementPress.bind(this), false);
       newPanel.addEventListener('blur', removePanelTabindex, false);
 
-      _tabs.push({ tab: t, panel: newPanel });
+      _tabs.push({
+        tab: t,
+        panel: newPanel
+      });
     }; // this.addTab
 
 
     var buildTabs = function () {
-      var tabs = util.getDirectChildren(el, _options.panelSelector)
+      var tabs = util.getDirectChildren(el, _options.panelSelector);
 
       for ( var i = 0; i < tabs.length; i++ ) {
         this.addTab(tabs[i]);
@@ -361,12 +365,18 @@ var util = {
           e.preventDefault();
           activeIndex = _tabs.length - 1;
           focusActiveTab();
+          if ( !_options.manual ) {
+            activateTab();
+          }
           break;
 
         case util.keyCodes.HOME:
           e.preventDefault();
           activeIndex = 0;
           focusActiveTab();
+          if ( !_options.manual ) {
+            activateTab();
+          }
           break;
 
         default:
