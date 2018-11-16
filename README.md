@@ -107,6 +107,12 @@ This script has been tested to work with mouse, touch, and keyboard devices. Eac
 ## Dependencies and known issues
 There are no dependencies for this script. Any necessary polyfill (for IE11) is included in the JavaScript.  
 
+There are some issues with how screen readers interact with Tab Widgets. Where possible, this script will attempt to mitigate issues with screen readers, but not if it were to create additional bugs if the original but were to be fixed:
+* [NVDA: Unexpected focusing of inactive `tab`s in `tablist`](https://github.com/nvaccess/nvda/issues/8906)  
+* [JAWS: Unexpected focusing of inactive `tab`s in `tablist`](https://github.com/FreedomScientific/VFO-standards-support/issues/132)
+* JAWS + Windows 7 Firefox:  
+  Navigating out of a `tablist` by use of <kbd>Tab</kbd> key, focus will be moved to the exposed `tabpanel`. JAWS will not leave forms mode as expected, and will require that the user do so manually to navigate the contents of the `tabpanel`.
+
 
 ## Additional Reading
 * [ARIA Specification: Tab Role](https://www.w3.org/TR/wai-aria-1.2/#tab)
