@@ -122,6 +122,6 @@ It has an [MIT](https://github.com/scottaohara/accessible-components/blob/master
 
 Special thanks to [Josh Drumm](https://github.com/wwnjp) and [Chris Ferdinandi](https://gomakethings.com/) for helping me with some JavaScript refactoring and helper functions.
 
-Thanks to [Léonie Watson](), [Adam Campfield]()
+Thanks to [Léonie Watson](https://tink.uk/), Adam Campfield, Ryan Adams, and many others who provided excellent user feedback.
 
 Use it, modify it, contribute to it to help make your project more accessible :)
