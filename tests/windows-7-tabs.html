@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en-us" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Windows 7 Tabs | ARIA Tabs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <link rel="stylesheet" href="assets/css/tabs.css">
+    <link rel="stylesheet" href="assets/css/--demo--.css">
+  </head>
+  <body>
+
+    <div class="page">
+
+      <header>
+        <h1>
+          Tabpanels contain role=document elements
+        </h1>
+        <p>
+          When testing with Windows 7 + Firefox (though sometimes other browsers) that when using the <kbd>Tab</kbd> key to navigate to the active <code>tabpanel</code>, that JAWS will announce the accessible name of the <code>tabpanel</code>, but will not have left forms mode.  Wrapping the contents of the <code>tabpanel</code> in a <code>role=document</code> has been reported to "fix" this issue...
+        </p>
+        <nav>
+          <a href="../index.html">Back to index</a>
+          <a href="https://github.com/scottaohara/a11y_tab_widget">GitHub Repo</a>
+        </nav>
+      </header>
+
+      <main>
+        <section>
+          <h2>Tab Widget Example with role=document</h2>
+
+          <div data-atabs>
+            <section id="a" data-atabs-panel>
+              <div role="document">
+                <h3 data-atabs-heading>
+                  Apples
+                </h3>
+                <p>
+                  No explicit default was set, so per standard functionality
+                  this first <code>tabpanel</code> will be shown by default.
+                </p>
+                <p>
+                  Here's a <a href="#">link just to test</a> keyboard tabbing.
+                  (it's odd talking about <code>tab</code>s, and <kbd>tab</kbd>s.)
+                </p>
+              </div>
+            </section>
+            <section id="b" data-atabs-panel>
+              <div role="document">
+                <h3 data-atabs-heading="keep">
+                  Bananas
+                </h3>
+                <p data-atabs-heading>
+                  This is an example of a heading being used to populate the
+                  <code>tab</code>'s label, while also not removing heading
+                  from the <code>tabpanel</code>.  This is done by adding
+                  the value "keep" to <code>data-atabs-heading</code>.
+                </p>
+              </div>
+            </section>
+            <section id="c" data-atabs-panel data-atabs-tab-label="Oranges">
+              <div role="document">
+                <h3>
+                  There are two headings here
+                </h3>
+                <p>
+                  The <code>tab</code> is getting its label from the
+                  <code>data-atabs-tab-label</code>.  The heading is
+                  kept in the <code>tabpanel</code> because it does
+                  <b>not</b> have the <code>data-atabs-heading</code>
+                  attribute.
+                </p>
+                <h4>It wouldn't make much sense</h4>
+                <p>
+                  If the contents of a <code>tabpanel</code> contain
+                  additional sub headings, it wouldn't make sense to remove
+                  the initial heading from the <code>tabpanel</code>.
+                  Doing so would create a gap in the heading structure.
+                </p>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section>
+          <h2>More demos</h2>
+          <ul>
+            <li><a href="tests/nested.html">Nested Tab Widgets</a></li>
+            <li><a href="tests/manual.html">Manually activated <code>tabpanel</code>s</a></li>
+            <li><a href="tests/inject-tabs-into-widget.html">Injected Tab Panels</a></li>
+            <li><a href="tests/vertical-orientation.html">Vertical Tab Widget</a></li>
+            <li><a href="tests/has-toc.html">No JS Table of Contents Sections</a></li>
+            <li><a href="tests/multiple-instances.html">Multiple Tab Widget Instances</a></li>
+          </ul>
+        </section>
+
+      </main>
+    </div> <!-- /.page (demo layout) -->
+
+    <script src="index.js"></script>
+    <script>
+      var tabInstance = '[data-atabs]';
+      var els = document.querySelectorAll(tabInstance);
+      var allTabs = [];
+
+      // Generate all tab instances
+      for ( var i = 0; i < els.length; i++ ) {
+        var nTabs = new ARIAtabs( els[i] );
+
+        allTabs.push(nTabs);
+      }
+    </script>
+  </body>
+</html>
