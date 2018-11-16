@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 - [Removable `tab`/`tabpanel` functionality](https://github.com/scottaohara/a11y_tab_widget/issues/6).
 - [Open a `tabpanel` from URL hash](https://github.com/scottaohara/a11y_tab_widget/issues/8).
+- Additional documentation about UX for Tab Widgets.
 
 ## [2.1.0] - 2018-11-15
 ### Fixed
@@ -12,7 +13,7 @@ All notable changes to this project will be documented in this file.
 - Missing `role=tabpanel` on panels.  Oops.
 
 ### Added
-- Updated (finished) documentation for new 2.x version of this script.
+- Updated and added missing documentation for new 2.1 version of this script.
 - Various example/test files.
 - [Work around for NVDA + JAWS focus bug](https://github.com/scottaohara/a11y_tab_widget/commit/7bda439de03d09c2a472a6ee5d95c2a4b663d679). [NVDA filed bug](https://github.com/nvaccess/nvda/issues/8906), [JAWS filed bug](https://github.com/FreedomScientific/VFO-standards-support).
 
