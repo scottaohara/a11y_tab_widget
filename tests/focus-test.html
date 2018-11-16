@@ -1,52 +1,61 @@
-<style>
-	*:focus {
-		outline: 2px solid;
-		outline-offset: 2px;
-	}
-</style>
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Tablist focus test</title>
+		<style>
+			*:focus {
+				outline: 2px solid;
+				outline-offset: 2px;
+			}
+		</style>
+	</head>
+	<body>
 
-<div style="margin: 4em auto; max-width: 700px;">
+		<div style="margin: 4em auto; max-width: 700px;">
 
-	<h1>
-		A test for focusing into a tablist
-	</h1>
+			<h1>
+				A test for focusing into a tablist
+			</h1>
 
-	<p>
-		<b>Expected behavior:</b> with JAWS or NVDA running, navigate using virtual cursor or by heading elements. When encountering "The test, heading level 2" press the <kbd>Tab</kbd> key.
-	</p>
-	<p>
-	  Focus <strong>should</strong> move to the "Banana" <code>tab</code>, as it has a <code>tabindex=0</code> while the "Apple" <code>tab</code> has a <code>tabindex=-1</code>.
-	</p>
-	<p>
-		<b>Actual behavior:</b> keyboard focus is not set to "Banana" and is instead set to "Apple" even though it has a negative <code>tabindex</code>.
-	</p>
-	<p>
-	  <a href="#!">this a focusable element for testing</a>.
-	</p>
+			<p>
+				<b>Expected behavior:</b> with JAWS or NVDA running, navigate using virtual cursor or by heading elements. When encountering "The test, heading level 2" press the <kbd>Tab</kbd> key.
+			</p>
+			<p>
+			  Focus <strong>should</strong> move to the "Banana" <code>tab</code>, as it has a <code>tabindex=0</code> while the "Apple" <code>tab</code> has a <code>tabindex=-1</code>.
+			</p>
+			<p>
+				<b>Actual behavior:</b> keyboard focus is not set to "Banana" and is instead set to "Apple" even though it has a negative <code>tabindex</code>.
+			</p>
+			<p>
+			  <a href="#!">this a focusable element for testing</a>.
+			</p>
 
-	<h2>
-		The test
-	</h2>
+			<h2>
+				The test
+			</h2>
 
-	<div role="tablist" style="border: 1px solid; padding: 1em;">
-		<button tabindex="-1" role="tab">Apple</button>
-		<button tabindex="0" role="tab" aria-selected="true">Banana</button>
-		<button tabindex="-1" role="tab">Orange</button>
-	</div>
+			<div role="tablist" style="border: 1px solid; padding: 1em;">
+				<button tabindex="-1" role="tab">Apple</button>
+				<button tabindex="0" role="tab" aria-selected="true">Banana</button>
+				<button tabindex="-1" role="tab">Orange</button>
+			</div>
 
-	<h3>Just so you don't have to view source</h3>
-	<p>
-		You can check out the <code>tablist</code> code...
-	</p>
-	<details>
-		<summary>The code</summary>
-		<pre><code>
-&lt;div role="tablist">
-  &lt;button tabindex="-1" role="tab">Apple&lt;/button>
-  &lt;button tabindex="0" role="tab" aria-selected="true">Banana&lt;/button>
-  &lt;button tabindex="-1" role="tab">Orange&lt;/button>
-&lt;/div>
-		</code></pre>
-	</details>
+			<h3>Just so you don't have to view source</h3>
+			<p>
+				You can check out the <code>tablist</code> code...
+			</p>
+			<details>
+				<summary>The code</summary>
+				<pre><code>
+		&lt;div role="tablist">
+		  &lt;button tabindex="-1" role="tab">Apple&lt;/button>
+		  &lt;button tabindex="0" role="tab" aria-selected="true">Banana&lt;/button>
+		  &lt;button tabindex="-1" role="tab">Orange&lt;/button>
+		&lt;/div>
+				</code></pre>
+			</details>
+		</div>
 
-</div>
+	</body>
+</html>
