@@ -27,41 +27,13 @@
       </header>
 
       <main>
-        <!--
-          Test case 1
-        -->
         <section>
-          <h2>Tab Widget Example 1</h2>
+          <h2>Tab Widget Example</h2>
 
-          <nav id="toc">
-            <p>
-              A table of contents for no-js situations.
-              If JS is working, you probably aren't seeing this though.
-            </p>
-            <ul>
-              <li>
-                <a href="#a">Item 1</a>
-              </li>
-              <li>
-                <a href="#b">Item 2</a>
-              </li>
-              <li>
-                <a href="#c">Item 3</a>
-              </li>
-            </ul>
-          </nav>
-
-          <!--
-            data-atabs-toc points to the ID of the table of contents.
-            This is how the script knows to remove it.
-
-            Adding data-atabs-automatic will make this, and any other
-            Tab Widget on the page load a selected tabpanel on focus.
-          -->
-          <div data-atabs data-atabs-toc="toc">
+          <div data-atabs>
             <section id="a" data-atabs-panel>
               <h3 data-atabs-heading>
-                Tab label 1
+                Apples
               </h3>
               <p>
                 No explicit default was set, so per standard functionality
@@ -74,7 +46,7 @@
             </section>
             <section id="b" data-atabs-panel>
               <h3 data-atabs-heading="keep">
-                Tab label 2
+                Bananas
               </h3>
               <p data-atabs-heading>
                 This is an example of a heading being used to populate the
@@ -83,7 +55,7 @@
                 the value "keep" to <code>data-atabs-heading</code>.
               </p>
             </section>
-            <section id="c" data-atabs-panel data-atabs-tab-label="Tab label 3">
+            <section id="c" data-atabs-panel data-atabs-tab-label="Oranges">
               <h3>
                 There are two headings here
               </h3>
@@ -96,142 +68,35 @@
               </p>
               <h4>It wouldn't make much sense</h4>
               <p>
-                To remove the first heading and then have a gap in the
-                heading structure. Which is why the first heading should
-                not be removed in this situation.
+                If the contents of a <code>tabpanel</code> contain
+                additional sub headings, it wouldn't make sense to remove
+                the initial heading from the <code>tabpanel</code>.
+                Doing so would create a gap in the heading structure.
               </p>
             </section>
           </div>
         </section>
 
-
-        <!--
-          Test case 2
-        -->
         <section>
-          <h2>Tab Widget Example 2</h2>
-
-          <section data-atabs data-atabs-toc="toc">
-            <!--
-              This data-atabs-toc is purposefully left on the wrapper, even
-              though the 'toc' was really meant for the first example.
-
-              This was to test/prevent duplicate IDrefs from erroring
-              out the script.
-            -->
-            <div data-atabs-panel data-atabs-tab-label="Section 1" data-atabs-tab-class="test-class">
-              <h3 data-atabs-heading>My default heading</h3>
-              <p>
-                The <code>tab</code> for this <code>tabpanel</code> is created from a
-                <code>data-atabs-tab-label</code> attribute which is on the
-                <code>data-atabs-panel</code>.
-              </p>
-              <p>
-                The <code>tab</code> associated with this panel has it's own unique
-                class, beyond the default one set by the script.  This is done
-                via the <code>tabpanel</code> having the <code>data-atabs-tab-class</code> with a single string value of the class to add. For example "test-class".
-              </p>
-            </div>
-
-            <div data-atabs-panel="default">
-              <h3 data-atabs-heading="keep">Default tab</h3>
-              <p>
-                The <code>data-atabs-panel</code> has the value "default", which results in this <code>tabpanel</code> being opened by default.
-              </p>
-
-              <p>
-                While not necessarily condoned, this <code>tabpanel</code>
-                contains a separate Tab Widget instance.
-              </p>
-
-              <!--
-                Tab Widgets within Tab Widgets.  Oh my...
-              -->
-              <section data-atabs data-atabs-orientation="vertical">
-
-                <div data-atabs-panel>
-                  <h3 data-atabs-heading>A section</h3>
-                  <p>Nothing particularly new to report here...</p>
-                </div>
-
-                <div data-atabs-panel="default" data-atabs-tab-label="Label 2a">
-                  <h3>The default tabpanel</h3>
-                  <p>
-                    Not only is this Tab Widget nested within another, it also
-                    has <code>data-atabs-orientation="vertical"</code> set to the
-                    widget wrapper. This attribute with the "vertical" value
-                    will convert a <code>tablist</code> to a stacked UI. <code>aria-orientation="vertical"</code> will be set to the <code>tablist</code>, and <kbd>up</kbd> and <kbd>down</kbd> arrow keys, instead of <kbd>left</kbd> and <kbd>right</kbd> arrow keys will be used to navigate the individual <code>tab</code>s.
-                  </p>
-                </div>
-
-                <div data-atabs-list>
-                  <!--
-                    a tablist that is set by default will have any
-                    of its content purged to ensure that only
-                    role=tab elements are child elements.
-                  -->
-                  This <code>tablist</code> will be repositioned to the top
-                  of the Tab Widget container.  And this message will be
-                  deleted when the script runs. So if you're seeing this, hi!
-                </div>
-              </section>
-            </div>
-
-            <div data-atabs-panel="default">
-              <h3 data-atabs-heading>Not default</h3>
-              <p>This <code>tabpanel</code> also has <code>data-atabs-panel="default"</code>,
-                but as it is not the first <code>tabpanel</code> with "default" as its value,
-                this one is ignored.
-            </div>
-          </section>
+          <h2>More demos</h2>
+          <ul>
+            <li><a href="tests/nested.html">Nested Tab Widgets</a></li>
+            <li><a href="tests/manual.html">Manually activated <code>tabpanel</code>s</a></li>
+            <li><a href="tests/inject-tabs-into-widget.html">Injected Tab Panels</a></li>
+            <li><a href="tests/vertical-orientation.html">Vertical Tab Widget</a></li>
+            <li><a href="tests/has-toc.html">No JS Table of Contents Sections</a></li>
+            <li><a href="tests/multiple-instances.html">Multiple Tab Widget Instances</a></li>
+            <li><a href="tests/windows-7-tabs.html">Windows 7 Tabs</a></li>
+          </ul>
         </section>
 
       </main>
     </div> <!-- /.page (demo layout) -->
 
-
-
-
-    <!--
-      Example of external content injected into an
-      existing Tab Widget.
-    -->
-    <section id="inject-content">
-      <h3>This was an external section</h3>
-      <p>
-        This section existed outside of the primary grouping of tab panels.
-      </p>
-      <p>
-        You might need something like this if you don't have full control
-        over your markup but need to create a Tab Widget with what you
-        have to work with.
-      </p>
-      <p>
-        For full context, view source to see the <code>script</code> that
-        sets up the Tab Widgets. The following code snippet are the lines
-        specific to adding a <code>tab</code> and <code>tabpanel</code> to
-        a specific Tab Widget.
-      </p>
-      <pre><code>
-var injectContent = document.getElementById('inject-content');
-var cloneContent = injectContent.cloneNode(true);
-var allTabs = []; // collection of all Tab Widgets
-
-// remove the original instance of the external content from the document.
-injectContent.parentNode.removeChild(injectContent);
-
-// Inject the external content into a particular Tab Widget.
-allTabs[1].addTab(cloneContent, 'Tab Label Here', 'custom-class');
-      </code></pre>
-    </section>
-
-
     <script src="index.js"></script>
     <script>
       var tabInstance = '[data-atabs]';
       var els = document.querySelectorAll(tabInstance);
-      var injectContent = document.getElementById('inject-content');
-      var cloneContent = injectContent.cloneNode(true);
       var allTabs = [];
 
       // Generate all tab instances
@@ -240,19 +105,6 @@ allTabs[1].addTab(cloneContent, 'Tab Label Here', 'custom-class');
 
         allTabs.push(nTabs);
       }
-
-      // remove the original instance of the external content from the document.
-      injectContent.parentNode.removeChild(injectContent);
-
-      // Inject the external content into a particular
-      // tab, captured in the allTabs var.
-      allTabs[1].addTab(cloneContent, 'This tab label is long for testing purposes', 'custom-class');
     </script>
-
-    <!--
-      :focus-visible polyfill
-      https://github.com/WICG/focus-visible
-    -->
-    <script>function init(){var e=!0,t=!1,n=null,o={text:!0,search:!0,url:!0,tel:!0,email:!0,password:!0,number:!0,date:!0,month:!0,week:!0,time:!0,datetime:!0,"datetime-local":!0};function d(e){return!!(e&&e!==document&&"HTML"!==e.nodeName&&"BODY"!==e.nodeName&&"classList"in e&&"contains"in e.classList)}function i(e){e.classList.contains("focus-visible")||(e.classList.add("focus-visible"),e.setAttribute("data-focus-visible-added",""))}function s(t){e=!1}function a(){document.addEventListener("mousemove",u),document.addEventListener("mousedown",u),document.addEventListener("mouseup",u),document.addEventListener("pointermove",u),document.addEventListener("pointerdown",u),document.addEventListener("pointerup",u),document.addEventListener("touchmove",u),document.addEventListener("touchstart",u),document.addEventListener("touchend",u)}function u(t){"html"!==t.target.nodeName.toLowerCase()&&(e=!1,document.removeEventListener("mousemove",u),document.removeEventListener("mousedown",u),document.removeEventListener("mouseup",u),document.removeEventListener("pointermove",u),document.removeEventListener("pointerdown",u),document.removeEventListener("pointerup",u),document.removeEventListener("touchmove",u),document.removeEventListener("touchstart",u),document.removeEventListener("touchend",u))}document.addEventListener("keydown",function(t){d(document.activeElement)&&i(document.activeElement),e=!0},!0),document.addEventListener("mousedown",s,!0),document.addEventListener("pointerdown",s,!0),document.addEventListener("touchstart",s,!0),document.addEventListener("focus",function(t){var n,s,a;d(t.target)&&(e||(n=t.target,s=n.type,"INPUT"==(a=n.tagName)&&o[s]&&!n.readOnly||"TEXTAREA"==a&&!n.readOnly||n.isContentEditable))&&i(t.target)},!0),document.addEventListener("blur",function(e){var o;d(e.target)&&(e.target.classList.contains("focus-visible")||e.target.hasAttribute("data-focus-visible-added"))&&(t=!0,window.clearTimeout(n),n=window.setTimeout(function(){t=!1,window.clearTimeout(n)},100),(o=e.target).hasAttribute("data-focus-visible-added")&&(o.classList.remove("focus-visible"),o.removeAttribute("data-focus-visible-added")))},!0),document.addEventListener("visibilitychange",function(n){"hidden"==document.visibilityState&&(t&&(e=!0),a())},!0),a(),document.body.classList.add("js-focus-visible")}function onDOMReady(e){var t;function n(){t||(t=!0,e())}["interactive","complete"].indexOf(document.readyState)>=0?e():(t=!1,document.addEventListener("DOMContentLoaded",n,!1),window.addEventListener("load",n,!1))}"undefined"!=typeof document&&onDOMReady(init);</script>
   </body>
 </html>

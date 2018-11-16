@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en-us" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Dynamically Injected ARIA Tabs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <link rel="stylesheet" href="../assets/css/tabs.css">
+    <link rel="stylesheet" href="../assets/css/--demo--.css">
+  </head>
+  <body>
+
+    <div class="page">
+      <header>
+        <h1>Injected content</h1>
+        <nav>
+          <a href="../index.html">Back to index</a>
+          <a href="https://github.com/scottaohara/a11y_tab_widget">GitHub Repo</a>
+        </nav>
+      </header>
+
+      <main>
+        <p>
+          This Tab Widget only has a single section of content within it by default.  Additional
+          tabs/panels are collected from other locations in the DOM, and re-located within the Tab Widget.
+        </p>
+
+        <div data-atabs>
+          <section id="a" data-atabs-panel>
+            <h2 data-atabs-heading>
+              Apples
+            </h2>
+            <p>
+              No explicit default was set, so this
+              panel should be shown by default.
+            </p>
+            <p><a href="#">and a link for focus fun (i go nowhere)</a>.</p>
+          </section>
+        </div>
+
+        <!--
+          the following sections will be removed from their default location
+          and then be placed within the tab widget.
+        -->
+        <section id="inject-content">
+          <h2>Was External</h2>
+          <p>
+            This section was outside of the main tab grouping.
+          </p>
+          <p>
+            If JS is off / broken, "was" won't make much sense here...
+          </p>
+        </section>
+
+        <section id="inject-content2">
+          <h2>Was External 2</h2>
+          <p>
+            This next section was outside of the main tab grouping.
+          </p>
+          <p>
+            If JS is off / broken, "was" won't make much sense here...
+          </p>
+        </section>
+
+        <section id="inject-content3">
+          <h2>Was External 3</h2>
+          <p>
+            This other next section, after the previous next section, was outside of the main tab grouping.
+          </p>
+          <p>
+            If JS is off / broken, "was" won't make much sense here...
+          </p>
+        </section>
+
+        <button>
+          I'm merely here for testing purposes. Don't press me.
+        </button>
+      </main>
+
+    </div> <!-- /.page (demo layout) -->
+
+
+    <script src="../index.js"></script>
+    <script>
+      var tabInstance = '[data-atabs]';
+      var els = document.querySelectorAll(tabInstance);
+
+      var injectContent = document.getElementById('inject-content');
+      var injectContent2 = document.getElementById('inject-content2');
+      var injectContent3 = document.getElementById('inject-content3');
+      var cloneContent = injectContent.cloneNode(true);
+      var cloneContent2 = injectContent2.cloneNode(true);
+      var cloneContent3 = injectContent3.cloneNode(true);
+
+      var allTabs = [];
+
+      // Generate all tab instances
+      for ( var i = 0; i < els.length; i++ ) {
+        var nTabs = new ARIAtabs( els[i] );
+        allTabs.push(nTabs);
+      }
+
+      // remove the original instance of the external content from the document.
+      injectContent.parentNode.removeChild(injectContent);
+      injectContent2.parentNode.removeChild(injectContent2);
+      injectContent3.parentNode.removeChild(injectContent3);
+
+      // Inject the external content into a particular
+      // tab, captured in the allTabs var.
+      allTabs[0].addTab(cloneContent, 'Bananas');
+      allTabs[0].addTab(cloneContent2, 'Oranges');
+      allTabs[0].addTab(cloneContent3, 'Cherries');
+    </script>
+  </body>
+</html>

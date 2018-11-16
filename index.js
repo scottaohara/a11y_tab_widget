@@ -1,4 +1,40 @@
 'use strict';
+if (typeof Object.assign != 'function') {
+  // Must be writable: true, enumerable: false, configurable: true
+  Object.defineProperty(Object, "assign", {
+    value: function assign(target, varArgs) { // .length of function is 2
+      'use strict';
+      if (target == null) { // TypeError if undefined or null
+        throw new TypeError('Cannot convert undefined or null to object');
+      }
+
+      var to = Object(target);
+
+      for (var index = 1; index < arguments.length; index++) {
+        var nextSource = arguments[index];
+
+        if (nextSource != null) { // Skip over if undefined or null
+          for (var nextKey in nextSource) {
+            // Avoid bugs when hasOwnProperty is shadowed
+            if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+              to[nextKey] = nextSource[nextKey];
+            }
+          }
+        }
+      }
+      return to;
+    },
+    writable: true,
+    configurable: true
+  });
+}
+
+if ( Element && !Element.prototype.matches ) {
+  var proto = Element.prototype;
+  proto.matches = proto.matchesSelector ||
+    proto.mozMatchesSelector || proto.msMatchesSelector ||
+    proto.oMatchesSelector || proto.webkitMatchesSelector;
+}
 
 // add utilities
 var util = {
@@ -11,12 +47,18 @@ var util = {
     END: 35,
     ENTER: 13,
     SPACE: 32,
-    BACKSPACE: 46,
-    DELETE: 8
+    DELETE: 46,
+    TAB: 9
   },
 
   generateID: function ( base ) {
     return base + Math.floor(Math.random() * 999);
+  },
+
+  getDirectChildren: function ( elm, selector ) {
+    return Array.prototype.filter.call(elm.children, function ( child ) {
+      return child.matches(selector);
+    });
   }
 };
 
@@ -27,7 +69,7 @@ var util = {
    * different subsections of a document.
    *
    * Author: Scott O'Hara
-   * Version: 2.0.1
+   * Version: 2.1.0
    * License: https://github.com/scottaohara/a11y_tab_widget/blob/master/LICENSE
    */
   var ARIAtabsOptions = {
@@ -44,9 +86,10 @@ var util = {
     tabClass: 'atabs__list__tab',
     tabListClass: 'atabs__list',
     tablistSelector: '[data-atabs-list]',
-    automaticAttribute: 'data-atabs-automatic',
-    automatic: false
+    manualAttribute: 'data-atabs-manual',
+    manual: false
   };
+
 
   var ARIAtabs = function ( inst, options ) {
     var _options = Object.assign(ARIAtabsOptions, options);
@@ -55,9 +98,11 @@ var util = {
     var _tabs = [];
     var activeIndex = 0;
     var defaultPanel = 0;
+    var selectedTab = activeIndex;
     var el = inst;
     var elID;
     var headingSelector = '[' + _options.headingAttribute + ']';
+
 
     var init = function () {
       elID = el.id || util.generateID(_options.baseID);
@@ -66,8 +111,8 @@ var util = {
         orientation = 'vertical';
       }
 
-      if ( el.hasAttribute(_options.automaticAttribute) ) {
-        _options.automatic = true;
+      if ( el.hasAttribute(_options.manualAttribute) ) {
+        _options.manual = true;
       }
 
       el.classList.add(_options.elClass);
@@ -85,7 +130,7 @@ var util = {
       if ( activeIndex > -1 ) {
         activateTab();
       }
-    };
+    }; // init()
 
 
     var generateTablistContainer = function () {
@@ -107,12 +152,15 @@ var util = {
       var customClass = customClass || panel.getAttribute(_options.customTabClassAttribute);
 
       var generateTab = function ( index, id, tabPanel, customClass ) {
-        var newTab = doc.createElement('button');
+        var newTab = doc.createElement('span');
         newTab.id = elID + '_tab_' + index;
         newTab.tabIndex = -1;
         newTab.setAttribute('role', 'tab');
-        newTab.setAttribute('aria-controls', id);
         newTab.setAttribute('aria-selected', activeIndex === index);
+        if ( activeIndex === index ) {
+          newTab.setAttribute('aria-controls', id);
+        }
+        newTab.setAttribute('data-controls', id);
         newTab.innerHTML = tabPanel;
         newTab.classList.add(_options.tabClass);
         if ( customClass ) {
@@ -124,7 +172,11 @@ var util = {
           this.focus();
         }, false);
 
-        newTab.addEventListener('keydown', onKeyPress.bind(this), false);
+        newTab.addEventListener('keydown', tabElementPress.bind(this), false);
+        newTab.addEventListener('focus', function () {
+          checkYoSelf.call( this, index );
+        }, false);
+
         return newTab;
       };
 
@@ -146,13 +198,12 @@ var util = {
             return l && l !== '';
           })[0];
 
-
       var newId = newPanel.id || elID + '_panel_' + i;
-      var b = generateTab(i, newId, finalLabel, customClass);
+      var t = generateTab(i, newId, finalLabel, customClass);
 
-      _tabListContainer.appendChild(b);
+      _tabListContainer.appendChild(t);
       newPanel.id = newId;
-      newPanel.tabIndex = 0;
+      newPanel.setAttribute('role', 'tabpanel');
       newPanel.setAttribute('aria-labelledby', elID + '_tab_' + i)
       newPanel.classList.add(_options.panelClass);
       newPanel.hidden = true;
@@ -168,17 +219,19 @@ var util = {
 
       if ( panelHeading ) {
         if ( panelHeading.getAttribute(_options.headingAttribute) !== 'keep' ) {
-          panelHeading.parentNode.removeChild(panelHeading)
+          panelHeading.parentNode.removeChild(panelHeading);
         }
       }
 
-      _tabs.push({ tab: b, panel: newPanel });
-    };
+      newPanel.addEventListener('keydown', panelElementPress.bind(this), false);
+      newPanel.addEventListener('blur', removePanelTabindex, false);
+
+      _tabs.push({ tab: t, panel: newPanel });
+    }; // this.addTab
 
 
     var buildTabs = function () {
-      var t;
-      var tabs = el.querySelectorAll(':scope > ' + _options.panelSelector);
+      var tabs = util.getDirectChildren(el, _options.panelSelector)
 
       for ( var i = 0; i < tabs.length; i++ ) {
         this.addTab(tabs[i]);
@@ -189,7 +242,7 @@ var util = {
     var deleteTOC = function () {
       if ( el.getAttribute('data-atabs-toc') ) {
         var toc = doc.getElementById(el.getAttribute('data-atabs-toc'));
-        // safety check to make sure a toc isn't set to be deleted
+        // safety check to make sure a TOC isn't set to be deleted
         // after it's already deleted. e.g. if there are two
         // dat-atabs-toc that equal the same ID.
         if ( toc ) {
@@ -232,61 +285,76 @@ var util = {
     }; // onClick()
 
 
-    var onKeyPress = function ( e ) {
+    var moveBack = function ( e ) {
+      e.preventDefault();
+      decrementActiveIndex();
+      focusActiveTab();
+
+      if ( !_options.manual ) {
+        activateTab();
+      }
+    }; // moveBack()
+
+
+    var moveNext = function ( e ) {
+      e.preventDefault();
+      incrementActiveIndex();
+      focusActiveTab();
+
+      if ( !_options.manual ) {
+        activateTab();
+      }
+    }; // moveNext()
+
+
+    /**
+     * A tabpanel is focusable upon hitting the TAB key
+     * from a tab within a tablist.  When navigating away
+     * from the tabpanel, with the TAB key, remove the
+     * tabindex from the tabpanel.
+     */
+    var panelElementPress = function ( e ) {
       var keyCode = e.keyCode || e.which;
 
-      switch (keyCode) {
+      switch ( keyCode ) {
+        case util.keyCodes.TAB:
+          removePanelTabindex();
+          break;
+
+        default:
+          break;
+      }
+    }; // panelElementPress()
+
+
+    var removePanelTabindex = function () {
+      _tabs[activeIndex].panel.removeAttribute('tabindex');
+    }; // removePanelTabindex()
+
+
+    var tabElementPress = function ( e ) {
+      var keyCode = e.keyCode || e.which;
+
+      switch ( keyCode ) {
+        case util.keyCodes.TAB:
+          _tabs[selectedTab].panel.tabIndex = 0;
+          activeIndex = selectedTab;
+          break;
+
+        case util.keyCodes.ENTER:
         case util.keyCodes.SPACE:
           e.preventDefault();
           activateTab();
           break;
 
         case util.keyCodes.LEFT:
-          if ( orientation === 'horizontal' ) {
-            e.preventDefault();
-            decrementActiveIndex();
-            focusActiveTab();
-
-            if ( _options.automatic ) {
-              activateTab();
-            }
-          }
+        case util.keyCodes.UP:
+          moveBack( e );
           break;
 
         case util.keyCodes.RIGHT:
-          if ( orientation === 'horizontal' ) {
-            e.preventDefault();
-            incrementActiveIndex();
-            focusActiveTab();
-
-            if ( _options.automatic ) {
-              activateTab();
-            }
-          }
-          break;
-
-        case util.keyCodes.UP:
-          if ( orientation === 'vertical' ) {
-            e.preventDefault();
-            decrementActiveIndex();
-            focusActiveTab();
-          }
-          break;
-
         case util.keyCodes.DOWN:
-          if ( orientation === 'vertical' ) {
-            e.preventDefault();
-            incrementActiveIndex();
-            focusActiveTab();
-
-            if ( _options.automatic ) {
-              activateTab();
-            }
-          }
-          else {
-            e.preventDefault();
-            _tabs[activeIndex].panel.focus();
-          }
+          moveNext( e );
           break;
 
         case util.keyCodes.END:
@@ -301,35 +369,31 @@ var util = {
           focusActiveTab();
           break;
 
-        // case util.keyCodes.DELETE:
-        // case util.keyCodes.BACKSPACE:
-          /*
-            TODO
-            break this out into its own function
-           */
-          // var getParent = e.target.parentNode;
-          // var getPanel = e.target.getAttribute('aria-controls');
-          // getParent.removeChild(e.target);
-          // getParent.parentNode.removeChild(doc.getElementById(getPanel));
-
-          // activateTab( (activeIndex - 1) );
-          /**
-           * if the active tab is the tab deleted, need to focus
-           * the previous tab in the list.
-           *
-           * if the deleted tab is not the current activeIndex, then
-           * set keyboard focus to the previous tab in the list.
-           *
-           * if there is only one tab left in the list, this function
-           * should not run.
-           */
-
-          // break;
-
         default:
           break;
       }
-    }; // onKeyPress()
+    }; // tabElementPress()
+
+
+    /**
+     * This function shouldn't exist.  BUT for...
+     * https://github.com/nvaccess/nvda/issues/8906
+     * https://github.com/FreedomScientific/VFO-standards-support/issues/132
+     *
+     * Note this doesn't completely fix JAWS announcements.
+     * With this function, focus will be placed on the correct Tab,
+     * but JAWS will make no announcement until the user begins
+     * re-navigating with arrow keys.
+     *
+     * The alternative is not using this, having JAWS announce the
+     * inactive tag (which will receive focus), JAWS will announce
+     * to use the Space key to activate, but nothing will happen.
+     */
+    var checkYoSelf = function ( index ) {
+      if ( index !== activeIndex ) {
+        focusActiveTab();
+      }
+    }; // checkYoSelf()
 
 
     var deactivateTabs = function () {
@@ -343,7 +407,11 @@ var util = {
       _tabs[idx].panel.hidden = true;
       _tabs[idx].tab.tabIndex = -1;
       _tabs[idx].tab.setAttribute('aria-selected', false);
-    };
+      _tabs[idx].tab.removeAttribute('aria-controls');
+      // remove the aria-controls from inactive tabs since
+      // a user can *not* move to their associated element
+      // if that element is not displayed.
+    }; // deactivateTab()
 
 
     /**
@@ -351,20 +419,22 @@ var util = {
      * Deactivate any previously active Tab.
      * Reveal active Panel.
      */
-    var activateTab = function ( idx ) {
-      var active = _tabs[idx] || _tabs[activeIndex];
+    var activateTab = function () {
+      var active = _tabs[activeIndex];
       deactivateTabs();
+      active.tab.setAttribute('aria-controls', active.tab.getAttribute('data-controls'))
       active.tab.setAttribute('aria-selected', true);
       active.tab.tabIndex = 0;
-
       active.panel.hidden = false;
+      selectedTab = activeIndex;
+      return selectedTab;
     }; // activateTab()
 
-    init.call( this );
 
+    init.call( this );
     return this;
   }; // ARIAtabs()
 
+
   w.ARIAtabs = ARIAtabs;
 })( window, document );
-

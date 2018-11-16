@@ -3,15 +3,18 @@ A script to progressively enhance sectioned content into an accessible tabbed in
 
 
 ## How to use 
-To help facilitate the simplest integration with your code base, the required markup is as lean as possible.
+To help facilitate the simplest integration with your code base, the necessary markup has been boiled down to a wrapping element with a `data-atabs` attribute to serve as the Tab Widget container. Additionally, `tab`s, and `tabpanel`s can be designated via different markup patterns to help suit your needs.  
 
-### Minimum Setup
+### Example Setup
 ```html
-<div data-atabs>
+<div data-atabs> <!-- necessary wrapping element -->
+  <!-- Panel method 1 -->
   <div data-atabs-panel 
     data-atabs-tab-label="Tab label goes here">
     <!-- all panel content goes here -->
   </div>
+
+  <!-- Panel method 2 -->
   <section data-atabs-panel>
     <h# data-atabs-label>
       <!-- 
@@ -35,28 +38,8 @@ To help facilitate the simplest integration with your code base, the required ma
 </script>
 ```
 
-
-#### `data-atabs` attributes & options
-The script runs through the minimum markup looking for specific `data-atabs-*` to use as hooks to modify the original markup and generate the final Tab Widget.
-
-* `data-atabs`  
-  The primary hook. This attribute is used to contain the final Tab Widget.
-* `data-atabs-toc`  
-  Without JavaScript, a table of contents (TOC) can provide easy access to different sections of a document that would have otherwise been part of the Tab Widget. With JavaScript available, the TOC isn't as necessary. Providing this attribute with the `id` of the TOC will remove the TOC from the DOM.
-* `data-atabs-automatic`  
-  If this attribute is set to the `data-atabs` wrapper of *any* Tab Widget in a document, it will make **all** Tab Widgets automatically reveal the `tabpanel` associated with the currently focused `tab` element.  The reason this globallly affects Tab Widgets is to reduce any possibility of an inconsistent user experience between different Tab Widgets.
-* `data-atabs-orientation`  
-  If this attribute is set to the `data-atabs` wrapper element, and it's value is set to "vertical", then it will add `aria-orientation="vertical"` to the `tablist` and modify the arrow keys from <kbd>left</kbd> and <kbd>right</kbd> to <kbd>up</kbd> and <kbd>down</kbd> to move focus through the `tab`s within the `tablist`.
-* `data-atabs-panel`    
-  Designates that an element should serve as a `tabpanel`. If given the value of "default", the script will set this `tabpanel` and associated `tab` to be active, instead of the first `tab` and `tabpanel`.  If multiple `data-atabs-panel` attributes have the value of "default", only the first one will be respected.
-* `data-atabs-tab-label`   
-  Also used on the element that will be a `tabpanel`, this attribute indicates that the generated `tab` should use its value as the `tab`'s label. The value of `data-atabs-tab-label` takes precedents over using the content of the `tabpanel`'s heading when generating the `tab`.
-* `data-atabs-heading`   
-  Place this attribute on the element that serves as the heading within the `tabpanel`. Unless a `data-atabs-tab-label` is used on the `tabpanel`, this heading will serve as the accessible name for the generated `tab`.  By default, elements with the `data-atabs-heading` attribute will be removed after their content has been used for the generated `tab`, unless the value of "keep" is set, e.g. `data-atabs-heading="keep`. Only the first instance of an element with this attribute will be recognized by the script.
-
-
-### Injecting `tabpanel`s into the Tab Widget
-Once a new instance of a Tab Widget has been created, the `addTab` function can be called from outside the script.  Using this function, you can point to elements in the DOM that are not wrapped in the `data-atabs` element to inject them into the Tab Widget.
+### Injecting content into the Tab Widget
+Once a new instance of a Tab Widget has been created, the `addTab` function can be called from outside the script.  Using this function, you can reference elements in the DOM (by `id`) that are not in the `data-atabs` wrapping element, and move them into the Tab Widget, creating a `tab` and `tabpanel` for the content. This may be useful if you need to create a Tab Widget, but you may not have full control over the HTML of your document.
 
 For instance:
 ```html
@@ -84,29 +67,52 @@ For instance:
 </script>
 ```
 
+### Tab Widget attributes & options
+The Tab Widget script runs through the markup looking for specific `data-atabs-*` attributes to use as hooks to modify the original markup and generate the final component.  Here are the `data` attributes that are recognized by this script.
+
+* `data-atabs`  
+  The primary hook. This necessary attribute is used to contain the final Tab Widget.  
+* `data-atabs-panel`    
+  Designates that an element should serve as a `tabpanel`. If given the value of "default", the script will set this `tabpanel` and associated `tab` to be active, instead of automatically  first `tab` and `tabpanel`.  If multiple `data-atabs-panel` attributes have the value of "default", only the first one will be respected.
+* `data-atabs-tab-label`   
+  Also used on the element that will be a `tabpanel`, this attribute indicates that the generated `tab` should use its value as the `tab`'s label. The value of `data-atabs-tab-label` takes precedents over using the content of the `tabpanel`'s heading when generating the `tab`.
+* `data-atabs-heading`   
+  Place this attribute on the element that serves as the heading within the `tabpanel`. Unless a `data-atabs-tab-label` is used on the `tabpanel`, this heading will serve as the accessible name for the generated `tab`.  By default, elements with the `data-atabs-heading` attribute will be removed after their content has been used for the generated `tab`, unless the value of "keep" is set, e.g. `data-atabs-heading="keep`. Only the first instance of an element with this attribute will be recognized by the script.
+* `data-atabs-toc`  
+  Without JavaScript, a table of contents (TOC) can provide easy access to different sections of a document that would have otherwise been part of the Tab Widget. With JavaScript available, the TOC isn't as necessary. Providing this attribute with the `id` of the TOC parent element will remove the TOC from the DOM.
+* `data-atabs-manual`  
+  By default, when keyboard focus is set to a `tab`, its associated `tabpanel` will open by default, and the `tab` will be set to the selected state. 
+
+  If this attribute is set to the `data-atabs` wrapper of *any* Tab Widget in a document, it will make **all** Tab Widgets require manual activation of a `tab` to reveal its associated `tabpanel`.  The reason this globally affects Tab Widgets is to mitigate any possibility of an inconsistent user experience between different Tab Widgets in the same document.  
+* `data-atabs-orientation`  
+  If this attribute is set to the `data-atabs` wrapper element, and it's value is set to "vertical", then it will add `aria-orientation="vertical"` to the `tablist`. As `aria-orientation` is not well supported across all screen readers, this does not presently have any effect on the current functionality of the Tab Widget.
+
+
 ## User Experience
-The manner in which you interact with a Tab Widget is dependent on your input device. Not all devices/assistive applications are listed here, but the following will give you a baseline of expectations if when testing this script, or comparing your own Tab Widget.
+Tab Widgets are a type of show/hide component, and the manner in which you interact with a Tab Widget will dictate the experience.
 
-### Mouse / Touch
-Clicking or tapping a `tab` will set that `tab` to its selected state, and reveal its associated `tabpanel`, while deselecting and hiding the previously selected `tab` and its `tabpanel`.
+For mouse and touch users, the show/hide functionality is initiated by interacting with the `tab`s within the `tablist`.  Activating a `tab` will reveal the `tabpanel` its associated with, while also deactivating the previously active `tab`, and hiding its `tabpanel`.
 
-#### Mouse / Touch + Screen Reader
-If using a mouse while also using NVDA with the setting "Report role when mouse enters object", NVDA will announce "Tab. Accessible Name."
+For keyboard users, and screen reader users in forms mode, a Tab Widget will automatically select and reveal the contents of the focused `tab` as a user navigate the `tablist` via arrow keys.  
 
-If using iOS with VoiceOver enabled, and exploring by touch, a `tab` should announce itself as "Accessible name. Tab. Number of Numbers".  If the touched `tab` is currently active VoiceOver will announce "Selected" prior to the accessible name.
+A setting is available (`data-atabs-manual`) to require manual activation of `tab`s.
 
-### Keyboard
-When interacting with a Tab Widget with a desktop or laptop keyboard, one can use the <kbd>Tab</kbd> key to navigate to the `tablist`. Keyboard focus will highlight the `tab` that is currently active.
+The [ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices-1.2/#tabpanel) notes:
+>It is recommended that tabs activate automatically when they receive focus as long as their associated tab panels are displayed without noticeable latency. This typically requires tab panel content to be preloaded. Otherwise, automatic activation slows focus movement, which significantly hampers users' ability to navigate efficiently across the tab list.
 
-If the `tablist` is horizontally orientated, using the <kbd>Left</kbd> and <kbd>Right</kbd> arrow keys to will navigate to the previous and next `tab`s in the `tablist`.  Keyboard focus will loop from the last `tab` to the first, and vice versa.  If the `tablist` is vertically oriented, <kbd>Up</kbd> and <kbd>Down</kbd> arrow keys will navigate the `tab`s. Note: vertically oriented `tablist`s should have the attribute `aria-orientation="vertical`.
+This script has been tested to work with mouse, touch, and keyboard devices. Each input device has also been re-tested while running various browser and screen reader pairings.
 
-If a Tab Widget has a `data-atabs-automatic` set to it, then any Tab Widgets in the current document will automatically load the associated `tabpanel` of a `tab` when it receives focus via arrow keys.
+**FYI: More information concerning expected functionality and screen reader announcements will be linked to from here.**
 
-### Keyboard + Screen Readers
-This section coming soon...
+## Dependencies and known issues
+There are no dependencies for this script. Any necessary polyfill (for IE11) is included in the JavaScript.  
 
-## Dependencies
-There are no major dependencies for this script. The [WICG `:focus-visible` polyfill](https://github.com/WICG/focus-visible) is used in the [demonstration page](https://scottaohara.github.io/a11y_tab_widget/), and has a class included in the CSS file. However, it is up to you if you would like to download the polyfill yourself.
+There are some issues with how screen readers interact with Tab Widgets. Where possible, this script will attempt to mitigate issues with screen readers, but not if it were to create additional bugs if the original but were to be fixed:
+* [NVDA: Unexpected focusing of inactive `tab`s in `tablist`](https://github.com/nvaccess/nvda/issues/8906)  
+* [JAWS: Unexpected focusing of inactive `tab`s in `tablist`](https://github.com/FreedomScientific/VFO-standards-support/issues/132)
+* JAWS + Windows 7 Firefox:  
+  Navigating out of a `tablist` by use of <kbd>Tab</kbd> key, focus will be moved to the exposed `tabpanel`. JAWS will not leave forms mode as expected, and will require that the user do so manually to navigate the contents of the `tabpanel`.
+
 
 ## Additional Reading
 * [ARIA Specification: Tab Role](https://www.w3.org/TR/wai-aria-1.2/#tab)
@@ -114,11 +120,14 @@ There are no major dependencies for this script. The [WICG `:focus-visible` poly
 * [Aria Specification: Tabpanel Role](https://www.w3.org/TR/wai-aria-1.2/#tabpanel)
 * [WAI-ARIA Authoring Practices: Tab Widgets](https://www.w3.org/TR/wai-aria-practices-1.2/#tabpanel)
 
+
 ## License, Thank yous & Such
 This script was written by Scott O'Hara: [Website](https://www.scottohara.me), [Twitter](https://twitter.com/scottohara).
 
 It has an [MIT](https://github.com/scottaohara/accessible-components/blob/master/LICENSE.md) license.
 
-Special thanks to [Josh Drumm](https://github.com/wwnjp) for helping me with some JavaScript refactoring.
+Special thanks to [Josh Drumm](https://github.com/wwnjp) and [Chris Ferdinandi](https://gomakethings.com/) for helping me with some JavaScript refactoring and helper functions.
+
+Thanks to [Léonie Watson](https://tink.uk/), Adam Campfield, Ryan Adams, and many others who provided excellent user feedback.
 
 Use it, modify it, contribute to it to help make your project more accessible :)

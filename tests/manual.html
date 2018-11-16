@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en-us" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Manually activated ARIA Tabs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <link rel="stylesheet" href="../assets/css/tabs.css">
+    <link rel="stylesheet" href="../assets/css/--demo--.css">
+  </head>
+  <body>
+
+    <div class="page">
+
+      <header>
+        <h1>
+          Manual Tab Panels
+        </h1>
+        <p>
+          A <code>tabpanel</code>s will be opened after the currently focused <code>tab</code> element has been purposefully activated by press of <kbd>Enter</kbd> or <kbd>Space</kbd> keys.</p>
+        <nav>
+          <a href="../index.html">Back to index</a>
+          <a href="https://github.com/scottaohara/a11y_tab_widget">GitHub Repo</a>
+        </nav>
+      </header>
+
+      <main>
+        <h2>
+          Manual activation example
+        </h2>
+
+        <div data-atabs data-atabs-manual>
+          <section tabindex="-1" id="a" data-atabs-panel>
+            <h3 data-atabs-heading>
+              Apples
+            </h3>
+            <p>
+              No explicit default was set, so per standard functionality
+              this first <code>tabpanel</code> will be shown by default.
+            </p>
+            <p>
+              Here's a <a href="#">link just to test</a> keyboard tabbing.
+              (it's odd talking about <code>tab</code>s, and keyboard <kbd>tab</kbd>s.)
+            </p>
+          </section>
+          <section tabindex="-1" id="b" data-atabs-panel>
+            <h3 data-atabs-heading="keep">
+              Oranges
+            </h3>
+            <p data-atabs-heading>
+              <!--
+                test. only the first data-atabs-heading
+                should be used to populate the tab label.
+              -->
+              This is an example of a heading being used to populate the
+              <code>tab</code>'s label, while also not removing heading
+              from the <code>tabpanel</code>.  This is done by adding
+              the value "keep" to <code>data-atabs-heading</code>.
+            </p>
+          </section>
+          <section tabindex="-1" id="c" data-atabs-panel data-atabs-tab-label="Bananas">
+            <h3>
+              These things are never about fruit...
+            </h3>
+            <p>
+              The <code>tab</code> is getting its label from the
+              <code>data-atabs-tab-label</code>.  The heading is
+              kept in the <code>tabpanel</code> because it does
+              <b>not</b> have the <code>data-atabs-heading</code>
+              attribute.
+            </p>
+
+          </section>
+        </div>
+
+
+        <button>
+          I'm merely here for testing purposes. Don't press me.
+        </button>
+      </main>
+
+    </div> <!-- /.page (demo layout) -->
+
+    <script src="../index.js"></script>
+    <script>
+      var widget = '[data-atabs]';
+      var els = document.querySelectorAll(widget);
+
+      // Generate all tab instances
+      for ( var i = 0; i < els.length; i++ ) {
+        var nTabs = new ARIAtabs( els[i] );
+      }
+    </script>
+  </body>
+</html>

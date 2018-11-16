@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en-us" class="no-js">
+  <head>
+    <meta charset="utf-8">
+    <title>Vertical ARIA Tabs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <link rel="stylesheet" href="../assets/css/tabs.css">
+    <link rel="stylesheet" href="../assets/css/--demo--.css">
+  </head>
+  <body>
+
+    <div class="page">
+
+      <header>
+        <h1>
+          Vertical ARIA Tab Widget
+        </h1>
+        <nav>
+          <a href="../index.html">Back to index</a>
+          <a href="https://github.com/scottaohara/a11y_tab_widget">GitHub Repo</a>
+        </nav>
+      </header>
+
+      <main>
+        <h2>
+          Up and down
+        </h2>
+
+        <section data-atabs data-atabs-orientation="vertical">
+          <div data-atabs-panel>
+            <h3 data-atabs-heading>Apples</h3>
+            <p>Nothing particularly new to report here...</p>
+          </div>
+
+          <div data-atabs-panel="default" data-atabs-tab-label="Label 2a">
+            <h3>Bananas</h3>
+            <p>
+              This Tab Widget has <code>data-atabs-orientation="vertical"</code> set to the
+              widget wrapper. This attribute with the "vertical" value
+              will convert a <code>tablist</code> to a stacked UI. <code>aria-orientation="vertical"</code> will be set to the <code>tablist</code>.
+            </p>
+            <p>
+              <code>aria-orientation</code> is not universally supported yet, so this
+              is more for introducing announcements for future behavior, rather
+              than for any unique functionality at this time.
+            </p>
+          </div>
+
+          <div data-atabs-list>
+            <!--
+              a tablist that is set by default will have any
+              of its content purged to ensure that only
+              role=tab elements are child elements.
+            -->
+            This <code>tablist</code> will be repositioned to the top
+            of the Tab Widget container.  And this message will be
+            deleted when the script runs. So if you're seeing this, hi!
+            How's the Internet treating you with JS turned off?
+          </div>
+        </section>
+
+        <button>
+          I'm merely here for testing purposes. Don't press me.
+        </button>
+      </main>
+
+    </div> <!-- /.page (demo layout) -->
+
+    <script src="../index.js"></script>
+    <script>
+      var widget = '[data-atabs]';
+      var els = document.querySelectorAll(widget);
+
+      // Generate all tab instances
+      for ( var i = 0; i < els.length; i++ ) {
+        var nTabs = new ARIAtabs( els[i] );
+      }
+    </script>
+  </body>
+</html>
