@@ -93,12 +93,12 @@ Tab Widgets are a type of show/hide component, and the manner in which you inter
 
 For mouse and touch users, the show/hide functionality is initiated by interacting with the `tab`s within the `tablist`.  Activating a `tab` will reveal the `tabpanel` its associated with, while also deactivating the previously active `tab`, and hiding its `tabpanel`.
 
-For keyboard users, and screen reader users in forms mode, a Tab Widget will automatically select and reveal the contents of the focused `tab` as a user navigate the `tablist` via arrow keys.  
+For keyboard users, and screen reader users in forms mode, a Tab Widget will automatically select and reveal the contents of the focused `tab` as a user navigates the `tablist` with arrow keys.  
 
-A setting is available (`data-atabs-manual`) to require manual activation of `tab`s.
+A option is available (`data-atabs-manual`) to require manual activation of `tab`s. This is not necessarily preferred behavior of a Tab Widget, but there may be instances where it's required due to performance issues.
 
 The [ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices-1.2/#tabpanel) notes:
->It is recommended that tabs activate automatically when they receive focus as long as their associated tab panels are displayed without noticeable latency. This typically requires tab panel content to be preloaded. Otherwise, automatic activation slows focus movement, which significantly hampers users' ability to navigate efficiently across the tab list.
+>It is recommended that tabs activate automatically when they receive focus as long as their associated tab panels are displayed without noticeable latency. This typically requires tab panel content to be preloaded. Otherwise, automatic activation slows focus movement, which significantly hampers users' ability to navigate efficiently across the tab list.  
 
 This script has been tested to work with mouse, touch, and keyboard devices. Each input device has also been re-tested while running various browser and screen reader pairings.
 
