@@ -86,7 +86,8 @@ The Tab Widget script runs through the markup looking for specific `data-atabs-*
   If this attribute is set to the `data-atabs` wrapper of *any* Tab Widget in a document, it will make **all** Tab Widgets require manual activation of a `tab` to reveal its associated `tabpanel`.  The reason this globally affects Tab Widgets is to mitigate any possibility of an inconsistent user experience between different Tab Widgets in the same document.  
 * `data-atabs-orientation`  
   If this attribute is set to the `data-atabs` wrapper element, and it's value is set to "vertical", then it will add `aria-orientation="vertical"` to the `tablist`. As `aria-orientation` is not well supported across all screen readers, this does not presently have any effect on the current functionality of the Tab Widget.
-
+* `data-atabs-panel-wrap`
+  Optional: use this attribute on a wrapping element for all of the `tabpanel`s. Useful for styling a single wrapper for each `tabpanel`.
 
 ## User Experience
 Tab Widgets are a type of show/hide component, and the manner in which you interact with a Tab Widget will dictate the experience.

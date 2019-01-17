@@ -108,74 +108,76 @@
               This was to test/prevent duplicate IDrefs from erroring
               out the script.
             -->
-            <div data-atabs-panel data-atabs-tab-label="Mangos" data-atabs-tab-class="test-class">
-              <h3 data-atabs-heading>My default heading</h3>
-              <p>
-                The <code>tab</code> for this <code>tabpanel</code> is created from a
-                <code>data-atabs-tab-label</code> attribute which is on the
-                <code>data-atabs-panel</code>.
-              </p>
-              <p>
-                The <code>tab</code> associated with this panel has it's own unique
-                class, beyond the default one set by the script.  This is done
-                via the <code>tabpanel</code> having the <code>data-atabs-tab-class</code> with a single string value of the class to add. For example "test-class".
-              </p>
-            </div>
+            <div data-atabs-panel-wrap>
+              <div data-atabs-panel data-atabs-tab-label="Mangos" data-atabs-tab-class="test-class">
+                <h3 data-atabs-heading>My default heading</h3>
+                <p>
+                  The <code>tab</code> for this <code>tabpanel</code> is created from a
+                  <code>data-atabs-tab-label</code> attribute which is on the
+                  <code>data-atabs-panel</code>.
+                </p>
+                <p>
+                  The <code>tab</code> associated with this panel has it's own unique
+                  class, beyond the default one set by the script.  This is done
+                  via the <code>tabpanel</code> having the <code>data-atabs-tab-class</code> with a single string value of the class to add. For example "test-class".
+                </p>
+              </div>
 
-            <div data-atabs-panel="default">
-              <h3 data-atabs-heading="keep">Carrots</h3>
-              <p>
-                The <code>data-atabs-panel</code> has the value "default", which results in this <code>tabpanel</code> being opened by default.
-              </p>
+              <div data-atabs-panel="default">
+                <h3 data-atabs-heading="keep">Carrots</h3>
+                <p>
+                  The <code>data-atabs-panel</code> has the value "default", which results in this <code>tabpanel</code> being opened by default.
+                </p>
 
-              <p>
-                While not necessarily condoned, this <code>tabpanel</code>
-                contains a separate Tab Widget instance.
-              </p>
+                <p>
+                  While not necessarily condoned, this <code>tabpanel</code>
+                  contains a separate Tab Widget instance.
+                </p>
 
-              <!--
-                Tab Widgets within Tab Widgets.  Oh my...
-              -->
-              <section data-atabs data-atabs-orientation="vertical">
+                <!--
+                  Tab Widgets within Tab Widgets.  Oh my...
+                -->
+                <section data-atabs data-atabs-orientation="vertical">
 
-                <div data-atabs-panel>
-                  <h3 data-atabs-heading>Lettuce</h3>
-                  <p>Leafy and crunchy, unless it's old and mushy...</p>
-                </div>
+                  <div data-atabs-panel>
+                    <h3 data-atabs-heading>Lettuce</h3>
+                    <p>Leafy and crunchy, unless it's old and mushy...</p>
+                  </div>
 
-                <div data-atabs-panel="default" data-atabs-tab-label="Ice Cream">
-                  <h3>Ice cream, the default tabpanel</h3>
-                  <p>
-                    Not only is this Tab Widget nested within another, it also
-                    has <code>data-atabs-orientation="vertical"</code> set to the
-                    widget wrapper. This attribute with the "vertical" value
-                    will convert a <code>tablist</code> to a stacked UI. <code>aria-orientation="vertical"</code> will be set to the <code>tablist</code>, and <kbd>up</kbd> and <kbd>down</kbd> arrow keys, instead of <kbd>left</kbd> and <kbd>right</kbd> arrow keys will be used to navigate the individual <code>tab</code>s.
-                  </p>
-                </div>
+                  <div data-atabs-panel="default" data-atabs-tab-label="Ice Cream">
+                    <h3>Ice cream, the default tabpanel</h3>
+                    <p>
+                      Not only is this Tab Widget nested within another, it also
+                      has <code>data-atabs-orientation="vertical"</code> set to the
+                      widget wrapper. This attribute with the "vertical" value
+                      will convert a <code>tablist</code> to a stacked UI. <code>aria-orientation="vertical"</code> will be set to the <code>tablist</code>, and <kbd>up</kbd> and <kbd>down</kbd> arrow keys, instead of <kbd>left</kbd> and <kbd>right</kbd> arrow keys will be used to navigate the individual <code>tab</code>s.
+                    </p>
+                  </div>
 
-                <div data-atabs-panel>
-                  <h3 data-atabs-heading>Mushrooms</h3>
-                  <p>Either gross or food.  I don't get it.</p>
-                </div>
+                  <div data-atabs-panel>
+                    <h3 data-atabs-heading>Mushrooms</h3>
+                    <p>Either gross or food.  I don't get it.</p>
+                  </div>
 
-                <div data-atabs-list>
-                  <!--
-                    a tablist that is set by default will have any
-                    of its content purged to ensure that only
-                    role=tab elements are child elements.
-                  -->
-                  This <code>tablist</code> will be repositioned to the top
-                  of the Tab Widget container.  And this message will be
-                  deleted when the script runs. So if you're seeing this, hi!
-                </div>
-              </section>
-            </div>
+                  <div data-atabs-list>
+                    <!--
+                      a tablist that is set by default will have any
+                      of its content purged to ensure that only
+                      role=tab elements are child elements.
+                    -->
+                    This <code>tablist</code> will be repositioned to the top
+                    of the Tab Widget container.  And this message will be
+                    deleted when the script runs. So if you're seeing this, hi!
+                  </div>
+                </section>
+              </div>
 
-            <div data-atabs-panel="default">
-              <h3 data-atabs-heading>Not default</h3>
-              <p>This <code>tabpanel</code> also has <code>data-atabs-panel="default"</code>,
-                but as it is not the first <code>tabpanel</code> with "default" as its value,
-                this one is ignored.
+              <div data-atabs-panel="default">
+                <h3 data-atabs-heading>Not default</h3>
+                <p>This <code>tabpanel</code> also has <code>data-atabs-panel="default"</code>,
+                  but as it is not the first <code>tabpanel</code> with "default" as its value,
+                  this one is ignored.
+              </div>
             </div>
           </section>
         </section>

@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 - [Open a `tabpanel` from URL hash](https://github.com/scottaohara/a11y_tab_widget/issues/8).
 - Additional documentation about UX for Tab Widgets.
 
+## [2.1.2] - 2019-01-17
+### Added
+- New `data-atabs-panel-wrap` attribute allows for a wrapping container for the `tabpanel`s. 
+
 ## [2.1.1] - 2018-11-16
 ### Fixed
 - [Home/End keys don't auto activate `tab`s](https://github.com/scottaohara/a11y_tab_widget/issues/14). If statement added to activate a `tab` when navigating with these keys, unless the Tab Widget is set to manual activation.

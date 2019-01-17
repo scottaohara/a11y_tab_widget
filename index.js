@@ -70,7 +70,7 @@ var util = {
    * different subsections of a document.
    *
    * Author: Scott O'Hara
-   * Version: 2.1.1
+   * Version: 2.1.2
    * License: https://github.com/scottaohara/a11y_tab_widget/blob/master/LICENSE
    */
   var ARIAtabsOptions = {
@@ -82,6 +82,7 @@ var util = {
     headingAttribute: 'data-atabs-heading',
     defaultOrientation: 'horizontal',
     orientationAttribute: 'data-atabs-orientation',
+    panelWrapper: 'data-atabs-panel-wrap',
     panelClass: 'atabs__panel',
     panelSelector: '[data-atabs-panel]',
     tabClass: 'atabs__list__tab',
@@ -101,9 +102,9 @@ var util = {
     var defaultPanel = 0;
     var selectedTab = activeIndex;
     var el = inst;
+    var hasPanelWrapper = el.querySelector('[' + _options.panelWrapper + ']');
     var elID;
     var headingSelector = '[' + _options.headingAttribute + ']';
-
 
     var init = function () {
       elID = el.id || util.generateID(_options.baseID);
@@ -235,7 +236,24 @@ var util = {
 
 
     var buildTabs = function () {
-      var tabs = util.getDirectChildren(el, _options.panelSelector);
+      var tabs;
+
+      /**
+       * Typically tab panels should be direct children of the main tab widget
+       * wrapper.  This is necessary so that the script can appropriately associate
+       * each tablist with the appropriate tabpanels, allowing for nested tab widgets.
+       *
+       * If a wrapper for the tabpanels is necessary, for styling/other reasons, then
+       * this if statement will look to see if the appropriate panel wrapper div is in
+       * place, and if so, adjust the element used to look for the direct children.
+       */
+      if ( hasPanelWrapper ) {
+        tabs = util.getDirectChildren(hasPanelWrapper, _options.panelSelector);
+      }
+      else {
+        tabs = util.getDirectChildren(el, _options.panelSelector);
+      }
+
 
       for ( var i = 0; i < tabs.length; i++ ) {
         this.addTab(tabs[i]);
@@ -376,6 +394,14 @@ var util = {
           focusActiveTab();
           if ( !_options.manual ) {
             activateTab();
+          }
+          break;
+
+        case util.keyCodes.DELETE:
+          if ( _tabs.length > 1 && canRemove ) {
+            e.preventDefault();
+            removeTabAndPanel(activeIndex);
+            focusActiveTab();
           }
           break;
 
