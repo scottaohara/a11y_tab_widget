@@ -16,7 +16,7 @@ To help facilitate the simplest integration with your code base, the necessary m
 
   <!-- Panel method 2 -->
   <section data-atabs-panel>
-    <h# data-atabs-label>
+    <h# data-atabs-heading>
       <!-- 
         The text/markup injected the panel's 
         associated role="tab" element.
