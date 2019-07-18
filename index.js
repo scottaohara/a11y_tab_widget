@@ -83,9 +83,12 @@ var util = {
     defaultOrientation: 'horizontal',
     orientationAttribute: 'data-atabs-orientation',
     panelWrapper: 'data-atabs-panel-wrap',
+    disabledAttribute: 'data-atabs-disabled',
     panelClass: 'atabs__panel',
+    panelDisabledClass: 'atabs__panel--disabled',
     panelSelector: '[data-atabs-panel]',
     tabClass: 'atabs__list__tab',
+    tabDisabledClass: 'atabs__list__tab--disabled',
     tabListClass: 'atabs__list',
     tablistSelector: '[data-atabs-list]',
     manualAttribute: 'data-atabs-manual',
@@ -152,6 +155,7 @@ var util = {
 
     this.addTab = function ( panel, label, customClass ) {
       var customClass = customClass || panel.getAttribute(_options.customTabClassAttribute);
+      var disabled = panel.getAttribute(_options.disabledAttribute) || false;
 
       var generateTab = function ( index, id, tabPanel, customClass ) {
         var newTab = doc.createElement('span');
@@ -167,6 +171,10 @@ var util = {
         newTab.classList.add(_options.tabClass);
         if ( customClass ) {
           newTab.classList.add(customClass);
+        }
+        if ( disabled ) {
+          newTab.classList.add(_options.tabDisabledClass);
+          newTab.setAttribute('aria-disabled', true);
         }
 
         newTab.addEventListener('click', function () {
@@ -209,6 +217,11 @@ var util = {
       newPanel.setAttribute('aria-labelledby', elID + '_tab_' + i);
       newPanel.classList.add(_options.panelClass);
       newPanel.hidden = true;
+
+      if ( disabled ) {
+        newPanel.setAttribute('aria-hidden', true);
+        newPanel.classList.add(_options.panelDisabledClass);
+      }
 
       if ( !el.contains(panel) ) {
         el.appendChild(panel);
@@ -461,7 +474,9 @@ var util = {
       active.tab.setAttribute('aria-controls', active.tab.getAttribute('data-controls'))
       active.tab.setAttribute('aria-selected', true);
       active.tab.tabIndex = 0;
-      active.panel.hidden = false;
+      if ( !active.panel.getAttribute(_options.disabledAttribute) ) {
+        active.panel.hidden = false;
+      }
       selectedTab = activeIndex;
       return selectedTab;
     }; // activateTab()
