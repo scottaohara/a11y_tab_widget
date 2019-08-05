@@ -60,6 +60,10 @@ var util = {
     return Array.prototype.filter.call(elm.children, function ( child ) {
       return child.matches(selector);
     });
+  },
+
+  getUrlHash: function () {
+    return window.location.hash.replace('#', '');
   }
 };
 
@@ -214,7 +218,9 @@ var util = {
         el.appendChild(panel);
       }
 
-      if ( defaultPanel === 0 && newPanel.getAttribute('data-atabs-panel') === 'default' ) {
+      if ( newPanel.getAttribute('id') === util.getUrlHash()) {
+        activeIndex = i;
+      } else if ( defaultPanel === 0 && newPanel.getAttribute('data-atabs-panel') === 'default' ) {
         activeIndex = i;
         defaultPanel = activeIndex;
       }
