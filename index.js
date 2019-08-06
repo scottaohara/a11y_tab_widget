@@ -90,7 +90,7 @@ var util = {
    * different subsections of a document.
    *
    * Author: Scott O'Hara
-   * Version: 2.1.2
+   * Version: 2.1.3
    * License: https://github.com/scottaohara/a11y_tab_widget/blob/master/LICENSE
    */
   var ARIAtabsOptions = {

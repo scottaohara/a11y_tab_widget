@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 - [Open a `tabpanel` from URL hash](https://github.com/scottaohara/a11y_tab_widget/issues/8).
 - Additional documentation about UX for Tab Widgets.
 
+## [2.1.3] - 2019-08-06
+### Added
+- Open tabpanel from URL hash via [PR 18](https://github.com/scottaohara/a11y_tab_widget/pull/18).
+
 ## [2.1.2] - 2019-01-17
 ### Added
 - New `data-atabs-panel-wrap` attribute allows for a wrapping container for the `tabpanel`s. 
