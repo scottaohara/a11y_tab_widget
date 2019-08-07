@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en-us" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>Disabled Tab test | ARIA Tabs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <link rel="stylesheet" href="../assets/css/tabs.css">
+    <link rel="stylesheet" href="../assets/css/--demo--.css">
+</head>
+<body>
+
+<div class="page">
+
+    <header>
+        <h1>
+            Tab widget with one disabled Tab
+        </h1>
+        <p>
+            The disabled Tab should be focusable but be announced as "tab, dimmed" or even
+            "tab, disabled" if the respective assistive technology (AT) interprets <code>
+            aria-disabled</code> correctly. The disabled Tab will not activate a panel.
+        </p>
+        <nav>
+            <a href="../index.html">Back to index</a>
+            <a href="https://github.com/scottaohara/a11y_tab_widget">GitHub Repo</a>
+        </nav>
+    </header>
+
+    <main>
+        <div data-atabs>
+            <section id="a" data-atabs-panel>
+                <h3 data-atabs-heading>
+                    Apples
+                </h3>
+                <p>
+                    No explicit default was set, so per standard functionality
+                    this first <code>tabpanel</code> will be shown by default.
+                </p>
+                <p>
+                    Here's a <a href="#">link just to test</a> keyboard tabbing.
+                    (it's odd talking about <code>tab</code>s, and <kbd>tab</kbd>s.)
+                </p>
+            </section>
+            <section id="b" data-atabs-panel>
+                <h3 data-atabs-heading="keep">
+                    Bananas
+                </h3>
+                <p data-atabs-heading>
+                    This is an example of a heading being used to populate the
+                    <code>tab</code>'s label, while also not removing heading
+                    from the <code>tabpanel</code>.  This is done by adding
+                    the value "keep" to <code>data-atabs-heading</code>.
+                </p>
+            </section>
+            <section id="c" data-atabs-panel data-atabs-tab-label="Oranges">
+                <h3>
+                    There are two headings here
+                </h3>
+                <p>
+                    The <code>tab</code> is getting its label from the
+                    <code>data-atabs-tab-label</code>.  The heading is
+                    kept in the <code>tabpanel</code> because it does
+                    <b>not</b> have the <code>data-atabs-heading</code>
+                    attribute.
+                </p>
+                <h4>It wouldn't make much sense</h4>
+                <p>
+                    If the contents of a <code>tabpanel</code> contain
+                    additional sub headings, it wouldn't make sense to remove
+                    the initial heading from the <code>tabpanel</code>.
+                    Doing so would create a gap in the heading structure.
+                </p>
+            </section>
+            <section id="d" data-atabs-panel data-atabs-disabled>
+                <h3 data-atabs-heading>
+                    Mangos (out of stock)
+                </h3>
+                <p>This text will never be visible.</p>
+            </section>
+        </div>
+
+
+        <button>
+            I'm merely here for testing purposes. Don't press me.
+        </button>
+    </main>
+
+</div> <!-- /.page (demo layout) -->
+
+<script src="../index.js"></script>
+<script>
+    var widget = '[data-atabs]';
+    var els = document.querySelectorAll(widget);
+
+    // Generate all tab instances
+    for ( var i = 0; i < els.length; i++ ) {
+        var nTabs = new ARIAtabs( els[i] );
+    }
+</script>
+</body>
+</html>
