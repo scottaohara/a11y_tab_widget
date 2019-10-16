@@ -80,6 +80,32 @@ var util = {
     } else {
       location.hash = hash;
     }
+  },
+
+  /**
+   * Prevent focus on event target by blurring and resetting
+   * the focus to the previous focus target if possible.
+   *
+   * @param event
+   */
+  preventFocus: function (event) {
+    event.preventDefault();
+
+    var currentFocusTarget = event.currentTarget;
+    var previousFocusTarget = event.relatedTarget;
+
+    // Try to remove the focus from this element.
+    // This is important to always perform, since just focusing the previously focused element won't work in Edge/FF,
+    // if that element is unable to actually get the focus back (became invisible, etc.): the focus would stay on the
+    // current element in such a case
+    if (currentFocusTarget && typeof currentFocusTarget.blur === 'function') {
+      currentFocusTarget.blur();
+    }
+
+    if (previousFocusTarget && typeof previousFocusTarget.focus === 'function') {
+      // Revert focus back to previous blurring element
+      event.relatedTarget.focus();
+    }
   }
 };
 
@@ -192,18 +218,19 @@ var util = {
         }
         if ( disabled ) {
           newTab.setAttribute('aria-disabled', true);
+          newTab.addEventListener('focus', util.preventFocus.bind(this));
+        } else {
+          newTab.addEventListener('click', function () {
+            onClick.call(this, index);
+            this.focus();
+            updateUrlHash();
+          }, false);
+
+          newTab.addEventListener('keydown', tabElementPress.bind(this), false);
+          newTab.addEventListener('focus', function () {
+            checkYoSelf.call(this, index);
+          }, false);
         }
-
-        newTab.addEventListener('click', function () {
-          onClick.call( this, index );
-          this.focus();
-          updateUrlHash();
-        }, false);
-
-        newTab.addEventListener('keydown', tabElementPress.bind(this), false);
-        newTab.addEventListener('focus', function () {
-          checkYoSelf.call( this, index );
-        }, false);
 
         return newTab;
       };
@@ -253,13 +280,15 @@ var util = {
         }
       }
 
-      newPanel.addEventListener('keydown', panelElementPress.bind(this), false);
-      newPanel.addEventListener('blur', removePanelTabindex, false);
+      if ( !disabled ) {
+        newPanel.addEventListener('keydown', panelElementPress.bind(this), false);
+        newPanel.addEventListener('blur', removePanelTabindex, false);
 
-      _tabs.push({
-        tab: t,
-        panel: newPanel
-      });
+        _tabs.push({
+          tab: t,
+          panel: newPanel
+        });
+      }
     }; // this.addTab
 
 
