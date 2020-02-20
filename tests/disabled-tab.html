@@ -70,12 +70,19 @@
                     the initial heading from the <code>tabpanel</code>.
                     Doing so would create a gap in the heading structure.
                 </p>
+                <h3>Special demo: enabled a disabled tab</h3>
+                <p>There are some cases, e.g. in a multi-step process, where a user completes a task in an exposed
+                    tab panel or panels, and then by completion of that task a previously disabled tab becomes enabled.
+                </p>
+                <p>The following button showcases how that could be implemented for the disabled "Mangos" tab.</p>
+                <button id="enableTabDemo">Click here to enable the "Mangos" tab.</button>
             </section>
-            <section id="d" data-atabs-panel data-atabs-disabled>
+            <section id="mangos" data-atabs-panel data-atabs-disabled>
                 <h3 data-atabs-heading>
                     Mangos (out of stock)
                 </h3>
-                <p>This text will never be visible.</p>
+                <p>This text will never be visible, unless the tab is enabled via JS. Please refer to the demo button
+                    in the "Oranges" tab for an example how this could be achieved.</p>
             </section>
         </div>
 
@@ -92,10 +99,32 @@
     var widget = '[data-atabs]';
     var els = document.querySelectorAll(widget);
 
+    var allTabs = [];
+
     // Generate all tab instances
     for ( var i = 0; i < els.length; i++ ) {
         var nTabs = new ARIAtabs( els[i] );
+        allTabs.push(nTabs);
     }
+
+    // Provide a demo for enabling an initially disabled tab via user input
+    var enableTabButton = document.getElementById("enableTabDemo");
+    var mangosTab = document.querySelector('[data-controls="mangos"]');
+    var mangosPanel = document.getElementById('mangos');
+    var cloneMangos = mangosPanel.cloneNode(true);
+    var cloneHeading = mangosTab.textContent;
+
+    enableTabButton.addEventListener('click', function() {
+        // remove the disbled instance of the mangos tab/panel from the document
+        mangosTab.parentNode.removeChild(mangosTab);
+        mangosPanel.parentNode.removeChild(mangosPanel);
+
+        // prepare initial source for re-initialization as enabled tab
+        cloneMangos.removeAttribute('data-atabs-disabled');
+
+        // inject the cloned and enabled content into the widget
+        allTabs[0].addTab(cloneMangos, cloneHeading);
+    })
 </script>
 </body>
 </html>
