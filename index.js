@@ -488,7 +488,7 @@ var util = {
     var activateTab = function () {
       var active = _tabs[activeIndex];
       deactivateTabs();
-      active.tab.setAttribute('aria-controls', active.tab.getAttribute('data-controls'))
+      active.tab.setAttribute('aria-controls', active.tab.getAttribute('data-controls'));
       active.tab.setAttribute('aria-selected', true);
       active.tab.tabIndex = 0;
       active.panel.hidden = false;
