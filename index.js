@@ -196,9 +196,9 @@ var util = {
         }, false);
 
         newTab.addEventListener('keydown', tabElementPress.bind(this), false);
-        newTab.addEventListener('focus', function () {
-          checkYoSelf.call( this, index );
-        }, false);
+        // newTab.addEventListener('focus', function () {
+        //  checkYoSelf.call( this, index );
+        // }, false);
 
         return newTab;
       };
