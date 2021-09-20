@@ -90,7 +90,7 @@ var util = {
    * different subsections of a document.
    *
    * Author: Scott O'Hara
-   * Version: 2.1.3
+   * Version: 2.1.4
    * License: https://github.com/scottaohara/a11y_tab_widget/blob/master/LICENSE
    */
   var ARIAtabsOptions = {
@@ -453,11 +453,13 @@ var util = {
      * inactive tag (which will receive focus), JAWS will announce
      * to use the Space key to activate, but nothing will happen.
      */
-    var checkYoSelf = function ( index ) {
-      if ( index !== activeIndex ) {
-        focusActiveTab();
-      }
-    }; // checkYoSelf()
+    // sept19-2021 - commenting this out as it causes focus issues with 
+    // iOS + VoiceOver.  
+    // var checkYoSelf = function ( index ) {
+    //  if ( index !== activeIndex ) {
+    //    focusActiveTab();
+    //  }
+    // }; // checkYoSelf()
 
 
     var deactivateTabs = function () {
