@@ -116,7 +116,7 @@ var util = {
    * different subsections of a document.
    *
    * Author: Scott O'Hara
-   * Version: 2.1.3
+   * Version: 2.1.4
    * License: https://github.com/scottaohara/a11y_tab_widget/blob/master/LICENSE
    */
   var ARIAtabsOptions = {
@@ -227,9 +227,9 @@ var util = {
           }, false);
 
           newTab.addEventListener('keydown', tabElementPress.bind(this), false);
-          newTab.addEventListener('focus', function () {
-            checkYoSelf.call(this, index);
-          }, false);
+          //newTab.addEventListener('focus', function () {
+          //  checkYoSelf.call(this, index);
+          //}, false);
         }
 
         return newTab;
@@ -487,11 +487,13 @@ var util = {
      * inactive tag (which will receive focus), JAWS will announce
      * to use the Space key to activate, but nothing will happen.
      */
-    var checkYoSelf = function ( index ) {
-      if ( index !== activeIndex ) {
-        focusActiveTab();
-      }
-    }; // checkYoSelf()
+    // sept19-2021 - commenting this out as it causes focus issues with
+    // iOS + VoiceOver.
+    // var checkYoSelf = function ( index ) {
+    //  if ( index !== activeIndex ) {
+    //    focusActiveTab();
+    //  }
+    // }; // checkYoSelf()
 
 
     var deactivateTabs = function () {
@@ -520,7 +522,7 @@ var util = {
     var activateTab = function () {
       var active = _tabs[activeIndex];
       deactivateTabs();
-      active.tab.setAttribute('aria-controls', active.tab.getAttribute('data-controls'))
+      active.tab.setAttribute('aria-controls', active.tab.getAttribute('data-controls'));
       active.tab.setAttribute('aria-selected', true);
       active.tab.tabIndex = 0;
       if ( !active.panel.hasAttribute(_options.disabledAttribute) ) {

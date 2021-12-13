@@ -108,7 +108,7 @@ This script has been tested to work with mouse, touch, and keyboard devices. Eac
 ## Dependencies and known issues
 There are no dependencies for this script. Any necessary polyfill (for IE11) is included in the JavaScript.  
 
-There are some issues with how screen readers interact with Tab Widgets. Where possible, this script will attempt to mitigate issues with screen readers, but not if it were to create additional bugs if the original but were to be fixed:
+There are some issues with how screen readers interact with Tab Widgets. 
 * [NVDA: Unexpected focusing of inactive `tab`s in `tablist`](https://github.com/nvaccess/nvda/issues/8906)  
 * [JAWS: Unexpected focusing of inactive `tab`s in `tablist`](https://github.com/FreedomScientific/VFO-standards-support/issues/132)
 * JAWS + Windows 7 Firefox:  

@@ -8,8 +8,8 @@
   border-right: 1px solid #999;
   border-top: 1px solid #999;
   display: flex;
-  white-space: nowrap;
   overflow: auto;
+  white-space: nowrap;
 }
 
 [data-atabs-orientation="vertical"] {
@@ -35,8 +35,8 @@
 }
 
 [data-atabs-orientation="vertical"] [role="tablist"] {
-  border-right: 1px solid;
   border-left: 1px solid;
+  border-right: 1px solid;
 }
 
 @media screen and ( min-width: 34em ) {
@@ -53,10 +53,9 @@
   }
 
   [data-atabs-orientation="vertical"] [role="tablist"] {
-    border-right: 0;
-    border-left: 0;
-    border-left: 1px solid;
     border-bottom: 1px solid;
+    border-left: 1px solid;
+    border-right: 0;
   }
 
   [data-atabs-orientation="vertical"] [role="tablist"] {
@@ -110,7 +109,8 @@
 }
 
 .atabs__list__tab > span,
-.atabs__list__tab > svg {
+.atabs__list__tab > svg,
+.atabs__list__tab > img {
   pointer-events: none;
 }
 

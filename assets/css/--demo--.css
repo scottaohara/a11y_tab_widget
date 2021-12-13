@@ -22,3 +22,8 @@ header nav a:first-of-type {
 	border-right: 1px solid;
 	padding-right: 1em;
 }
+
+a[href]:focus {
+	outline: 2px solid;
+	outline-offset: 2px;
+}
