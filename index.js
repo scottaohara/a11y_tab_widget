@@ -225,12 +225,12 @@ var util = {
             this.focus();
             updateUrlHash();
           }, false);
-        
-        newTab.addEventListener('click', function () {
-          onClick.call( this, index );
-          this.focus();
-          updateUrlHash();
-        }, false);
+
+          newTab.addEventListener('keydown', tabElementPress.bind(this), false);
+          //newTab.addEventListener('focus', function () {
+          //  checkYoSelf.call(this, index);
+          //}, false);
+        }
 
         return newTab;
       };
@@ -487,9 +487,8 @@ var util = {
      * inactive tag (which will receive focus), JAWS will announce
      * to use the Space key to activate, but nothing will happen.
      */
-
-    // sept19-2021 - commenting this out as it causes focus issues with 
-    // iOS + VoiceOver.  
+    // sept19-2021 - commenting this out as it causes focus issues with
+    // iOS + VoiceOver.
     // var checkYoSelf = function ( index ) {
     //  if ( index !== activeIndex ) {
     //    focusActiveTab();
