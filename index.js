@@ -80,6 +80,32 @@ var util = {
     } else {
       location.hash = hash;
     }
+  },
+
+  /**
+   * Prevent focus on event target by blurring and resetting
+   * the focus to the previous focus target if possible.
+   *
+   * @param event
+   */
+  preventFocus: function (event) {
+    event.preventDefault();
+
+    var currentFocusTarget = event.currentTarget;
+    var previousFocusTarget = event.relatedTarget;
+
+    // Try to remove the focus from this element.
+    // This is important to always perform, since just focusing the previously focused element won't work in Edge/FF,
+    // if that element is unable to actually get the focus back (became invisible, etc.): the focus would stay on the
+    // current element in such a case
+    if (currentFocusTarget && typeof currentFocusTarget.blur === 'function') {
+      currentFocusTarget.blur();
+    }
+
+    if (previousFocusTarget && typeof previousFocusTarget.focus === 'function') {
+      // Revert focus back to previous blurring element
+      event.relatedTarget.focus();
+    }
   }
 };
 
@@ -103,6 +129,7 @@ var util = {
     defaultOrientation: 'horizontal',
     orientationAttribute: 'data-atabs-orientation',
     panelWrapper: 'data-atabs-panel-wrap',
+    disabledAttribute: 'data-atabs-disabled',
     panelClass: 'atabs__panel',
     panelSelector: '[data-atabs-panel]',
     tabClass: 'atabs__list__tab',
@@ -172,6 +199,7 @@ var util = {
 
     this.addTab = function ( panel, label, customClass ) {
       var customClass = customClass || panel.getAttribute(_options.customTabClassAttribute);
+      var disabled = panel.hasAttribute(_options.disabledAttribute);
 
       var generateTab = function ( index, id, tabPanel, customClass ) {
         var newTab = doc.createElement('span');
@@ -188,17 +216,21 @@ var util = {
         if ( customClass ) {
           newTab.classList.add(customClass);
         }
+        if ( disabled ) {
+          newTab.setAttribute('aria-disabled', true);
+          newTab.addEventListener('focus', util.preventFocus.bind(this));
+        } else {
+          newTab.addEventListener('click', function () {
+            onClick.call(this, index);
+            this.focus();
+            updateUrlHash();
+          }, false);
 
-        newTab.addEventListener('click', function () {
-          onClick.call( this, index );
-          this.focus();
-          updateUrlHash();
-        }, false);
-
-        newTab.addEventListener('keydown', tabElementPress.bind(this), false);
-        // newTab.addEventListener('focus', function () {
-        //  checkYoSelf.call( this, index );
-        // }, false);
+          newTab.addEventListener('keydown', tabElementPress.bind(this), false);
+          //newTab.addEventListener('focus', function () {
+          //  checkYoSelf.call(this, index);
+          //}, false);
+        }
 
         return newTab;
       };
@@ -248,13 +280,15 @@ var util = {
         }
       }
 
-      newPanel.addEventListener('keydown', panelElementPress.bind(this), false);
-      newPanel.addEventListener('blur', removePanelTabindex, false);
+      if ( !disabled ) {
+        newPanel.addEventListener('keydown', panelElementPress.bind(this), false);
+        newPanel.addEventListener('blur', removePanelTabindex, false);
 
-      _tabs.push({
-        tab: t,
-        panel: newPanel
-      });
+        _tabs.push({
+          tab: t,
+          panel: newPanel
+        });
+      }
     }; // this.addTab
 
 
@@ -453,8 +487,8 @@ var util = {
      * inactive tag (which will receive focus), JAWS will announce
      * to use the Space key to activate, but nothing will happen.
      */
-    // sept19-2021 - commenting this out as it causes focus issues with 
-    // iOS + VoiceOver.  
+    // sept19-2021 - commenting this out as it causes focus issues with
+    // iOS + VoiceOver.
     // var checkYoSelf = function ( index ) {
     //  if ( index !== activeIndex ) {
     //    focusActiveTab();
@@ -486,12 +520,14 @@ var util = {
      * Reveal active Panel.
      */
     var activateTab = function () {
-      var active = _tabs[activeIndex];
+      var active = _tabs[activeIndex] || _tabs[0];
       deactivateTabs();
       active.tab.setAttribute('aria-controls', active.tab.getAttribute('data-controls'));
       active.tab.setAttribute('aria-selected', true);
       active.tab.tabIndex = 0;
-      active.panel.hidden = false;
+      if ( !active.panel.hasAttribute(_options.disabledAttribute) ) {
+        active.panel.hidden = false;
+      }
       selectedTab = activeIndex;
       return selectedTab;
     }; // activateTab()

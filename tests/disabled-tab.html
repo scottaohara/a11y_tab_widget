@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en-us" class="no-js">
+<head>
+    <meta charset="utf-8">
+    <title>Disabled Tab test | ARIA Tabs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <link rel="stylesheet" href="../assets/css/tabs.css">
+    <link rel="stylesheet" href="../assets/css/--demo--.css">
+</head>
+<body>
+
+<div class="page">
+
+    <header>
+        <h1>
+            Tab widget with one disabled Tab
+        </h1>
+        <p>
+            The disabled Tab is not focusable via sequential keyboard navigation with the <kbd>TAB</kbd> key, arrow keys
+            or pointer device (mouse, etc.) clicks. Consequently, the disabled Tab cannot activate a panel.
+        </p>
+        <nav>
+            <a href="../index.html">Back to index</a>
+            <a href="https://github.com/scottaohara/a11y_tab_widget">GitHub Repo</a>
+        </nav>
+    </header>
+
+    <main>
+        <div data-atabs>
+            <section id="a" data-atabs-panel>
+                <h3 data-atabs-heading>
+                    Apples
+                </h3>
+                <p>
+                    No explicit default was set, so per standard functionality
+                    this first <code>tabpanel</code> will be shown by default.
+                </p>
+                <p>
+                    Here's a <a href="#">link just to test</a> keyboard tabbing.
+                    (it's odd talking about <code>tab</code>s, and <kbd>tab</kbd>s.)
+                </p>
+            </section>
+            <section id="b" data-atabs-panel>
+                <h3 data-atabs-heading="keep">
+                    Bananas
+                </h3>
+                <p data-atabs-heading>
+                    This is an example of a heading being used to populate the
+                    <code>tab</code>'s label, while also not removing heading
+                    from the <code>tabpanel</code>.  This is done by adding
+                    the value "keep" to <code>data-atabs-heading</code>.
+                </p>
+            </section>
+            <section id="c" data-atabs-panel data-atabs-tab-label="Oranges">
+                <h3>
+                    There are two headings here
+                </h3>
+                <p>
+                    The <code>tab</code> is getting its label from the
+                    <code>data-atabs-tab-label</code>.  The heading is
+                    kept in the <code>tabpanel</code> because it does
+                    <b>not</b> have the <code>data-atabs-heading</code>
+                    attribute.
+                </p>
+                <h4>It wouldn't make much sense</h4>
+                <p>
+                    If the contents of a <code>tabpanel</code> contain
+                    additional sub headings, it wouldn't make sense to remove
+                    the initial heading from the <code>tabpanel</code>.
+                    Doing so would create a gap in the heading structure.
+                </p>
+                <h3>Special demo: enabled a disabled tab</h3>
+                <p>There are some cases, e.g. in a multi-step process, where a user completes a task in an exposed
+                    tab panel or panels, and then by completion of that task a previously disabled tab becomes enabled.
+                </p>
+                <p>The following button showcases how that could be implemented for the disabled "Mangos" tab.</p>
+                <button id="enableTabDemo">Click here to enable the "Mangos" tab.</button>
+            </section>
+            <section id="mangos" data-atabs-panel data-atabs-disabled>
+                <h3 data-atabs-heading>
+                    Mangos (out of stock)
+                </h3>
+                <p>This text will never be visible, unless the tab is enabled via JS. Please refer to the demo button
+                    in the "Oranges" tab for an example how this could be achieved.</p>
+            </section>
+        </div>
+
+
+        <button>
+            I'm merely here for testing purposes. Don't press me.
+        </button>
+    </main>
+
+</div> <!-- /.page (demo layout) -->
+
+<script src="../index.js"></script>
+<script>
+    var widget = '[data-atabs]';
+    var els = document.querySelectorAll(widget);
+
+    var allTabs = [];
+
+    // Generate all tab instances
+    for ( var i = 0; i < els.length; i++ ) {
+        var nTabs = new ARIAtabs( els[i] );
+        allTabs.push(nTabs);
+    }
+
+    // Provide a demo for enabling an initially disabled tab via user input
+    var enableTabButton = document.getElementById("enableTabDemo");
+    var mangosTab = document.querySelector('[data-controls="mangos"]');
+    var mangosPanel = document.getElementById('mangos');
+    var cloneMangos = mangosPanel.cloneNode(true);
+    var cloneHeading = mangosTab.textContent;
+
+    enableTabButton.addEventListener('click', function() {
+        // remove the disbled instance of the mangos tab/panel from the document
+        mangosTab.parentNode.removeChild(mangosTab);
+        mangosPanel.parentNode.removeChild(mangosPanel);
+
+        // prepare initial source for re-initialization as enabled tab
+        cloneMangos.removeAttribute('data-atabs-disabled');
+
+        // inject the cloned and enabled content into the widget
+        allTabs[0].addTab(cloneMangos, cloneHeading);
+    })
+</script>
+</body>
+</html>

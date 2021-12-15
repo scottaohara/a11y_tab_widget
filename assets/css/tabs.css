@@ -103,6 +103,11 @@
   outline-offset: -2px;
 }
 
+.atabs__list__tab[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
 .atabs__list__tab > span,
 .atabs__list__tab > svg,
 .atabs__list__tab > img {
